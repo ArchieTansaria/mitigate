@@ -1,9 +1,10 @@
 import { type ChildProcess, spawn } from "node:child_process";
-import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { createServer } from "node:net";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { setTimeout as delay } from "node:timers/promises";
+import { createWalletClient, http } from "viem";
 import { afterAll, beforeAll, expect, test } from "vitest";
 import { testSigner } from "../../../packages/schema/test/fixtures.ts";
 import { verifySignedEvidence } from "../../verifier/src/evidence/bundle.ts";
@@ -317,3 +318,136 @@ test("completed jobs retain real failing repair results and explanations", async
     responsible: f.customer,
   });
 });
+
+test("HTTP repair proposal -> actual owner transaction -> newly queued passing evidence", async () => {
+  const row = must(f.rows[0]);
+  await f.snapshot();
+  const inventory = await request("/v1/inventories", {
+    schemaVersion: 1,
+    deployments: [row.deployment],
+  });
+  const manifest = await request("/v1/manifests", row.manifest);
+  const scope = await request("/v1/verification-scopes", {
+    schemaVersion: 1,
+    inventoryId: inventory.id,
+    manifestId: manifest.id,
+    maxSnapshotAge: "300",
+    confirmations: 1,
+  });
+  const body = {
+    schemaVersion: 1,
+    verificationScopeId: scope.spec.verificationScopeId,
+    inventoryDigest: inventory.digest,
+    manifestDigest: manifest.digest,
+    verificationSpecDigest: scope.digest,
+    purpose: "diagnostic",
+    mode: "deployed",
+  };
+  const run = await request("/v1/runs", body);
+  const finished = await eventually(
+    () => request(`/v1/runs/${run.id}`),
+    (r) => r.state === "succeeded" || r.state === "failed",
+    30000,
+  );
+  expect(finished.state).toBe("succeeded");
+  const before = await request(`/v1/runs/${run.id}/evidence`);
+  expect(before.body.summary.completePass).toBe(false);
+  const deploymentKey = before.body.results[0].deploymentKey;
+  const path = `/v1/runs/${run.id}/actions`;
+  const prepared = await request(`${path}?deploymentKey=${deploymentKey}`);
+  expect(prepared.status).toBe("ready");
+  const proposal = prepared.proposal;
+  expect(proposal.authority).toBe(f.supplier);
+  expect(
+    (await fetch(`${origin + path}?deploymentKey=${deploymentKey}`)).status,
+  ).toBe(401);
+  expect(
+    (
+      await fetch(`${origin + path}?deploymentKey=0x${"ab".repeat(32)}`, {
+        headers: { authorization: `Bearer ${token}` },
+      })
+    ).status,
+  ).toBe(404);
+  const validate = await request(`${path}/validate`, {
+    deploymentKey,
+    proposal,
+  });
+  expect(validate.valid).toBe(true);
+  // Owner-side local test wallet only; API and worker have no supplier/customer keys.
+  const wallet = createWalletClient({
+    account: f.supplier,
+    transport: http(f.rpcUrl),
+  });
+  const hash = await wallet.sendTransaction({
+    account: f.supplier,
+    chain: null,
+    to: proposal.target,
+    data: proposal.calldata,
+    value: BigInt(proposal.valueBaseUnits),
+  });
+  expect((await f.client.waitForTransactionReceipt({ hash })).status).toBe(
+    "success",
+  );
+  // A transaction receipt never rewrites the old failed evidence or auto-accepts a repair.
+  expect(
+    (await request(`/v1/runs/${run.id}/evidence`)).body.summary.completePass,
+  ).toBe(false);
+  const stale = await fetch(`${origin + path}/validate`, {
+    method: "POST",
+    headers: {
+      authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ deploymentKey, proposal }),
+  });
+  expect(stale.status).toBe(409);
+  await f.snapshot();
+  const fresh = await request("/v1/runs", body);
+  expect(fresh.id).not.toBe(run.id);
+  expect(
+    (
+      await eventually(
+        () => request(`/v1/runs/${fresh.id}`),
+        (r) => r.state === "succeeded" || r.state === "failed",
+        30000,
+      )
+    ).state,
+  ).toBe("succeeded");
+  const after = await request(`/v1/runs/${fresh.id}/evidence`);
+  expect(
+    await verifySignedEvidence(
+      after,
+      scope.spec,
+      BigInt(Math.floor(Date.now() / 1000)),
+    ),
+  ).toEqual({ valid: true, completePass: true });
+  expect(BigInt(after.body.snapshot.blockNumber)).toBeGreaterThan(
+    BigInt(before.body.snapshot.blockNumber),
+  );
+  expect(after.body.claimEligible).toBe(false);
+  if (process.env.PATCHBOND_REPAIR_DEMO_DIR) {
+    const output = process.env.PATCHBOND_REPAIR_DEMO_DIR;
+    await mkdir(output, { recursive: true });
+    for (const [name, value] of Object.entries({
+      "before.json": before,
+      "proposal.json": proposal,
+      "after.json": after,
+      "scope.json": scope.spec,
+      "execution.json": {
+        environment: "disposable-local-anvil",
+        transactionHash: hash,
+        sourceChainId: "31337",
+        oldRun: run.id,
+        newRun: fresh.id,
+        oldSnapshot: before.body.snapshot,
+        newSnapshot: after.body.snapshot,
+        grantPaid: false,
+      },
+    })) {
+      await writeFile(
+        join(output, name),
+        `${JSON.stringify(value, null, 2)}\n`,
+      );
+    }
+  }
+}, 60000);

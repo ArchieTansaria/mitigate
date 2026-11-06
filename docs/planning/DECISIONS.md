@@ -2,7 +2,7 @@
 A completed the initial PB-03 Solidity/TypeScript foundation through Arc Studio and local verification at the user’s explicit request. B now starts PB-14 using docs/handoffs/PB-03-contracts.md. Earlier future-tense assignment/bootstrap text below is historical; STATUS.md and TASKS.md give current execution state. PB-04–11 now implement the local diagnostic API/inspection/execution/signing/worker/replay pipeline. CRE WASM capability simulation passes; product sponsor/financial integration and physical second-machine proof remain pending.
 
 # Current decisions and build gates
-Status: implementation baseline proposed from the agreed handbook; no coding performed.
+Status: design baseline plus recorded implementation decisions. Current implemented behavior and remaining gates are in root STATUS.md, TASKS.md and memory/context/01-project-snapshot.md.
 
 ## Product scope
 PatchBond helps a supplier run a funded remediation campaign for customer-owned smart-contract deployments. The supplier publishes a fixed eligible-deployment set and repair policy, deposits a capped USDC grant per eligible deployment, and customers perform their own authorized repairs. PatchBond independently checks each deployed result; a valid, scoped receipt can reserve and release only that deployment's grant. One customer's incomplete repair does not block another customer's payout.
@@ -78,3 +78,9 @@ Freeze before deposits: receipt signer scheme, supplier/challenger/reviewer/reci
 ENS gate: mentor feedback and a useful release-publication scenario. If omitted, use a validated manifest selected and approved by the parties; do not claim ENS eligibility.
 Live CRE blocked: retain correctly labelled CLI simulation and receiver integration tests. Do not use a hidden manual report adapter to claim a live end-to-end Chainlink settlement.
 All gates describe future checks, not checks already passed.
+
+
+## PB-12 implementation decision — 2026-11-07
+Unsigned repair support is intentionally exact-family and EOA-only. Use compiler-emitted storage layouts and verified local source hashes for the known inherited V1/V2 pair, with identical Initializable source and no initializer call. This avoids pretending to support generic upgrades without their full metadata/authority analysis. Unsupported paths, source changes, ownership transfers and pause changes require manual review. Cost: many real-world multisig/governance upgrades still require manual tooling.
+
+Current-state simulation and revalidation reduce stale proposals but do not embed an atomic state predicate in the owner transaction. Wallet simulation and a fresh normal diagnostic after execution remain required. Code handles expired-during-RPC and malformed current simulation results by rejecting readiness; no transaction receipt directly marks a repair passed. This scope retains the existing PB-03 financial boundary and does not touch B's hosted Studio workspace.

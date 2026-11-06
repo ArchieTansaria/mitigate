@@ -18,6 +18,8 @@ import { Sessions } from "./auth/sessions.ts";
 import { verifyWalletSignature, type WalletVerifier } from "./auth/wallet.ts";
 import type { Job, Repository } from "./db/repository.ts";
 
+import { registerActions } from "./routes/actions.ts";
+
 declare module "fastify" {
   interface FastifyRequest {
     owner: string | null;
@@ -63,6 +65,10 @@ const errors: Record<string, number> = {
   FORBIDDEN: 403,
   NOT_FOUND: 404,
   CONFLICT: 409,
+  PROPOSAL_MISMATCH: 409,
+  STATE_CHANGED: 409,
+  STALE_PROPOSAL: 409,
+  INVALID_OR_STALE_EVIDENCE: 409,
   RATE_LIMITED: 429,
   UNSUPPORTED_PURPOSE: 400,
   ARTIFACT_UNAVAILABLE_OR_CORRUPT: 503,
@@ -376,5 +382,6 @@ export async function createApp(
         .send(Buffer.from(bytes));
     },
   );
+  registerActions(app, config, repo, artifacts);
   return app;
 }

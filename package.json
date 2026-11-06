@@ -48,7 +48,8 @@
     "deploy:fixtures:local": "node fixtures/deploy-local.mjs",
     "worker:start": "tsx --env-file=.env.local services/verifier/src/main.ts",
     "replay": "tsx services/verifier/src/replay-cli.ts",
-    "test:diagnostic": "vitest run --config vitest.integration.config.ts services/verifier/test/consumer.integration.test.ts services/api/test/diagnostic-flow.integration.test.ts"
+    "test:diagnostic": "vitest run --config vitest.integration.config.ts services/verifier/test/consumer.integration.test.ts services/api/test/diagnostic-flow.integration.test.ts",
+    "test:repair": "pnpm build:fixtures && vitest run --config vitest.integration.config.ts services/api/test/diagnostic-flow.integration.test.ts --reporter=verbose"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "3.1163.0",

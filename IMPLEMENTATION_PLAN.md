@@ -8,7 +8,7 @@
 **Spec:** DECISIONS.md, INTERFACES.md, and relevant HANDBOOK.md sections.
 
 ## Current execution checkpoint (2026-11-07)
-PB-01 Studio build/test/pull and CRE capability simulation are verified; actual CCIP delivery remains PB-20. PB-02/03 foundations are implemented, including EIP-712 verification in the actual CRE WASM runtime. A completed PB-04–07: validated config, PostgreSQL jobs/artifacts, authenticated diagnostic API and artificial oracle fixtures with real local deployment exports. See per-task handoffs and docs/evidence/backend-validation.md. B continues PB-14–20 without rebuilding shared interfaces. A has now connected PB-08–11 inspection/execution/signed diagnostic evidence/worker/replay locally; next PB-12 and PB-21, plus authoritative campaign receipt integration. Physical second-machine replay remains pending. An accepted queue request is not a repair pass; financial or live sponsor integration is not complete.
+PB-01 Studio build/test/pull and CRE capability simulation are verified; actual CCIP delivery remains PB-20. PB-02/03 foundations are implemented, including EIP-712 verification in the actual CRE WASM runtime. A completed PB-04–07: validated config, PostgreSQL jobs/artifacts, authenticated diagnostic API and artificial oracle fixtures with real local deployment exports. See per-task handoffs and docs/evidence/backend-validation.md. B continues PB-14–20 without rebuilding shared interfaces. A has now connected PB-08–11 inspection/execution/signed diagnostic evidence/worker/replay locally; PB-12 now adds unsigned owner repair proposals and fresh recheck; next PB-21 and authoritative campaign receipt integration. Physical second-machine replay remains pending. An accepted queue request is not a repair pass; financial or live sponsor integration is not complete.
 
 ## Global constraints
 Backend first. Implementation is authorized. One supported proxy/application family, configurable inventory, one source chain per initial run. No arbitrary uploaded execution, global security claim, owner keys in worker, fake runtime outputs or silent mock fallback.
@@ -220,12 +220,14 @@ Implemented offline replay and changed-artifact rejection in a fresh CLI/contain
 **Create/modify:** services/verifier/src/actions/; services/api/src/routes/actions.ts; services/verifier/test/actions.test.ts
 **Interface/deliverable:** prepareRepair -> chain/target/calldata/value/authority/snapshot-bound proposal
 
-- [ ] Test supplier-owned upgrade versus customer-owned configuration, unknown authority and stale proposal rejection.
-- [ ] Prepare and simulate exact supported operations without submitting owner transactions; use compatible upgrade validation; surface absent source/layout metadata.
-- [ ] Human-authorized fixture repair is followed by a new deployed-mode run; successful tx receipt alone does not become pass.
-- [ ] Validate: `pnpm exec vitest run services/verifier/test/actions.test.ts`. Record exact output, environment and any skipped stage in docs/handoffs/PB-12.md.
-- [ ] Review owned-file diff and interface/security impact; commit as `feat(actions): prepare bounded repairs and verify deployed results [PB-12]` (or the relevant explicit deferral).
+- [x] Test supplier-owned upgrade versus customer-owned configuration, unknown authority and stale proposal rejection.
+- [x] Prepare and simulate exact supported operations without submitting owner transactions; use compatible upgrade validation; surface absent source/layout metadata.
+- [x] Human-authorized fixture repair is followed by a new deployed-mode run; successful tx receipt alone does not become pass.
+- [x] Validate: `pnpm exec vitest run services/verifier/test/actions.test.ts`. Record exact output, environment and any skipped stage in docs/handoffs/PB-12.md.
+- [x] Review owned-file diff and interface/security impact; commit as `feat(actions): prepare bounded repairs and verify deployed results [PB-12]` (or the relevant explicit deferral).
 - [ ] Other owner reviews; merge; coordinator records commit/status and releases dependent task.
+
+Implemented behavior and actual validation: `docs/handoffs/PB-12.md`, `docs/evidence/repair-validation.md`, `docs/runbooks/repair.md`. Known-family layout/source validation is deliberately narrower than a universal upgrade validator. B upgrade-route review and full sponsor integration remain separate gates.
 
 ## PB-13 — Conditional ENS release publication gate
 **Owner:** A
