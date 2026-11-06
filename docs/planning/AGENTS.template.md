@@ -42,5 +42,3 @@ Use one task branch and one checkout per active writer. Shared interface changes
 Use repository docs as shared memory; one agent cannot see another agent's chat unless supplied.
 Use measured provider/tool facts; do not invent exact versions/addresses.
 Ask the coordinator about material scope/trust changes; settle routine implementation choices within the task.
-
-\n

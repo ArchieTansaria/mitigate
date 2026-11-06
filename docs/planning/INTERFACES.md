@@ -81,5 +81,3 @@ Private env: RPC credentials, DB URL, artifact credentials, evaluator signing se
 State-change wallet keys belong to the human wallet. No general owner key in the API/worker.
 Source and destination observations store block/hash. Indexer can replay from deployment block with deduplication and reorg handling; lag is visible.
 Test commands proposed for bootstrap: pnpm lint; pnpm typecheck; pnpm test; pnpm test:integration; pnpm test:e2e; forge test --root contracts. PB-00 must implement and document actual script names; these are not available yet.
-
-\n

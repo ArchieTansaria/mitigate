@@ -38,5 +38,3 @@ Configuration keys added (no secret values):
 Evidence:
 Known limits/blockers:
 Next task:
-
-\n

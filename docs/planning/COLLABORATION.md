@@ -70,5 +70,3 @@ No task is active for both writers. Independent reviews do not confer write owne
 ## Backend-first handoff to UI
 UI receives a generated OpenAPI contract, example successful and error payloads, generated ABIs, validated network/deployment config, real deploy/run commands and working agreement/evidence IDs generated at runtime.
 An API test collection/CLI flow completes the complete supported backend scenario before UI feature work. Do not build a fake dashboard and hope to integrate later.
-
-\n

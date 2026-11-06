@@ -72,5 +72,3 @@ Freeze before deposits: exact evaluator signing scheme, source approver addresse
 ENS gate: mentor feedback and a useful release-publication scenario. If omitted, use a validated manifest selected and approved by the parties; do not claim ENS eligibility.
 Live CRE blocked: retain correctly labelled CLI simulation and receiver integration tests. Do not use a hidden manual report adapter to claim a live end-to-end Chainlink settlement.
 All gates describe future checks, not checks already passed.
-
-\n

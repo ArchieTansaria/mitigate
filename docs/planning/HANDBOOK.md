@@ -1288,5 +1288,3 @@ Use the source links beside the relevant claims as the primary references. This 
 | Sponsor and submission requirements | [Arc](https://ethglobal.com/events/mumbai/prizes/arc), [Chainlink](https://ethglobal.com/events/mumbai/prizes/chainlink), [ENS](https://ethglobal.com/events/mumbai/prizes/ens), [Mumbai rules](https://ethglobal.com/events/mumbai/info/details) |
 
 The architecture should remain understandable through its evidence and permissions: a known repair, a declared deployment scope, explicit tests, an agreed evaluator, existing execution authority and bounded financial consequences. Every implementation decision should preserve those meanings.
-
-\n

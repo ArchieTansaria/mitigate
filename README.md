@@ -18,5 +18,3 @@ Node.js 24 LTS, pnpm workspace, TypeScript strict mode, Fastify API, PostgreSQL,
 ## Boundaries
 One documented adapter/proxy family; configurable deployment inventory; one source chain per verification run. Missing, stale or unsupported evidence never becomes a pass. The worker has no upgrade keys. Humans authorize state changes from their own wallets. ENS is conditional on demonstrated user value.
 No secrets, private keys, access tokens, authenticated URLs or private customer artifacts belong in Git, logs, screenshots or agent prompts.
-
-\n

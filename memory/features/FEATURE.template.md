@@ -10,5 +10,3 @@ Checks actually run:
 Trust/security boundary:
 Known limitations:
 Follow-up:
-
-\n

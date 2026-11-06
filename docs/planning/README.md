@@ -33,5 +33,3 @@ Do not ask either agent to “build the entire handbook.” Assign one task ID, 
 ## Current source of truth
 Confirmed user constraints: two teammates; assistant chooses split; backend first; no application code this turn; no fabricated runtime results; small correct commits.
 Proposed technical defaults are recorded in DECISIONS.md. Versions, chain addresses and sponsor access require measured setup results, not guessed values.
-
-\n

@@ -14,5 +14,3 @@ Use feature branches and one writer per task. Write behavior/security checks bef
 Complete docs/handoffs/PB-NN.md. Update TASKS.md, STATUS.md and memory/features only at meaningful feature completion. Record product decisions in docs/planning/DECISIONS.md.
 
 Testnet deploys, credentials, permission changes and public sharing must be explicit task steps. Keep simulated and live behavior visibly distinct. Studio-generated code needs independent review.
-
-\n
