@@ -22,3 +22,4 @@ Feature 01 is the completed local bootstrap. Feature 02 records a product direct
 | PB-16 | 07-signed-campaign-receipts.md | PB-16 commit | Scoped verifier signatures and receipt replay protection; no settlement |
 | PB-17 | 08-funded-campaign-activation.md | PB-17 commit | Supplier escrow activates only at full tracked funding; no claim settlement |
 | PB-13 | 18-ens-release-publication.md | See Git log PB-13 | ENSv2 publication client/content checks; live role proof and sponsor eligibility pending |
+| PB-21 | 19-product-cre-evidence-evaluation.md | Pending commit | Fail-closed scoped evidence evaluator; no receipt issuance, live DON or delivery |

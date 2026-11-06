@@ -26,7 +26,7 @@ B owns the missing prerequisites for PB-17/18. Full backend completion is not a 
 | PB-13 | A | ENS release publication | client and content checks implemented; live ENSv2 role flow and mentor fit pending; no prize claim |
 | PB-14 | B policy docs; A TS validation | Supplier campaign policy, roles, economics and trust model | READY: consume PB-03 types and vectors; select actual campaign terms |
 | PB-15–20 | B contracts; A receipt producer | Eligibility registry, signed receipt, fully funded USDC campaign, independent claims/challenges, CCIP | planned |
-| PB-21 | A | CRE workflow for scoped remediation receipt | planned |
+| PB-21 | A | CRE workflow for scoped remediation receipt | local fail-closed evaluator and negative tests implemented; API-produced campaign-claim evidence, CRE project/CLI simulation, receipt issuance and delivery remain blocked; see docs/handoffs/PB-21.md |
 | PB-22–24 | Joint | Campaign indexer/API, outage/security tests and backend handoff | planned |
 | PB-25–26 | A | Studio-compatible UI for verification and grant claims | gated on PB-24 |
 | PB-27–28 | Joint | Deployment audit, demo and submission evidence | gated |

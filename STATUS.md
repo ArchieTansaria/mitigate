@@ -12,9 +12,10 @@ Updated: 2026-11-07 (Asia/Kolkata). Repository: /Users/aryapathak/Documents/patc
 - PB-12: private unsigned repair proposals/revalidation, known-family layout/source checks, supplier/customer authority separation, real snapshot/current-state simulation and owner-executed local repair followed by a fresh diagnostic. No automatic execution or payout.
 - PB-13 local slice: configurable ENSv2 candidate/approved manifest records, content digest/schema checks, chain/resolver preflight and different proposer/approver wallet guard. Live Sepolia permissions, integration into campaign creation/UI, mentor fit and ENS prize eligibility remain unproven.
 - CRE capability gate: actual WASM CLI simulation verifies shared EIP-712 fixtures, HTTP and finalized Sepolia reads. This is not the PB-21 product workflow or DON deployment.
+- PB-21 local evaluator slice: shared evidence/policy checks, evaluator signature recovery, coverage/freshness checks and finalized source/campaign fact validation with six negative/positive unit cases. The current API only produces diagnostic-purpose evidence, the CRE project manifest is absent, and no receipt/delivery path is available; see `docs/handoffs/PB-21.md`.
 
 ## Parallel owners and next work
-A: PB-12 local repair flow implemented; next PB-21 product CRE workflow; integrate authoritative financial receipt scope when B's contracts are ready. B: PB-14–20 campaign/acceptance/CCIP contracts through the existing hosted Arc Studio app, per TEAMMATE-START.md. This verifier batch did not modify B's contracts, financial schema/vectors or hosted Studio workspace.
+A: PB-12 local repair flow implemented; PB-21 evaluator slice implemented with receipt integration still gated on campaign-claim evidence production and PB-20 delivery interfaces. B: PB-14–20 campaign/acceptance/CCIP contracts through the existing hosted Arc Studio app, per TEAMMATE-START.md. This verifier batch did not modify B's contracts, financial schema/vectors or hosted Studio workspace.
 
 ## Honest limits
 The diagnostic pipeline is functional locally for one exact artificial oracle/proxy family. Offline replay recreates recognized view dependencies; it is not a general fork or proof of RPC honesty. Reports bind an observed state and named verifier, not universal security. No participant upgrade key is loaded; diagnostic evidence cannot pay a grant.
