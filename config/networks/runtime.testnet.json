@@ -1,0 +1,6 @@
+{
+ "schemaVersion":1,
+ "environment":"testnet",
+ "source":{"chainId":"11155111","ccipSelector":"16015286601757825753"},
+ "destination":{"chainId":"5042002","ccipSelector":"3034092155422581607","usdc":"0x3600000000000000000000000000000000000000","decimals":6}
+}

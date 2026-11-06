@@ -1,0 +1,6 @@
+{
+ "schemaVersion":1,
+ "environment":"local",
+ "source":{"chainId":"31337","ccipSelector":"1"},
+ "destination":{"chainId":"31338","ccipSelector":"2","usdc":"0x1111111111111111111111111111111111111111","decimals":6}
+}
