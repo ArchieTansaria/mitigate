@@ -1,0 +1,20 @@
+Simulation only; mode=reject-signature; default production limits; no broadcast; empty env files
+✓ Workflow compiled
+✓ Simulation limits enabled
+  HTTP: req=120kb resp=250kb timeout=10s | ConfHTTP: req=125kb resp=500kb timeout=1m30s | Consensus obs=25kb | ChainWrite evm_report=50kb evm_gas=10000000 solana_report=265b solana_cu=300000 | WASM binary=100mb compressed=20mb
+  Binary hash: 97924efda3a425d70f6738d1a4abcd9eeb98a73b6328fbcd21838127674e8c5c
+  Config hash: 8be04040e2220ea7f002843ff49d74d2f5459af0e621fa6ad9c8a868d2c94f18
+2026-11-06T23:55:20Z [SIMULATION] Simulator Initialized
+
+2026-11-06T23:55:20Z [SIMULATION] Running trigger trigger=cron-trigger@1.0.0
+2026-11-06T23:55:20Z [USER LOG] CAPABILITY_PROBE_SIMULATION_ONLY: fixture verification; no product acceptance, report, deployment or transaction
+2026-11-06T23:55:21Z [SIMULATION] Received interrupt signal, stopping execution
+2026-11-06T23:55:21Z [SIMULATION] Skipping WorkflowEngineV2
+
+--- captured stderr ---
+Initializing...
+Loading settings...
+! Using default private key for chain write simulation. To use your own key, set CRE_ETH_PRIVATE_KEY in your .env file or system environment.
+Checking RPC connectivity...
+Compiling workflow...
+✗ workflow execution failed: SIGNATURE_REJECTED:tampered-signature

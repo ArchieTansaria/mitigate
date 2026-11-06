@@ -13,8 +13,10 @@
     "@foundry-rs/anvil": "1.7.1",
     "@foundry-rs/forge": "1.7.1",
     "@types/node": "^24.19.2",
+    "@types/pg": "8.23.1",
     "canonicalize": "2.1.0",
     "solc": "0.8.28",
+    "tsx": "4.23.15",
     "typescript": "5.9.3",
     "viem": "2.57.16",
     "vitest": "5.1.0",
@@ -32,12 +34,28 @@
     "lint": "biome check packages services scripts vitest.config.ts tsconfig.json",
     "format": "biome check --write packages services scripts vitest.config.ts tsconfig.json",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run",
+    "test": "pnpm build:fixtures && vitest run",
     "test:contracts": "node scripts/forge.mjs test",
     "test:integration": "vitest run --config vitest.integration.config.ts",
     "check": "pnpm lint && pnpm typecheck && pnpm test && pnpm test:contracts",
     "probe:rpc": "node services/verifier/src/probe-cli.ts",
     "vectors": "node scripts/generate-vectors.ts",
-    "vectors:check": "node scripts/generate-vectors.ts --check"
+    "vectors:check": "node scripts/generate-vectors.ts --check",
+    "api:start": "tsx --env-file=.env.local services/api/src/main.ts",
+    "build:fixtures": "node fixtures/forge.mjs build",
+    "test:fixtures": "node fixtures/forge.mjs test",
+    "test:fixtures:deploy": "node --test fixtures/test/deploy-local.test.mjs",
+    "deploy:fixtures:local": "node fixtures/deploy-local.mjs",
+    "worker:start": "tsx --env-file=.env.local services/verifier/src/main.ts",
+    "replay": "tsx services/verifier/src/replay-cli.ts",
+    "test:diagnostic": "vitest run --config vitest.integration.config.ts services/verifier/test/consumer.integration.test.ts services/api/test/diagnostic-flow.integration.test.ts",
+    "test:repair": "pnpm build:fixtures && vitest run --config vitest.integration.config.ts services/api/test/diagnostic-flow.integration.test.ts --reporter=verbose"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "3.1163.0",
+    "@fastify/swagger": "9.9.3",
+    "drizzle-orm": "0.45.4",
+    "fastify": "5.12.8",
+    "pg": "8.23.1"
   }
 }

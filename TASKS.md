@@ -5,7 +5,7 @@ One active writer per task. Exact acceptance cases, paths and commands are in IM
 
 | Owner | Start now | Then |
 |---|---|---|
-| A (owner + Codex) | Completed PB-00/PB-02/shared PB-03; close CRE login gate in PB-01 | PB-04–12 including fixtures PB-07; receipt producer; CRE PB-21; conditional ENS PB-13; integration/UI |
+| A (owner + Codex) | PB-04–12 local diagnostic/repair pipeline implemented; CRE capability simulation verified | Campaign receipt producer; CRE PB-21; conditional ENS PB-13; integration/UI |
 | B (teammate + agent) | Read completed PB-03 handoff/vectors; start PB-14 in existing Arc Studio app | PB-15 registry -> PB-16 receipt validator -> PB-17 funding -> PB-18 claims -> PB-19 challenges/accounting -> PB-20 messaging contracts |
 | Joint boundary | Share exact ABI/receipt/hash vectors early; no concurrent edits to shared files | Require real evidence and transactions before declaring live integration complete |
 
@@ -16,12 +16,13 @@ B owns the missing prerequisites for PB-17/18. Full backend completion is not a 
 | Task | Owner | Scope | State |
 |---|---|---|---|
 | PB-00 | A | Repository, docs and reproducible toolchain | toolchain/CI/scripts implemented; see PB-00 handoff and foundation evidence |
-| PB-01 | B Studio/CCIP; A CRE | Arc Studio CLI / CRE / CCIP feasibility | Studio CLI build/test/pull verified; CRE auth pending; CCIP route read passes, live delivery pending PB-20 |
+| PB-01 | B Studio/CCIP; A CRE | Arc Studio CLI / CRE / CCIP feasibility | Studio build/test/pull and CRE capability simulation verified; live CCIP delivery pending PB-20 |
 | PB-02 | A | Historical RPC and worker runtime probe | implemented/tested; live Arc/Sepolia reads and restricted Docker proof recorded |
-| PB-03 | A completed shared foundation; B consumes | Shared receipt, campaign eligibility, encoding and ABI freeze | campaign/receipt boundary and cross-language vectors implemented; CRE runtime check pending login |
-| PB-04–06 | A | Config, persistence/jobs and authenticated API | planned |
-| PB-07 | A | Known-bug fixtures and per-deployment repair test pack | planned after PB-03 |
-| PB-08–12 | A | Inspection, execution worker, evidence, replay and repair proposals | planned |
+| PB-03 | A completed shared foundation; B consumes | Shared receipt, campaign eligibility, encoding and ABI freeze | campaign/receipt boundary and vectors implemented; EIP-712 verified in actual CRE WASM simulation |
+| PB-04–06 | A | Config, persistence/jobs and authenticated API | implemented/tested; consumer now connected by PB-11 |
+| PB-07 | A | Known-bug fixtures and per-deployment repair test pack | implemented/tested on fresh local Anvil; no external-chain deployment |
+| PB-08–11 | A | Actual inspection, isolated execution, signed diagnostic evidence, leased worker and replay | implemented/tested locally; physical second-machine proof and hosted integration pending |
+| PB-12 | A | Unsigned owner-executed repair proposals | implemented/tested locally; independent code review; B upgrade-route boundary review remains pending |
 | PB-13 | A | ENS release publication | conditional on demonstrated user value and mentor fit |
 | PB-14 | B policy docs; A TS validation | Supplier campaign policy, roles, economics and trust model | READY: consume PB-03 types and vectors; select actual campaign terms |
 | PB-15–20 | B contracts; A receipt producer | Eligibility registry, signed receipt, fully funded USDC campaign, independent claims/challenges, CCIP | planned |

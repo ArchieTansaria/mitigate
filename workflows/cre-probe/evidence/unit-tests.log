@@ -1,0 +1,14 @@
+bun test v1.3.11 (af24e281)
+
+test/signature.test.ts:
+(pass) PB03 public vectors (host preflight, not CRE evidence) > digest matches existing cross-language vector [9.33ms]
+(pass) PB03 public vectors (host preflight, not CRE evidence) > valid [27.71ms]
+(pass) PB03 public vectors (host preflight, not CRE evidence) > tampered-recipient [2.78ms]
+(pass) PB03 public vectors (host preflight, not CRE evidence) > tampered-evidence [2.81ms]
+(pass) PB03 public vectors (host preflight, not CRE evidence) > wrong-destination-domain [2.70ms]
+(pass) PB03 public vectors (host preflight, not CRE evidence) > tampered-signature [2.83ms]
+
+ 6 pass
+ 0 fail
+ 6 expect() calls
+Ran 6 tests across 1 file. [337.00ms]

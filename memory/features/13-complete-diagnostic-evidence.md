@@ -1,0 +1,2 @@
+# 13 — Complete diagnostic evidence (PB-10)
+Build ordered per-deployment report, enforce exact scope/snapshot/test coverage, and sign using the existing diagnostic EIP-712 domain. Verify with a trusted scope/evaluator; tampering, expiry and dropped checks fail. Dedicated private verifier-key file is kept outside API/container execution. No campaign receipt producer yet. See docs/handoffs/PB-10.md and services/verifier/src/evidence/.

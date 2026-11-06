@@ -1,0 +1,1 @@
+CRE CLI version v1.39.0

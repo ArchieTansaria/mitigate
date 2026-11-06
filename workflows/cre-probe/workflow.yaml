@@ -1,0 +1,7 @@
+simulation:
+  user-workflow:
+    workflow-name: patchbond-capability-probe-simulation
+  workflow-artifacts:
+    workflow-path: ./main.ts
+    config-path: ./config.json
+    secrets-path: ""

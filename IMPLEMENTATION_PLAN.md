@@ -7,8 +7,8 @@
 **Tech stack:** Proposed stack in DECISIONS.md; exact version pins are PB-00 output.
 **Spec:** DECISIONS.md, INTERFACES.md, and relevant HANDBOOK.md sections.
 
-## Current execution checkpoint (2026-11-06)
-PB-01 Studio CLI build/test/pull is verified; CRE needs account login and real CCIP delivery is pending PB-20. PB-02 has implemented/tested historical RPC and isolated container probes, with successful Arc/Sepolia reads. PB-03 campaign/receipt types, validation, vectors and Solidity/TS parity are implemented by A at the user’s explicit request. B can start PB-14 using docs/handoffs/PB-03-contracts.md. Do not redo the shared interfaces. This does not mark the full financial campaign or live CRE/CCIP path complete.
+## Current execution checkpoint (2026-11-07)
+PB-01 Studio build/test/pull and CRE capability simulation are verified; actual CCIP delivery remains PB-20. PB-02/03 foundations are implemented, including EIP-712 verification in the actual CRE WASM runtime. A completed PB-04–07: validated config, PostgreSQL jobs/artifacts, authenticated diagnostic API and artificial oracle fixtures with real local deployment exports. See per-task handoffs and docs/evidence/backend-validation.md. B continues PB-14–20 without rebuilding shared interfaces. A has now connected PB-08–11 inspection/execution/signed diagnostic evidence/worker/replay locally; PB-12 now adds unsigned owner repair proposals and fresh recheck; next PB-21 and authoritative campaign receipt integration. Physical second-machine replay remains pending. An accepted queue request is not a repair pass; financial or live sponsor integration is not complete.
 
 ## Global constraints
 Backend first. Implementation is authorized. One supported proxy/application family, configurable inventory, one source chain per initial run. No arbitrary uploaded execution, global security claim, owner keys in worker, fake runtime outputs or silent mock fallback.
@@ -162,11 +162,11 @@ If time becomes tight, cut optional features or category claims explicitly. Do n
 **Create/modify:** services/verifier/src/inspect/transparent-oracle.ts; services/verifier/test/inspection.test.ts
 **Interface/deliverable:** inspectDeployment -> observed path/code/config/authority plus explicit unsupported status
 
-- [ ] Test real fixture paths, changed addresses, wrong implementation, wrong setting, unexpected proxy/admin version and unresolved links.
-- [ ] Implement the single supported module using ABI/getters/recognized storage arrangement at the pinned snapshot; inspect actual path from entrypoint.
-- [ ] Explain expected versus observed with responsible account; unknown proxy versions cannot inherit an unsafe guessed upgrade authority.
-- [ ] Validate: `pnpm exec vitest run services/verifier/test/inspection.test.ts`. Record exact output, environment and any skipped stage in docs/handoffs/PB-08.md.
-- [ ] Review owned-file diff and interface/security impact; commit as `feat(verifier): inspect application dependency and authority paths [PB-08]` (or the relevant explicit deferral).
+- [x] Test real fixture paths, changed addresses, wrong implementation, wrong setting, unexpected proxy/admin version and unresolved links.
+- [x] Implement the single supported module using ABI/getters/recognized storage arrangement at the pinned snapshot; inspect actual path from entrypoint.
+- [x] Explain expected versus observed with responsible account; unknown proxy versions cannot inherit an unsafe guessed upgrade authority.
+- [x] Validate: `pnpm exec vitest run services/verifier/test/inspection.test.ts`. Record exact output, environment and any skipped stage in docs/handoffs/PB-08.md.
+- [x] Review owned-file diff and interface/security impact; commit as `feat(verifier): inspect application dependency and authority paths [PB-08]` (or the relevant explicit deferral).
 - [ ] Other owner reviews; merge; coordinator records commit/status and releases dependent task.
 
 ## PB-09 — Isolated repair-test execution
@@ -175,12 +175,14 @@ If time becomes tight, cut optional features or category claims explicitly. Do n
 **Create/modify:** services/verifier/src/runner/; services/verifier/test/runner.integration.test.ts; services/verifier/Dockerfile
 **Interface/deliverable:** runTestPack -> structured assertions and trace references
 
-- [ ] Run approved test pack on original deployed snapshot; record each scenario intervention; preview actions use a distinct mode.
-- [ ] Apply execution time/memory/output/network limits and deny arbitrary uploaded repositories, FFI and secret inheritance.
-- [ ] Test pass/fail/crash/timeout and missing archive state; paused legitimate operation fails acceptance; no silent code replacement in deployed mode.
-- [ ] Validate: `pnpm exec vitest run services/verifier/test/runner.integration.test.ts`. Record exact output, environment and any skipped stage in docs/handoffs/PB-09.md.
-- [ ] Review owned-file diff and interface/security impact; commit as `feat(verifier): execute bounded repair regression packs [PB-09]` (or the relevant explicit deferral).
+- [x] Run approved test pack on original deployed snapshot; record each scenario intervention; preview actions use a distinct mode.
+- [x] Apply execution time/memory/output/network limits and deny arbitrary uploaded repositories, FFI and secret inheritance.
+- [x] Test pass/fail/crash/timeout and missing archive state; paused legitimate operation fails acceptance; no silent code replacement in deployed mode.
+- [x] Validate: `pnpm exec vitest run --config vitest.integration.config.ts services/verifier/test/runner.integration.test.ts`. Record exact output, environment and any skipped stage in docs/handoffs/PB-09.md.
+- [x] Review owned-file diff and interface/security impact; commit as `feat(verifier): execute bounded repair regression packs [PB-09]` (or the relevant explicit deferral).
 - [ ] Other owner reviews; merge; coordinator records commit/status and releases dependent task.
+
+Implementation ruling: offline state reconstruction for the exact recognized finite family instead of a networked fork; no custom image/Dockerfile is required because the existing digest-pinned Foundry image contains the execution tools. See PB-09 handoff.
 
 ## PB-10 — Complete evidence and qualifying result evaluation
 **Owner:** A
@@ -188,12 +190,14 @@ If time becomes tight, cut optional features or category claims explicitly. Do n
 **Create/modify:** services/verifier/src/evidence/; services/verifier/test/evidence.test.ts
 **Interface/deliverable:** evaluateCoverage, buildEvidence and signEvidence
 
-- [ ] Test omitted/duplicated deployment or assertion, mixed block hashes, wrong manifest/test digest, tampered signature and all required-pass case.
-- [ ] Generate complete ordered report, immutable artifact references and agreed evaluator attestation; isolate signing from test subprocess.
-- [ ] Test diagnostic/preview cannot qualify, unknown results fail closed, signing-key rotation cannot silently alter an existing policy and stale report rejection follows policy.
-- [ ] Validate: `pnpm exec vitest run services/verifier/test/evidence.test.ts`. Record exact output, environment and any skipped stage in docs/handoffs/PB-10.md.
-- [ ] Review owned-file diff and interface/security impact; commit as `feat(evidence): bind complete verification to approved scope [PB-10]` (or the relevant explicit deferral).
+- [x] Test omitted/duplicated deployment or assertion, mixed block hashes, wrong manifest/test digest, tampered signature and all required-pass case.
+- [x] Generate complete ordered report, immutable artifact references and agreed evaluator attestation; isolate signing from test subprocess.
+- [x] Test diagnostic/preview cannot qualify, unknown results fail closed, signing-key rotation cannot silently alter an existing policy and stale report rejection follows policy.
+- [x] Validate: `pnpm exec vitest run services/verifier/test/evidence.test.ts`. Record exact output, environment and any skipped stage in docs/handoffs/PB-10.md.
+- [x] Review owned-file diff and interface/security impact; commit as `feat(evidence): bind complete verification to approved scope [PB-10]` (or the relevant explicit deferral).
 - [ ] Other owner reviews; merge; coordinator records commit/status and releases dependent task.
+
+Financial acceptance receipts are deliberately still gated on authoritative campaign terms/eligibility and PB-16 integration. This implementation signs diagnostic results only.
 
 ## PB-11 — Replay and diagnostic backend flow
 **Owner:** A
@@ -201,12 +205,14 @@ If time becomes tight, cut optional features or category claims explicitly. Do n
 **Create/modify:** services/verifier/src/{main,consume-job,replay}.ts; services/verifier/test/consumer.integration.test.ts; services/api/test/diagnostic-flow.integration.test.ts; docs/runbooks/{backend-start,replay}.md
 **Interface/deliverable:** Diagnostic inventory -> scope -> run -> evidence -> reproducible replay
 
-- [ ] Implement the executable worker consumer: claim queued jobs, renew bounded leases, inspect/run/sign/publish, and commit result only if its current lease token still owns the job. Wire independent API and worker startup commands and configuration.
-- [ ] Start separate API and worker processes; submit inventory/scope/run through HTTP using fresh fixture addresses. Kill a worker mid-job, recover after lease expiry, and reject the old worker's late result. No supplier approval/escrow is required for diagnostic public reads.
+- [x] Implement the executable worker consumer: claim queued jobs, renew bounded leases, inspect/run/sign/publish, and commit result only if its current lease token still owns the job. Wire independent API and worker startup commands and configuration.
+- [x] Start separate API and worker processes; submit inventory/scope/run through HTTP using fresh fixture addresses. Kill a worker mid-job, recover after lease expiry, and reject the old worker's late result. No supplier approval/escrow is required for diagnostic public reads.
 - [ ] Export snapshot/tool/test/artifact identities and replay commands; disclose archive RPC requirements. Replay on a second clean environment and reject changed artifacts. Include consumer.integration.test.ts in the diagnostic flow validation command.
-- [ ] Validate: `pnpm exec vitest run services/verifier/test/consumer.integration.test.ts services/api/test/diagnostic-flow.integration.test.ts` and the documented replay command. Record exact output, environment and any skipped stage in docs/handoffs/PB-11.md.
-- [ ] Review owned-file diff and interface/security impact; commit as `feat(api): complete replayable diagnostic workflow [PB-11]` (or the relevant explicit deferral).
+- [x] Validate: `pnpm test:diagnostic` and the documented replay command. Record exact output, environment and any skipped stage in docs/handoffs/PB-11.md.
+- [x] Review owned-file diff and interface/security impact; commit as `feat(api): complete replayable diagnostic workflow [PB-11]` (or the relevant explicit deferral).
 - [ ] Other owner reviews; merge; coordinator records commit/status and releases dependent task.
+
+Implemented offline replay and changed-artifact rejection in a fresh CLI/container on the same machine. Physical second-machine validation is still open; the combined replay bullet remains unchecked intentionally. See docs/handoffs/PB-11.md.
 
 ## PB-12 — Unsigned repair proposals and post-execution recheck
 **Owner:** A
@@ -214,12 +220,14 @@ If time becomes tight, cut optional features or category claims explicitly. Do n
 **Create/modify:** services/verifier/src/actions/; services/api/src/routes/actions.ts; services/verifier/test/actions.test.ts
 **Interface/deliverable:** prepareRepair -> chain/target/calldata/value/authority/snapshot-bound proposal
 
-- [ ] Test supplier-owned upgrade versus customer-owned configuration, unknown authority and stale proposal rejection.
-- [ ] Prepare and simulate exact supported operations without submitting owner transactions; use compatible upgrade validation; surface absent source/layout metadata.
-- [ ] Human-authorized fixture repair is followed by a new deployed-mode run; successful tx receipt alone does not become pass.
-- [ ] Validate: `pnpm exec vitest run services/verifier/test/actions.test.ts`. Record exact output, environment and any skipped stage in docs/handoffs/PB-12.md.
-- [ ] Review owned-file diff and interface/security impact; commit as `feat(actions): prepare bounded repairs and verify deployed results [PB-12]` (or the relevant explicit deferral).
+- [x] Test supplier-owned upgrade versus customer-owned configuration, unknown authority and stale proposal rejection.
+- [x] Prepare and simulate exact supported operations without submitting owner transactions; use compatible upgrade validation; surface absent source/layout metadata.
+- [x] Human-authorized fixture repair is followed by a new deployed-mode run; successful tx receipt alone does not become pass.
+- [x] Validate: `pnpm exec vitest run services/verifier/test/actions.test.ts`. Record exact output, environment and any skipped stage in docs/handoffs/PB-12.md.
+- [x] Review owned-file diff and interface/security impact; commit as `feat(actions): prepare bounded repairs and verify deployed results [PB-12]` (or the relevant explicit deferral).
 - [ ] Other owner reviews; merge; coordinator records commit/status and releases dependent task.
+
+Implemented behavior and actual validation: `docs/handoffs/PB-12.md`, `docs/evidence/repair-validation.md`, `docs/runbooks/repair.md`. Known-family layout/source validation is deliberately narrower than a universal upgrade validator. B upgrade-route review and full sponsor integration remain separate gates.
 
 ## PB-13 — Conditional ENS release publication gate
 **Owner:** A

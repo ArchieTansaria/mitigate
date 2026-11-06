@@ -1,23 +1,23 @@
 # PatchBond status
-Updated: 2026-11-06. Repository: /Users/aryapathak/Documents/patchbond.
+Updated: 2026-11-07 (Asia/Kolkata). Repository: /Users/aryapathak/Documents/patchbond.
 
-## Implemented in the foundation batch
-- Reproducible pnpm/TypeScript/Vitest/Biome/Foundry toolchain and GitHub CI definition.
-- Codex-authenticated Arc Studio CLI build of PB-03 Solidity helpers/tests in the existing hosted app; files pulled unchanged and tests reproduced locally.
-- Strict versioned campaign, snapshot, manifest, evidence and receipt schemas; canonical hashing, EIP-712 domain separation, recipient/chain/policy/freshness checks, optional normalized replay lookup and complete assertion coverage checks.
-- Frozen Solidity/TypeScript vectors with real local Anvil parity tests. Fixture ABI exported for later PB-07.
-- Bounded RPC probe with canonical block-hash reads and explicit unknown failures; actual successful Arc/Sepolia reads recorded.
-- Restricted Docker Foundry probe and actual isolation tests; bounded trusted CLI supervision. The full repair test runner is later work.
+## Implemented
+- PB-00/02/03: genuine Codex-driven Arc Studio shared Solidity build/test/pull, matching TS vectors and bounded runtime probes.
+- PB-04–06: validated config, durable PostgreSQL documents/jobs, lease/retry fencing, content-verified storage and authenticated diagnostic API.
+- PB-07: artificial stale-price oracle family, original/repaired/unsafe fixtures and mined local provenance.
+- PB-08: confirmed canonical-snapshot inspection of actual application routing, exact supported bytecode/admin recognition, separate authority/configuration explanations.
+- PB-09: original observed bytecode/state replayed in a networkless bounded container; independent fresh/stale scenarios; exact error checks; approved-source/compiled-harness consistency.
+- PB-10: complete ordered diagnostic evidence, scope/snapshot/coverage validation, dedicated host-side verifier signing and independent signature/freshness verification.
+- PB-11: separate executable API/worker, real queue-to-evidence flow, crash recovery, cancellation, completion deadline enforcement and standalone offline replay. A completed job can report failed or unknown repair checks.
+- PB-12: private unsigned repair proposals/revalidation, known-family layout/source checks, supplier/customer authority separation, real snapshot/current-state simulation and owner-executed local repair followed by a fresh diagnostic. No automatic execution or payout.
+- CRE capability gate: actual WASM CLI simulation verifies shared EIP-712 fixtures, HTTP and finalized Sepolia reads. This is not the PB-21 product workflow or DON deployment.
 
-## Teammate starts PB-14
-Read docs/handoffs/PB-03-contracts.md and docs/handoffs/TEAMMATE-START.md. A completed the shared prerequisites at the user's request; B implements campaign rules/registry/acceptance/funding/claims/challenges PB-14–19, then messaging PB-20. Do not rebuild PB-03 or introduce a competing receipt shape.
+## Parallel owners and next work
+A: PB-12 local repair flow implemented; next PB-21 product CRE workflow; integrate authoritative financial receipt scope when B's contracts are ready. B: PB-14–20 campaign/acceptance/CCIP contracts through the existing hosted Arc Studio app, per TEAMMATE-START.md. This verifier batch did not modify B's contracts, financial schema/vectors or hosted Studio workspace.
 
-## Still outstanding
-- GitHub Actions could not start because GitHub reports an account billing lock (run 42266212890); remote CI success is not claimed.
-- The user needs a Chainlink CRE account. Studio has a temporary CRE CLI, but simulation requires login. No CRE workflow or report delivery is claimed.
-- CCIP router support was read successfully; no cross-chain message or testnet campaign deployment/payment has occurred.
-- Verifier/API/database/repair test-pack execution and the product frontend are not yet implemented. Current evidence checks validate structure/signatures, not independent proof of security or honest test execution.
-- Hosted Studio outbound RPC connectivity is proven; its authenticated connection to the future verifier service is not yet built.
+## Honest limits
+The diagnostic pipeline is functional locally for one exact artificial oracle/proxy family. Offline replay recreates recognized view dependencies; it is not a general fork or proof of RPC honesty. Reports bind an observed state and named verifier, not universal security. No participant upgrade key is loaded; diagnostic evidence cannot pay a grant.
 
-## Verification and history
-See docs/evidence/foundation-validation.md for commands, results and commit/fresh-clone evidence. Studio: https://studio.arc.io/app/9dee5ecd-ab62-459b-a54f-5ae7b2f06a52. Local test signatures use clearly labelled disposable keys; no user keys, tokens or authenticated RPC URLs are committed.
+Physical second-machine/Linux verification, hosted API/worker/S3/Studio callback, testnet fixtures, live campaign payouts, delivered CCIP acceptance, deployed DON workflow and frontend remain unproven or unfinished. CRE deploy access is disabled. ENS remains conditional. GitHub CI last reported an account billing lock; remote CI success is not claimed.
+
+Startup: docs/runbooks/backend-start.md. Repair walkthrough: docs/runbooks/repair.md (`pnpm test:repair`). Replay: docs/runbooks/replay.md. Validation: docs/evidence/pipeline-validation.md. Do not put secrets or generated private artifacts in Git.

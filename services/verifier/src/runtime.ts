@@ -2,7 +2,7 @@ import { spawn } from "node:child_process";
 import { randomUUID } from "node:crypto";
 
 type ProcessResult = {
-  status: "completed" | "failed" | "timeout" | "output-limit";
+  status: "completed" | "failed" | "timeout" | "output-limit" | "cancelled";
   stdout: string;
   stderr: string;
   exitCode: number | null;
@@ -14,6 +14,7 @@ export function runBoundedProcess(
   command: string,
   args: string[],
   limits: { timeoutMs: number; maxOutputBytes: number },
+  signal?: AbortSignal,
 ): Promise<ProcessResult> {
   if (
     !Number.isInteger(limits.timeoutMs) ||
@@ -26,7 +27,7 @@ export function runBoundedProcess(
     throw new Error("Invalid process limits");
   return new Promise((resolve) => {
     const start = performance.now();
-    let forced: "timeout" | "output-limit" | undefined;
+    let forced: "timeout" | "output-limit" | "cancelled" | undefined;
     let stdout = Buffer.alloc(0),
       stderr = Buffer.alloc(0);
     let size = 0;
@@ -55,6 +56,7 @@ export function runBoundedProcess(
       if (finished) return;
       finished = true;
       clearTimeout(timer);
+      signal?.removeEventListener("abort", cancel);
       if (drainTimer) clearTimeout(drainTimer);
       child.stdout.destroy();
       child.stderr.destroy();
@@ -87,6 +89,14 @@ export function runBoundedProcess(
     });
     child.on("error", () => finish(null));
     child.on("close", finish);
+    const cancel = () => {
+      if (finished) return;
+      forced = "cancelled";
+      kill();
+      drainTimer ??= setTimeout(() => finish(null), 100);
+    };
+    signal?.addEventListener("abort", cancel, { once: true });
+    if (signal?.aborted) cancel();
   });
 }
 export function containerArguments(image: string, name: string): string[] {

@@ -1,0 +1,2 @@
+# 12 — Isolated behavioral regression (PB-09)
+Original observed bytecode/storage runs in a networkless, resource-limited pinned Anvil container. Two recorded scenario branches test fresh legitimate quotes and exact stale-price rejection. Actual failures, unknown runtime failures and unsupported packs remain distinct. No source-chain writes or keys. Offline state reconstruction is deliberately limited to the exact recognized family, not a general fork. See docs/handoffs/PB-09.md for trust boundary and test evidence. PB-10 consumes result/trace/interventions.
