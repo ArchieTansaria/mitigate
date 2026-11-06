@@ -1,0 +1,5 @@
+# Simulation only. No wallet, registry, secrets, or deploy configuration.
+simulation:
+  rpcs:
+    - chain-name: ethereum-testnet-sepolia
+      url: https://ethereum-sepolia-rpc.publicnode.com

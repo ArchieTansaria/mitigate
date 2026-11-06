@@ -1,0 +1,37 @@
+Simulation only; mode=all; default production limits; no broadcast; empty env files
+✓ Workflow compiled
+✓ Simulation limits enabled
+  HTTP: req=120kb resp=250kb timeout=10s | ConfHTTP: req=125kb resp=500kb timeout=1m30s | Consensus obs=25kb | ChainWrite evm_report=50kb evm_gas=10000000 solana_report=265b solana_cu=300000 | WASM binary=100mb compressed=20mb
+  Binary hash: 97924efda3a425d70f6738d1a4abcd9eeb98a73b6328fbcd21838127674e8c5c
+  Config hash: 2885692ece9ea50d7158a91914d0e89d4465c0e5af00a1c98d893a02d86bdbd3
+2026-11-06T23:54:46Z [SIMULATION] Simulator Initialized
+
+2026-11-06T23:54:46Z [SIMULATION] Running trigger trigger=cron-trigger@1.0.0
+2026-11-06T23:54:46Z [USER LOG] CAPABILITY_PROBE_SIMULATION_ONLY: fixture verification; no product acceptance, report, deployment or transaction
+2026-11-06T23:54:46Z [USER LOG] SIGNATURE_CHECK valid verified=true expected=true
+2026-11-06T23:54:46Z [USER LOG] SIGNATURE_CHECK tampered-recipient verified=false expected=false
+2026-11-06T23:54:46Z [USER LOG] SIGNATURE_CHECK tampered-evidence verified=false expected=false
+2026-11-06T23:54:46Z [USER LOG] SIGNATURE_CHECK wrong-destination-domain verified=false expected=false
+2026-11-06T23:54:46Z [USER LOG] SIGNATURE_CHECK tampered-signature verified=false expected=false
+2026-11-06T23:54:46Z [USER LOG] HTTP_READ {"statusCode":200,"packageName":"@chainlink/cre-sdk"}
+2026-11-06T23:54:47Z [USER LOG] EVM_READ {"sourceChainId":"11155111","sourceSelector":"16015286601757825753","router":"0x0BF3dE8c5D3e8A2B34D2BEeB17ABfCeBaf363A59","destinationSelector":"3034092155422581607","blockTag":"finalized","blockNumber":"12078240","blockHash":"0xd258c0cf2c0a32f2f6a1e1a18758c4931bcf72e2cf881ad466375742c7192430","blockTimestamp":"1793988564","rawData":"0x0000000000000000000000000000000000000000000000000000000000000001","supported":true}
+2026-11-06T23:54:47Z [USER LOG] PROBE_RESULT {"simulationOnly":true,"productAcceptance":false,"signatures":{"digest":"0x4a1c204bfcf9793fd58a119bf3b96cec98e654dd05ba860791989c17f2bb0b99","checks":[{"name":"valid","verified":true,"expected":true},{"name":"tampered-recipient","verified":false,"expected":false},{"name":"tampered-evidence","verified":false,"expected":false},{"name":"wrong-destination-domain","verified":false,"expected":false},{"name":"tampered-signature","verified":false,"expected":false}]},"http":{"statusCode":200,"packageName":"@chainlink/cre-sdk"},"evm":{"sourceChainId":"11155111","sourceSelector":"16015286601757825753","router":"0x0BF3dE8c5D3e8A2B34D2BEeB17ABfCeBaf363A59","destinationSelector":"3034092155422581607","blockTag":"finalized","blockNumber":"12078240","blockHash":"0xd258c0cf2c0a32f2f6a1e1a18758c4931bcf72e2cf881ad466375742c7192430","blockTimestamp":"1793988564","rawData":"0x0000000000000000000000000000000000000000000000000000000000000001","supported":true}}
+
+✓ Workflow Simulation Result:
+"{\"simulationOnly\":true,\"productAcceptance\":false,\"signatures\":{\"digest\":\"0x4a1c204bfcf9793fd58a119bf3b96cec98e654dd05ba860791989c17f2bb0b99\",\"checks\":[{\"name\":\"valid\",\"verified\":true,\"expected\":true},{\"name\":\"tampered-recipient\",\"verified\":false,\"expected\":false},{\"name\":\"tampered-evidence\",\"verified\":false,\"expected\":false},{\"name\":\"wrong-destination-domain\",\"verified\":false,\"expected\":false},{\"name\":\"tampered-signature\",\"verified\":false,\"expected\":false}]},\"http\":{\"statusCode\":200,\"packageName\":\"@chainlink/cre-sdk\"},\"evm\":{\"sourceChainId\":\"11155111\",\"sourceSelector\":\"16015286601757825753\",\"router\":\"0x0BF3dE8c5D3e8A2B34D2BEeB17ABfCeBaf363A59\",\"destinationSelector\":\"3034092155422581607\",\"blockTag\":\"finalized\",\"blockNumber\":\"12078240\",\"blockHash\":\"0xd258c0cf2c0a32f2f6a1e1a18758c4931bcf72e2cf881ad466375742c7192430\",\"blockTimestamp\":\"1793988564\",\"rawData\":\"0x0000000000000000000000000000000000000000000000000000000000000001\",\"supported\":true}}"
+
+2026-11-06T23:54:47Z [SIMULATION] Execution finished signal received
+2026-11-06T23:54:47Z [SIMULATION] Skipping WorkflowEngineV2
+
+╭──────────────────────────────────────────────────────╮
+│ Simulation complete! Ready to deploy your workflow?  │
+│                                                      │
+│ Run cre account access to request deployment access. │
+╰──────────────────────────────────────────────────────╯
+
+--- captured stderr ---
+Initializing...
+Loading settings...
+! Using default private key for chain write simulation. To use your own key, set CRE_ETH_PRIVATE_KEY in your .env file or system environment.
+Checking RPC connectivity...
+Compiling workflow...

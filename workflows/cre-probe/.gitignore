@@ -1,0 +1,7 @@
+node_modules/
+.cache/
+.build/
+.env*
+*.wasm
+.cre_build_tmp*
+!evidence/*.log

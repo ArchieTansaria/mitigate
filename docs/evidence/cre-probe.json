@@ -1,0 +1,247 @@
+{
+  "schemaVersion": 1,
+  "kind": "CRE_CAPABILITY_PROBE_SIMULATION",
+  "recordedAt": "2026-11-06T18:26:45.918975+00:00",
+  "baseCommit": "730ebe6e25ae117ed6c74dd07ad3ef3f60efde6e",
+  "gate": {
+    "PB01_creAuthenticationAndSimulation": "verified",
+    "PB03_eip712RuntimeCompatibility": "verified",
+    "PB21": "not_complete",
+    "productAcceptance": false,
+    "donDeployment": false,
+    "broadcast": false,
+    "ccipMessageSent": false
+  },
+  "runtime": {
+    "creCli": "v1.39.0",
+    "bun": "1.3.11",
+    "sdk": "1.23.0",
+    "sdkJavyPlugin": "1.7.0",
+    "javy": "8.1.0",
+    "typescript": "5.9.3",
+    "probeViem": "2.57.16",
+    "sharedDependencies": {
+      "viem": "2.57.16",
+      "zod": "4.6.7",
+      "canonicalize": "2.1.0"
+    },
+    "host": "darwin-arm64",
+    "execution": "CLI local simulation of Javy/QuickJS WASM; default production limits; compiler checks enabled"
+  },
+  "authentication": {
+    "method": "existing normal CRE CLI browser login",
+    "accountIdentifiersRecorded": false,
+    "apiKeyProvided": false,
+    "userWalletKeyProvided": false,
+    "credentialFilesInspected": false,
+    "credentialFilesCopied": false,
+    "cliObservation": "Using default private key for chain write simulation.",
+    "meaning": "CLI built-in default simulation key only. Probe has no write capability call and never broadcasts. No user credential values read or logged."
+  },
+  "commandTemplate": "cre workflow simulate . --project-root <probe-directory> --target simulation --config <probe-directory>/.build/config-<mode>.json --trigger-index 0 --non-interactive --env /dev/null --public-env /dev/null --limits default",
+  "environmentAllowlist": [
+    "HOME",
+    "PATH",
+    "TMPDIR",
+    "LANG"
+  ],
+  "endpoints": {
+    "http": "https://raw.githubusercontent.com/smartcontractkit/cre-sdk-typescript/main/packages/cre-sdk/package.json",
+    "rpc": "https://ethereum-sepolia-rpc.publicnode.com"
+  },
+  "runs": [
+    {
+      "command": "bun run simulate all",
+      "mode": "all",
+      "startedAt": "2026-11-06T18:24:34.682Z",
+      "finishedAt": "2026-11-06T18:24:47.266Z",
+      "exitCode": 0,
+      "expectedError": null,
+      "passed": true,
+      "result": {
+        "simulationOnly": true,
+        "productAcceptance": false,
+        "signatures": {
+          "digest": "0x4a1c204bfcf9793fd58a119bf3b96cec98e654dd05ba860791989c17f2bb0b99",
+          "checks": [
+            {
+              "name": "valid",
+              "verified": true,
+              "expected": true
+            },
+            {
+              "name": "tampered-recipient",
+              "verified": false,
+              "expected": false
+            },
+            {
+              "name": "tampered-evidence",
+              "verified": false,
+              "expected": false
+            },
+            {
+              "name": "wrong-destination-domain",
+              "verified": false,
+              "expected": false
+            },
+            {
+              "name": "tampered-signature",
+              "verified": false,
+              "expected": false
+            }
+          ]
+        },
+        "http": {
+          "statusCode": 200,
+          "packageName": "@chainlink/cre-sdk"
+        },
+        "evm": {
+          "sourceChainId": "11155111",
+          "sourceSelector": "16015286601757825753",
+          "router": "0x0BF3dE8c5D3e8A2B34D2BEeB17ABfCeBaf363A59",
+          "destinationSelector": "3034092155422581607",
+          "blockTag": "finalized",
+          "blockNumber": "12078240",
+          "blockHash": "0xd258c0cf2c0a32f2f6a1e1a18758c4931bcf72e2cf881ad466375742c7192430",
+          "blockTimestamp": "1793988564",
+          "rawData": "0x0000000000000000000000000000000000000000000000000000000000000001",
+          "supported": true
+        }
+      },
+      "log": "workflows/cre-probe/evidence/all.log",
+      "logSha256": "7558bcd8c6b5f514d864478514310bb1fe9449ee8976d52d32754adea16f1157",
+      "cliBinaryHash": "97924efda3a425d70f6738d1a4abcd9eeb98a73b6328fbcd21838127674e8c5c",
+      "cliConfigHash": "2885692ece9ea50d7158a91914d0e89d4465c0e5af00a1c98d893a02d86bdbd3"
+    },
+    {
+      "command": "bun run simulate reject-recipient",
+      "mode": "reject-recipient",
+      "startedAt": "2026-11-06T18:24:47.266Z",
+      "finishedAt": "2026-11-06T18:25:09.219Z",
+      "exitCode": 1,
+      "expectedError": "SIGNATURE_REJECTED:tampered-recipient",
+      "passed": true,
+      "result": null,
+      "log": "workflows/cre-probe/evidence/reject-recipient.log",
+      "logSha256": "fb9316285842d8db1ab403fa621839f362ef75b56d2ac4e8f8a018e0e412b004",
+      "cliBinaryHash": "97924efda3a425d70f6738d1a4abcd9eeb98a73b6328fbcd21838127674e8c5c",
+      "cliConfigHash": "9f16809ed068d0cd87d25166ab6f0d0d32c6f4c349192addf2a78eb8645b583e"
+    },
+    {
+      "command": "bun run simulate reject-signature",
+      "mode": "reject-signature",
+      "startedAt": "2026-11-06T18:25:09.219Z",
+      "finishedAt": "2026-11-06T18:25:21.368Z",
+      "exitCode": 1,
+      "expectedError": "SIGNATURE_REJECTED:tampered-signature",
+      "passed": true,
+      "result": null,
+      "log": "workflows/cre-probe/evidence/reject-signature.log",
+      "logSha256": "2c54602136263a70c19d66129f22fe2ee16a58bfa67277f82ebcaf1d2373abd9",
+      "cliBinaryHash": "97924efda3a425d70f6738d1a4abcd9eeb98a73b6328fbcd21838127674e8c5c",
+      "cliConfigHash": "8be04040e2220ea7f002843ff49d74d2f5459af0e621fa6ad9c8a868d2c94f18"
+    }
+  ],
+  "hostChecks": [
+    {
+      "command": "bun run typecheck",
+      "exitCode": 0,
+      "scope": "workflow and host tsconfigs",
+      "log": "workflows/cre-probe/evidence/typecheck.log"
+    },
+    {
+      "command": "bun test",
+      "exitCode": 0,
+      "pass": 6,
+      "fail": 0,
+      "log": "workflows/cre-probe/evidence/unit-tests.log"
+    },
+    {
+      "command": "bun install --frozen-lockfile --ignore-scripts --cache-dir /tmp/patchbond-cre-bun-cache",
+      "exitCode": 0,
+      "scope": "43 packages in probe-local node_modules; isolated bun.lock"
+    }
+  ],
+  "toolchainDownload": {
+    "release": "https://github.com/bytecodealliance/javy/releases/tag/v8.1.0",
+    "asset": "https://github.com/bytecodealliance/javy/releases/download/v8.1.0/javy-arm-macos-v8.1.0.gz",
+    "checksum": "https://github.com/bytecodealliance/javy/releases/download/v8.1.0/javy-arm-macos-v8.1.0.gz.sha256",
+    "sha256": "ef2fcfa63d6cfca267fd44c4de47ffbc586070911c77e482c283b21ef3ae681e",
+    "binarySha256": "3c6655964e19eb7ce1574c7a230a2fa84bc4a838fd28db98aebfd80135263619",
+    "checksumMatched": true,
+    "workaround": "Official release CDN DNS included an unresponsive IP. curl --resolve release-assets.githubusercontent.com:443:185.199.108.133 reached the same HTTPS asset with TLS enabled. Verified published checksum, then populated normal Javy cache. No SDK modification."
+  },
+  "observedFailuresBeforeSuccessfulRun": [
+    {
+      "stage": "typecheck",
+      "cause": "SDK restricted Node declarations affected host scripts when included in workflow tsconfig",
+      "resolution": "Separate workflow and host tsconfigs, both checked; no skip-type-checks"
+    },
+    {
+      "stage": "Javy setup",
+      "cause": "Sandbox initially denied creation of ~/.cache/javy",
+      "resolution": "Scoped tool-cache write permission granted"
+    },
+    {
+      "stage": "Javy download",
+      "cause": "Official release asset connection timeout/socket closed",
+      "resolution": "Checksum-verified official download using responsive DNS-returned CDN IP"
+    },
+    {
+      "stage": "first combined WASM execution",
+      "cause": "HTTP_STATUS_403 from api.github.com/repos/smartcontractkit/cre-sdk-typescript after all signature checks succeeded",
+      "resolution": "Explicit source change to official raw public manifest, followed by successful combined rerun; no fallback in workflow"
+    }
+  ],
+  "compilerWarning": {
+    "observed": "Object.values() ordering warning at packages/schema/src/encoding.ts:158",
+    "scope": "Shared canonical JSON validation function; not invoked by the receiptTypedData signature probe",
+    "action": "Recorded, shared file unchanged; no deployment determinism claim"
+  },
+  "timestampNote": "startedAt/finishedAt are host UTC captures. Preserve CLI log timestamps verbatim; CLI appended Z to local Asia/Kolkata clock values during this run, so do not treat their apparent UTC values as authoritative.",
+  "limitations": [
+    "Capability probe only, not PB21 or full PB01 completion, product acceptance, live DON deployment, or production approval.",
+    "Signed PB03 input is a synthetic old fixture, not fresh repair evidence or a live campaign. Only EOA EIP712 verification is probed; not EIP1271.",
+    "External HTTP is a public SDK manifest, not an authenticated evidence API or hosted verifier integration.",
+    "Sepolia only: supported headerByNumber and callContract at the returned finalized height. Arc selector is only a router argument; no Arc CRE execution, storage reads, trace API, or CCIP delivery proven.",
+    "Public RPC observation is not independent multi-provider agreement or a proof of repair execution. Simulation consensus plumbing is not a live DON consensus test.",
+    "No report generation/submission, receiver callback, acceptance record, payout, funded broadcast, workflow deployment, or Arc Studio change.",
+    "Deploy access is disabled per user context; not requested or independently changed. CLI completion prompt suggested requesting access; no such command was run.",
+    "Reproduction requires installed parent shared-schema dependencies plus isolated Bun dependencies; no shared schema or root package/lock edits made by this probe."
+  ],
+  "sourceSha256": {
+    "workflows/cre-probe/main.ts": "11b0ae1dab8069ae051ca2bf92ad40529083cb32c20f86715bad11bf622691d4",
+    "workflows/cre-probe/signature.ts": "89388e7f940d63fe3f1e8ca0055708c1b9072f2ec5d3bb74d64c3d0377604cc3",
+    "workflows/cre-probe/scripts/simulate.ts": "b8efcfca7e064f255d85d5dc3575f36d9b79879895d30346c2877a215e4c1206",
+    "workflows/cre-probe/scripts/check-simulation.ts": "3810f3a6355d827b2411dcc8be94f91591241ce272ce36b144a9e6c928cef8e3",
+    "workflows/cre-probe/test/signature.test.ts": "60791fe604de08c7400a066711f3556890b2889a6180865f51ea1db603472a3b",
+    "workflows/cre-probe/package.json": "d96a7f222e238fc9e0c070851b7d6e5778c8917443a9fdce7f970e11123d8127",
+    "workflows/cre-probe/bun.lock": "71811fb300d440b249f47cb27db9b5f689808879de3a008a78edd6ad23750a7c",
+    "workflows/cre-probe/tsconfig.json": "0d9d194ccbff37d51653d0a799aa391588b3230187201026b3762d1558354cbc",
+    "workflows/cre-probe/tsconfig.host.json": "caa14d8ae8f4e8433dd7c6c6d8de2a62221111edb2030ec7314e2e2b013cc44b",
+    "workflows/cre-probe/project.yaml": "c628ce3b148d167c86ed976d9da3b610e8eda3435099365532f254116b847a08",
+    "workflows/cre-probe/config.json": "5d61490a5c5f486c5cacf5ea01d5dd6d9fa24163e4fbfcb64d8884cf36a5c222",
+    "workflows/cre-probe/workflow.yaml": "5e263c1f3234a06f791b47b81d646303e3b056dc82ede6b8ba61acd789b2d6f2",
+    "docs/interfaces/pb03-vectors.json": "17af6a2ce303b7bd7d0f4b5ec07e5e27b196c614e218cd0bc277fa4cd501e8f8",
+    "packages/schema/src/encoding.ts": "468432bdabc8336144e96a9a00632b795f8bb006512afbd0e825fe64249fcf34",
+    "packages/schema/src/types.ts": "e2644cdb72dcba017216cfb70ae97b1ca521ef52960230f17307827c61e06fce",
+    "workflows/cre-probe/.gitignore": "2b3e7ad20329818c9fb323d6922f9fc8b602466e16752147935e16944ed6f11c"
+  },
+  "officialReferences": [
+    "https://docs.chain.link/cre/concepts/typescript-wasm-runtime",
+    "https://docs.chain.link/cre/getting-started/part-1-project-setup-ts",
+    "https://docs.chain.link/cre/reference/sdk/http-client-ts",
+    "https://docs.chain.link/cre/reference/sdk/evm-client-ts",
+    "https://docs.chain.link/cre/overview",
+    "https://github.com/smartcontractkit/cre-templates/tree/main/building-blocks/read-data-feeds/read-data-feeds-ts"
+  ],
+  "artifactSha256": {
+    "workflows/cre-probe/evidence/reject-signature.log": "2c54602136263a70c19d66129f22fe2ee16a58bfa67277f82ebcaf1d2373abd9",
+    "workflows/cre-probe/evidence/typecheck.log": "e5dfbd66bdffbc62ce145df95692b4c4a72c0f1b9952dd5b3c09f0f40722b473",
+    "workflows/cre-probe/evidence/cli-simulate-help.txt": "aafb907507b35c6ef2518c25a1ac9c60ac8363e381c9fa37751a729276ba63f0",
+    "workflows/cre-probe/evidence/unit-tests.log": "f82fe4b5997d51e8ee92eba3b526e86fe2bc1a7fdd911d6f5fe2dcbe8b4fe3c2",
+    "workflows/cre-probe/evidence/all.log": "7558bcd8c6b5f514d864478514310bb1fe9449ee8976d52d32754adea16f1157",
+    "workflows/cre-probe/evidence/cli-version.txt": "e16c4dce4ef8aea92d8fc16266c0e8cc512270aa73f34e16cdab3cba9d8ce075",
+    "workflows/cre-probe/evidence/reject-recipient.log": "fb9316285842d8db1ab403fa621839f362ef75b56d2ac4e8f8a018e0e412b004"
+  }
+}
