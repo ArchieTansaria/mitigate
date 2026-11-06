@@ -19,5 +19,8 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm check
       - run: pnpm vectors:check
+      - run: pnpm test:fixtures
+      - run: pnpm test:fixtures:deploy
       - run: docker pull ghcr.io/foundry-rs/foundry@sha256:8347b728d5d393dac1c018691b36f506d23b9dcd78341d40ea0fcb11c3a19cdd
+      - run: docker pull postgres@sha256:3540c0362c809df084ffac0ae69fe794515f9de92692f02178bcdce0ef0302ac
       - run: pnpm test:integration

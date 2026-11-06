@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "id": "pb07-artificial-oracle-adapter-v1",
+  "supportedPatternId": "eip1967-transparent-v1",
+  "proxyLibrary": "OpenZeppelin Contracts 5.4.0",
+  "compiler": "0.8.28",
+  "requiredAssertionIds": ["configuration", "stale-rejected", "valid-quote"],
+  "configuration": {
+    "priceDecimals": 8,
+    "collateralDecimals": 18,
+    "quoteDecimals": 18
+  },
+  "scenarios": [
+    {
+      "id": "configuration",
+      "intervention": "none; compare observed source, maxAge, decimals, customer ownership and unpaused market to the exact deployment policy"
+    },
+    {
+      "id": "valid-quote",
+      "intervention": "isolated snapshot branch: source owner sets positive price and timestamp at snapshot; compare a nonzero quote with an independently specified value"
+    },
+    {
+      "id": "stale-rejected",
+      "intervention": "separate isolated snapshot branch: source owner sets positive price with nonzero timestamp exactly maxAge + 1 seconds before snapshot; require exact StalePrice(timestamp,maxAge) revert from market quote"
+    }
+  ],
+  "limits": [
+    "Artificial owner-controlled source, quote-only market, one pinned transparent proxy family.",
+    "All assertions required; stale rejection alone cannot demonstrate a repair.",
+    "Scenario mutations are fork-local and must be recorded; do not mutate a live source.",
+    "Code identity, ERC-1967 slots and supplier ProxyAdmin authority must also be checked by PB-08/PB-09 before acceptance.",
+    "This pack does not issue receipts, establish freshness/finality, authorize grants, or replace independent approval."
+  ]
+}
