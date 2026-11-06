@@ -38,16 +38,14 @@ B begins with Solidity PB-03 types/vectors and campaign prerequisites; A works o
 Parallel streams then proceed against those stable contracts. If a dependency is not ready, implement an explicitly labelled local test double matching the shared interface; do not wire it into testnet behavior.
 If an agent needs an interface change, first open a small schema/ABI change, state impact, obtain other-owner review and land its tests. Consumers then update from that commit.
 
-## Task branch discipline
-- Assign one PB task and owned write paths per active branch; task cards name prerequisites.
-- Begin with a clean status and current main. Never overwrite uncommitted teammate work.
-- Prefer short branches and small verified commits. Long changes may have multiple passing commits.
-- Open PR against main with problem, behavior, checks and limitations.
-- Other human/agent reviews the relevant boundary. Coordinator merges only after required checks.
-- Keep meaningful implementation commits. Do not collapse the entire hackathon into one final upload.
-- No direct concurrent edits to main, shared force pushes, changing another person's commit authorship or fabricated history.
-- Before dependent work, fetch and incorporate the merged prerequisite; record the resulting base commit.
-- Each person uses their own Git identity; do not impersonate the teammate.
+## Current Git discipline (user decision, 2026-11-07)
+- Work directly on main in each person's separate clone; one writer per assigned task and owned paths.
+- Start from a clean status and fetch current main. Never overwrite uncommitted teammate work.
+- Use meaningful, tested feature commits; inspect explicit staged paths. Push main after verification.
+- Fetch before pushing. If main advanced, reconcile changes without rewriting published history and rerun affected checks. Never force-push.
+- Review shared interface changes with the other owner before dependent implementation.
+- No PR or feature branch is required for A's routine work under this user instruction. Existing fully included branches may remain without needing another merge.
+- Use your own Git identity. Do not amend teammate commits or impersonate their authorship.
 
 ## Commit messages
 Pattern: type(scope): imperative concrete change [PB-NN].
@@ -65,7 +63,7 @@ Task ID; base and result commits; touched files; provided interface; exact comma
 The teammate's agent should reproduce checks from the repository, without the original author's chat.
 
 ## Claim and status protocol
-A maintains docs/planning/STATUS.md once coding begins. One coordinator updates shared task status to avoid markdown merge conflicts. B reports its branch/commit via PR and per-task handoff.
+A maintains root STATUS.md, TASKS.md and memory/context/01-project-snapshot.md. One coordinator updates shared task status to avoid markdown merge conflicts. B reports its branch/commit via PR and per-task handoff.
 States: ready, active, blocked, review, done, deferred. “Done” requires code, tests, evidence and merge; a local commit is not a merge.
 No task is active for both writers. Independent reviews do not confer write ownership.
 
