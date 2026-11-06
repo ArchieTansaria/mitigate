@@ -12,15 +12,15 @@ pnpm exec vitest run workflows/cre/test/workflow.test.ts
 
 Result: 1 test file passed, 6 tests passed. Cases use a deterministic test-only key and synthetic evidence; they prove validator behavior only. They cover a consistent signed input, policy hash mismatch, omitted deployment, poisoned and stale responses, incompatible finalized snapshot, diagnostic purpose, and a non-pass mandatory outcome.
 
-The repository check passed with Node 24.22.0: `pnpm lint`, `pnpm typecheck`, fixture build, Vitest (15 files, 73 tests) and Foundry (14 suites, 340 tests). Foundry emitted existing fixture lints for timestamp comparisons and safe test casts. The root TypeScript config does not include `workflows/cre`.
+The repository check passed with Node 24.22.0: `pnpm lint`, root `pnpm typecheck`, the isolated CRE workflow typecheck, fixture build, Vitest (15 files, 73 tests) and Foundry (14 suites, 340 tests). Foundry emitted existing fixture lints for timestamp comparisons and safe test casts. The CRE workflow is checked with its own bundler TypeScript config so its SDK runtime types stay separate from the Node.js application config.
 
-A direct PB-21 TypeScript check was attempted:
+The PB-21 workflow typecheck passed:
 
 ```sh
-pnpm exec tsc --noEmit --target ESNext --module ESNext --moduleResolution bundler --strict --skipLibCheck --allowImportingTsExtensions --resolveJsonModule --types node workflows/cre/src/main.ts workflows/cre/test/workflow.test.ts
+pnpm exec tsc --noEmit -p workflows/cre/tsconfig.json
 ```
 
-It currently fails because `@chainlink/cre-sdk` is not installed or declared in the checked-out workspace; the missing SDK types also leave callback parameters untyped. The root Biome config likewise excludes `workflows/**`, so the PB-21 source has not been checked by the repository lint config. The earlier teammate handoff recorded successful temporary-config checks; those temporary files are not present to reproduce here.
+`workflows/cre/package.json` pins `@chainlink/cre-sdk` 1.23.0, matching the existing capability probe. The root `pnpm check` runs this isolated typecheck. Biome includes and checks both `integrations/` and `workflows/cre/`.
 
 ## CRE CLI and live boundaries
 

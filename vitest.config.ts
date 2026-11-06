@@ -5,7 +5,7 @@ export default defineConfig({
       "packages/**/*.test.ts",
       "services/**/*.test.ts",
       "integrations/**/*.test.ts",
-      "workflows/cre/**/*.test.ts",
+      "workflows/cre/test/**/*.test.ts",
     ],
     exclude: ["**/*.integration.test.ts"],
     testTimeout: 10000,

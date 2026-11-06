@@ -1,11 +1,11 @@
 import {
   type Address,
-  type PublicClient,
-  type WalletClient,
   encodeFunctionData,
   getAddress,
+  type PublicClient,
   parseAbi,
   toHex,
+  type WalletClient,
 } from "viem";
 import { normalize, packetToBytes } from "viem/ens";
 import { z } from "zod";
@@ -55,7 +55,9 @@ function validateManifestUri(uri: string): string {
     parsed.password !== "" ||
     parsed.hash !== ""
   ) {
-    throw new Error("Manifest URI must be an HTTPS URL without credentials or fragment");
+    throw new Error(
+      "Manifest URI must be an HTTPS URL without credentials or fragment",
+    );
   }
   return parsed.toString();
 }
@@ -89,7 +91,9 @@ export function assertIndependentApprover(
 
 export function assertSupportedEnsChain(chainId: number): number {
   if (chainId !== ENS_MAINNET_CHAIN_ID && chainId !== ENS_SEPOLIA_CHAIN_ID) {
-    throw new Error("ENS release publication supports Ethereum mainnet or Sepolia");
+    throw new Error(
+      "ENS release publication supports Ethereum mainnet or Sepolia",
+    );
   }
   return chainId;
 }
@@ -133,13 +137,20 @@ async function assertPublicationTarget(
   config: EnsPublicationConfig,
 ) {
   assertSupportedEnsChain(config.chainId);
-  if (await client.getChainId() !== config.chainId) {
-    throw new Error(`ENS client is on the wrong chain; expected ${config.chainId}`);
+  if ((await client.getChainId()) !== config.chainId) {
+    throw new Error(
+      `ENS client is on the wrong chain; expected ${config.chainId}`,
+    );
   }
   const name = normalize(config.name);
   const actualResolver = await client.getEnsResolver({ name });
-  if (!actualResolver || getAddress(actualResolver) !== getAddress(config.resolverAddress)) {
-    throw new Error("ENS name does not resolve to the configured dedicated resolver");
+  if (
+    !actualResolver ||
+    getAddress(actualResolver) !== getAddress(config.resolverAddress)
+  ) {
+    throw new Error(
+      "ENS name does not resolve to the configured dedicated resolver",
+    );
   }
   return name;
 }
@@ -153,8 +164,10 @@ async function setManifestRecord(
 ) {
   const name = await assertPublicationTarget(client, config);
   if (!wallet.account) throw new Error("Connected wallet account is required");
-  if (await wallet.getChainId() !== config.chainId) {
-    throw new Error(`ENS signer is on the wrong chain; expected ${config.chainId}`);
+  if ((await wallet.getChainId()) !== config.chainId) {
+    throw new Error(
+      `ENS signer is on the wrong chain; expected ${config.chainId}`,
+    );
   }
   return wallet.writeContract({
     account: wallet.account,
@@ -174,13 +187,17 @@ export async function publishCandidateManifest(input: {
   manifestUri: string;
   fetchPayload: (uri: string) => Promise<string>;
 }) {
-  if (!input.wallet.account) throw new Error("Connected wallet account is required");
+  if (!input.wallet.account)
+    throw new Error("Connected wallet account is required");
   const pointer = createManifestPointer(
     input.manifest,
     input.manifestUri,
     input.wallet.account.address,
   );
-  resolveManifestPayload(pointer, await input.fetchPayload(pointer.manifestUri));
+  resolveManifestPayload(
+    pointer,
+    await input.fetchPayload(pointer.manifestUri),
+  );
   const transactionHash = await setManifestRecord(
     input.client,
     input.wallet,
@@ -206,11 +223,20 @@ export async function approveCandidateManifest(input: {
   if (!raw) throw new Error("No candidate manifest is currently published");
   const pointer = parseManifestPointer(raw);
   if (pointer.manifestDigest !== Hash32.parse(input.expectedManifestDigest)) {
-    throw new Error("Candidate changed; review the current candidate before approval");
+    throw new Error(
+      "Candidate changed; review the current candidate before approval",
+    );
   }
-  resolveManifestPayload(pointer, await input.fetchPayload(pointer.manifestUri));
-  if (!input.wallet.account) throw new Error("Connected wallet account is required");
-  assertIndependentApprover(pointer.candidatePublisher, input.wallet.account.address);
+  resolveManifestPayload(
+    pointer,
+    await input.fetchPayload(pointer.manifestUri),
+  );
+  if (!input.wallet.account)
+    throw new Error("Connected wallet account is required");
+  assertIndependentApprover(
+    pointer.candidatePublisher,
+    input.wallet.account.address,
+  );
   const transactionHash = await setManifestRecord(
     input.client,
     input.wallet,
@@ -231,7 +257,8 @@ export async function resolveApprovedManifest(input: {
     name,
     key: APPROVED_MANIFEST_KEY,
   });
-  if (!raw) throw new Error("No approved manifest is published for this ENS name");
+  if (!raw)
+    throw new Error("No approved manifest is published for this ENS name");
   const pointer = parseManifestPointer(raw);
   const payload = await input.fetchPayload(pointer.manifestUri);
   return { pointer, manifest: resolveManifestPayload(pointer, payload) };

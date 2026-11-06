@@ -1,3 +1,4 @@
+import { getAddress } from "viem";
 import { describe, expect, it } from "vitest";
 import {
   assertIndependentApprover,
@@ -5,7 +6,6 @@ import {
   createManifestPointer,
   resolveManifestPayload,
 } from "../src/publication.ts";
-import { getAddress } from "viem";
 
 const manifest = {
   schemaVersion: 1 as const,
@@ -32,9 +32,9 @@ describe("ENS release publication", () => {
 
     expect(pointer.releaseId).toBe(manifest.releaseId);
     expect(pointer.manifestDigest).toMatch(/^0x[0-9a-f]{64}$/);
-    expect(
-      resolveManifestPayload(pointer, JSON.stringify(manifest)),
-    ).toEqual(manifest);
+    expect(resolveManifestPayload(pointer, JSON.stringify(manifest))).toEqual(
+      manifest,
+    );
   });
 
   it("rejects content that does not match the approved ENS pointer", () => {
@@ -47,7 +47,10 @@ describe("ENS release publication", () => {
     expect(() =>
       resolveManifestPayload(
         pointer,
-        JSON.stringify({ ...manifest, issueDescription: "changed after approval" }),
+        JSON.stringify({
+          ...manifest,
+          issueDescription: "changed after approval",
+        }),
       ),
     ).toThrow(/digest mismatch/i);
   });
