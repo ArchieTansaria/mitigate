@@ -1,3 +1,4 @@
+import { isIP } from "node:net";
 import { isAbsolute } from "node:path";
 import { z } from "zod";
 import { NonzeroAddress, NonzeroHash, UInt } from "../../schema/src/types.ts";
@@ -25,6 +26,19 @@ const bounded = (min: number, max: number, fallback: number) =>
     z.coerce.number().int().min(min).max(max),
   );
 const Env = z.object({
+  TRUSTED_PROXY_IPS: z
+    .string()
+    .default("")
+    .transform((v) =>
+      v
+        .split(",")
+        .map((s) => s.trim())
+        .filter(Boolean),
+    )
+    .refine(
+      (ips) => ips.length <= 8 && ips.every((ip) => isIP(ip) > 0),
+      "Only explicit trusted proxy IPs are allowed",
+    ),
   PATCHBOND_MODE: z.enum(["local", "testnet"]),
   SEPOLIA_RPC_URL: z.url(),
   ARC_TESTNET_RPC_URL: z.url(),
@@ -44,6 +58,7 @@ const Env = z.object({
   MAX_ATTEMPTS: bounded(1, 10, 3),
   SESSION_SECONDS: bounded(60, 86400, 3600),
   CHALLENGE_SECONDS: bounded(30, 600, 300),
+  GLOBAL_REQUESTS_PER_MINUTE: bounded(1, 1000, 600),
   REQUESTS_PER_MINUTE: bounded(1, 1000, 60),
   MAX_ARTIFACT_BYTES: bounded(1024, 16777216, 1048576),
 });
@@ -135,6 +150,7 @@ export function loadConfig(env: unknown, publicManifest: unknown) {
     evaluator: e.EVALUATOR_ADDRESS,
     artifacts,
     port: e.API_PORT,
+    trustedProxyIps: e.TRUSTED_PROXY_IPS,
     limits: {
       activeRuns: e.MAX_ACTIVE_RUNS,
       inventory: e.MAX_INVENTORY,
@@ -144,6 +160,7 @@ export function loadConfig(env: unknown, publicManifest: unknown) {
       sessionSeconds: e.SESSION_SECONDS,
       challengeSeconds: e.CHALLENGE_SECONDS,
       requestsPerMinute: e.REQUESTS_PER_MINUTE,
+      globalRequestsPerMinute: e.GLOBAL_REQUESTS_PER_MINUTE,
       artifactBytes: e.MAX_ARTIFACT_BYTES,
     },
     publicStatus: {
