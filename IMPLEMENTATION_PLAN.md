@@ -175,12 +175,14 @@ If time becomes tight, cut optional features or category claims explicitly. Do n
 **Create/modify:** services/verifier/src/runner/; services/verifier/test/runner.integration.test.ts; services/verifier/Dockerfile
 **Interface/deliverable:** runTestPack -> structured assertions and trace references
 
-- [ ] Run approved test pack on original deployed snapshot; record each scenario intervention; preview actions use a distinct mode.
-- [ ] Apply execution time/memory/output/network limits and deny arbitrary uploaded repositories, FFI and secret inheritance.
-- [ ] Test pass/fail/crash/timeout and missing archive state; paused legitimate operation fails acceptance; no silent code replacement in deployed mode.
-- [ ] Validate: `pnpm exec vitest run services/verifier/test/runner.integration.test.ts`. Record exact output, environment and any skipped stage in docs/handoffs/PB-09.md.
-- [ ] Review owned-file diff and interface/security impact; commit as `feat(verifier): execute bounded repair regression packs [PB-09]` (or the relevant explicit deferral).
+- [x] Run approved test pack on original deployed snapshot; record each scenario intervention; preview actions use a distinct mode.
+- [x] Apply execution time/memory/output/network limits and deny arbitrary uploaded repositories, FFI and secret inheritance.
+- [x] Test pass/fail/crash/timeout and missing archive state; paused legitimate operation fails acceptance; no silent code replacement in deployed mode.
+- [x] Validate: `pnpm exec vitest run --config vitest.integration.config.ts services/verifier/test/runner.integration.test.ts`. Record exact output, environment and any skipped stage in docs/handoffs/PB-09.md.
+- [x] Review owned-file diff and interface/security impact; commit as `feat(verifier): execute bounded repair regression packs [PB-09]` (or the relevant explicit deferral).
 - [ ] Other owner reviews; merge; coordinator records commit/status and releases dependent task.
+
+Implementation ruling: offline state reconstruction for the exact recognized finite family instead of a networked fork; no custom image/Dockerfile is required because the existing digest-pinned Foundry image contains the execution tools. See PB-09 handoff.
 
 ## PB-10 — Complete evidence and qualifying result evaluation
 **Owner:** A

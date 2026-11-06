@@ -16,3 +16,4 @@ Feature 01 is the completed local bootstrap. Feature 02 records a product direct
 | 10 | 10-cre-runtime-compatibility.md | b40c1ef | Actual WASM capability simulation; no live acceptance |
 
 | 11 | 11-deployment-inspection.md | See Git log PB-08 | Confirmed path, code, configuration and authority observations |
+| 12 | 12-isolated-repair-execution.md | See Git log PB-09 | Actual isolated EVM assertions; no financial acceptance |
