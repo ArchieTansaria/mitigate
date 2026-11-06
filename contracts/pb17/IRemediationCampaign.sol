@@ -53,7 +53,12 @@ interface IRemediationCampaign {
     event GrantWithdrawn(bytes32 indexed deploymentKey, address indexed recipient, uint256 amount);
 
     /// @notice A configured challenger disputed a pending claim before its original challenge cutoff.
-    event ClaimChallenged(bytes32 indexed deploymentKey, address indexed challenger, bytes32 reasonHash, uint64 reviewDeadline);
+    event ClaimChallenged(
+        bytes32 indexed deploymentKey,
+        address indexed challenger,
+        bytes32 indexed reasonHash,
+        uint64 reviewDeadline
+    );
 
     /// @notice The configured reviewer resolved a dispute. Rejection releases the reservation; award keeps it payable.
     event ChallengeResolved(bytes32 indexed deploymentKey, address indexed reviewer, bool awarded, uint256 amount);
@@ -62,7 +67,7 @@ interface IRemediationCampaign {
     event ChallengeExpired(bytes32 indexed deploymentKey, uint256 amount);
 
     /// @notice Supplier recovered only currently unallocated escrow after the claim deadline.
-    event UnallocatedRecovered(address indexed supplier, uint256 amount, uint256 totalRefunded);
+    event UnallocatedRecovered(address indexed supplier, uint256 amount);
 
     // ---------------------------------------------------------------- errors (construction)
 
@@ -104,13 +109,15 @@ interface IRemediationCampaign {
     /// @dev The token moved a different amount than the grant (short or excessive transfer). `actual` is the
     /// recipient's balance change or the campaign's balance change, whichever differed.
     error PayoutAmountMismatch(uint256 expected, uint256 actual);
-    error NotChallenger(address caller, address supplier, address challenger);
+    error NotChallenger(address caller);
     error NotReviewer(address caller, address reviewer);
+    error ZeroReasonHash();
     error ClaimNotDisputed(bytes32 deploymentKey, ClaimStatus status);
     error ChallengeWindowClosed(uint64 challengeCutoff, uint256 nowTs);
     error ReviewWindowClosed(uint64 reviewDeadline, uint256 nowTs);
     error ReviewWindowOpen(uint64 reviewDeadline, uint256 nowTs);
-    error NoUnallocatedFunds();
+    error RecoveryNotOpen(uint64 claimDeadline, uint256 nowTs);
+    error NothingToRecover();
 
     // ---------------------------------------------------------------- reads
 
@@ -132,7 +139,6 @@ interface IRemediationCampaign {
     /// @notice Amount counted through `fund` only. Direct token transfers are not included.
     function funded() external view returns (uint256);
 
-    /// @notice requiredFunding - funded.
     function remainingFunding() external view returns (uint256);
 
     function active() external view returns (bool);
@@ -153,8 +159,14 @@ interface IRemediationCampaign {
             uint256 withdrawable
         );
 
-    /// @notice Fixed timeout set when challenged; zero before any challenge and retained after resolution for history.
+    /// @notice Fixed timeout set when challenged; zero before a challenge and retained after resolution.
     function reviewDeadlineOf(bytes32 deploymentKey) external view returns (uint64);
+
+    /// @notice Challenge history is retained until a rejected claim is retried with a fresh receipt.
+    function challengeOf(bytes32 deploymentKey)
+        external
+        view
+        returns (address challenger, bytes32 reasonHash, uint64 reviewDeadline);
 
     /// @notice Token balance held beyond the tracked deposit (direct transfers). Never counted, never withdrawable.
     function untrackedTokenBalance() external view returns (uint256);
@@ -200,5 +212,5 @@ interface IRemediationCampaign {
     function expireChallenge(bytes32 deploymentKey) external;
 
     /// @notice Supplier pulls only unallocated funds, and only at or after the claim deadline.
-    function recoverUnallocated() external;
+    function recoverUnallocated() external returns (uint256 amount);
 }

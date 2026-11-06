@@ -60,6 +60,8 @@ contract RemediationCampaign is IRemediationCampaign, ReentrancyGuard {
         bytes32 receiptId;
         uint64 challengeCutoff;
         uint64 reviewDeadline;
+        address challenger;
+        bytes32 reasonHash;
     }
 
     mapping(bytes32 deploymentKey => Claim) private _claims;
@@ -184,7 +186,9 @@ contract RemediationCampaign is IRemediationCampaign, ReentrancyGuard {
             recipient: receipt.recipient,
             receiptId: receipt.receiptId,
             challengeCutoff: cutoff,
-            reviewDeadline: 0
+            reviewDeadline: 0,
+            challenger: address(0),
+            reasonHash: bytes32(0)
         });
 
         // Interaction: the verifier validates every PB-03/PB-16 rule against the registry and burns the receipt for
@@ -264,13 +268,24 @@ contract RemediationCampaign is IRemediationCampaign, ReentrancyGuard {
         return _claims[deploymentKey].reviewDeadline;
     }
 
+    /// @inheritdoc IRemediationCampaign
+    function challengeOf(bytes32 deploymentKey)
+        external
+        view
+        returns (address challenger, bytes32 reasonHash, uint64 reviewDeadline)
+    {
+        Claim storage claim = _claims[deploymentKey];
+        return (claim.challenger, claim.reasonHash, claim.reviewDeadline);
+    }
+
     // ------------------------------------------------------------------ challenges and bounded review (PB-19)
 
     /// @inheritdoc IRemediationCampaign
     function challengeClaim(bytes32 deploymentKey, bytes32 reasonHash) external nonReentrant {
         if (msg.sender != _supplier && msg.sender != _challenger) {
-            revert NotChallenger(msg.sender, _supplier, _challenger);
+            revert NotChallenger(msg.sender);
         }
+        if (reasonHash == bytes32(0)) revert ZeroReasonHash();
 
         Claim storage claim = _claims[deploymentKey];
         if (claim.status != ClaimStatus.Pending) revert ClaimNotPending(deploymentKey, claim.status);
@@ -281,6 +296,8 @@ contract RemediationCampaign is IRemediationCampaign, ReentrancyGuard {
         uint64 reviewDeadline = SafeCast.toUint64(block.timestamp + _reviewTimeout);
         claim.status = ClaimStatus.Disputed;
         claim.reviewDeadline = reviewDeadline;
+        claim.challenger = msg.sender;
+        claim.reasonHash = reasonHash;
 
         emit ClaimChallenged(deploymentKey, msg.sender, reasonHash, reviewDeadline);
     }
@@ -323,12 +340,12 @@ contract RemediationCampaign is IRemediationCampaign, ReentrancyGuard {
     }
 
     /// @inheritdoc IRemediationCampaign
-    function recoverUnallocated() external nonReentrant {
+    function recoverUnallocated() external nonReentrant returns (uint256 amount) {
         if (msg.sender != _supplier) revert NotSupplier(msg.sender, _supplier);
-        if (block.timestamp < _claimDeadline) revert DeadlinePassed(_claimDeadline, block.timestamp);
+        if (block.timestamp < _claimDeadline) revert RecoveryNotOpen(_claimDeadline, block.timestamp);
 
-        uint256 amount = _accounting.unallocated;
-        if (amount == 0) revert NoUnallocatedFunds();
+        amount = _accounting.unallocated;
+        if (amount == 0) revert NothingToRecover();
 
         // Checks-effects-interactions: reserved and awarded funds remain held for their claims. Failed or non-exact
         // token transfers revert the accounting update and can be retried by the supplier.
@@ -345,7 +362,7 @@ contract RemediationCampaign is IRemediationCampaign, ReentrancyGuard {
         uint256 sent = campaignBefore > campaignAfter ? campaignBefore - campaignAfter : 0;
         if (sent != amount) revert PayoutAmountMismatch(amount, sent);
 
-        emit UnallocatedRecovered(_supplier, amount, _accounting.refunded);
+        emit UnallocatedRecovered(_supplier, amount);
     }
 
     // ------------------------------------------------------------------ reads
@@ -413,7 +430,7 @@ contract RemediationCampaign is IRemediationCampaign, ReentrancyGuard {
     /// @inheritdoc IRemediationCampaign
     function untrackedTokenBalance() external view returns (uint256) {
         uint256 balance = _token.balanceOf(address(this));
-        uint256 tracked = _accounting.deposited;
+        uint256 tracked = _accounting.deposited - _accounting.paid - _accounting.refunded;
         return balance > tracked ? balance - tracked : 0;
     }
 }

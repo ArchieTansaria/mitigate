@@ -49,6 +49,15 @@ contract CampaignDisputesTest is ClaimBase {
     function test_onlySupplierOrConfiguredChallengerCanChallengePendingClaim() public {
         _claimAs(relayer, 0);
         bytes32 reasonHash = keccak256("FIXTURE challenge reason");
+        (address noChallenger, bytes32 noReason, uint64 noReviewDeadline) = claimCampaign.challengeOf(depKeys[0]);
+        assertEq(noChallenger, address(0));
+        assertEq(noReason, bytes32(0));
+        assertEq(noReviewDeadline, 0);
+
+        vm.prank(supplierA);
+        vm.expectRevert(IRemediationCampaign.ZeroReasonHash.selector);
+        claimCampaign.challengeClaim(depKeys[0], bytes32(0));
+
         vm.prank(attacker);
         vm.expectRevert();
         claimCampaign.challengeClaim(depKeys[0], reasonHash);
@@ -58,6 +67,10 @@ contract CampaignDisputesTest is ClaimBase {
         vm.prank(supplierA);
         claimCampaign.challengeClaim(depKeys[0], reasonHash);
         assertEq(uint8(_status(claimCampaign, 0)), uint8(DISPUTED));
+        (address challenger, bytes32 recordedReason, uint64 recordedDeadline) = claimCampaign.challengeOf(depKeys[0]);
+        assertEq(challenger, supplierA);
+        assertEq(recordedReason, reasonHash);
+        assertEq(recordedDeadline, claimCampaign.reviewDeadlineOf(depKeys[0]));
         _assertIdentity(claimCampaign);
     }
 
