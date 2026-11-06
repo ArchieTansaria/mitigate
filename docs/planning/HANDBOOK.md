@@ -1,3 +1,5 @@
+> **Current MVP direction (2026-11-06):** The supplier-funded remediation campaign in `../../IMPLEMENTATION_PLAN.md` and `DECISIONS.md` is authoritative. It replaces this handbook's earlier bilateral maintenance-fee/maintainer-bond design. Do not implement the superseded bond flow. The current Arc path is supplier-funded capped USDC grants per eligible deployment, with fresh repair verification, independent claims, bounded challenge/review and recovery of unallocated funds.
+
 # PatchBond Project Handbook
 
 **Version 1.0 • 6 November 2026 • Design baseline for implementation**

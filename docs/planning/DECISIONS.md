@@ -2,19 +2,22 @@
 Status: implementation baseline proposed from the agreed handbook; no coding performed.
 
 ## Product scope
-PatchBond verifies one known repair against a configurable inventory of deployments, identifies failed conditions and responsible authorities, prepares optional transactions, rechecks actual deployed state, and optionally connects qualifying evidence to a funded milestone.
+PatchBond helps a supplier run a funded remediation campaign for customer-owned smart-contract deployments. The supplier publishes a fixed eligible-deployment set and repair policy, deposits a capped USDC grant per eligible deployment, and customers perform their own authorized repairs. PatchBond independently checks each deployed result; a valid, scoped receipt can reserve and release only that deployment's grant. One customer's incomplete repair does not block another customer's payout.
 
-First supported family: a documented oracle adapter and one pinned OpenZeppelin transparent-proxy version. Sepolia is the inspected source chain; Arc testnet is settlement only. Two or three fixture instances demonstrate coverage; runtime logic must accept configurable inventory up to a measured configured limit.
+The MVP removes the mandatory maintainer bond, customer repair fee, slashing and penalties. Arc is the campaign budget/claim state machine, not the repair executor or a security oracle. The verifier signature attests to a result and evidence digest; it does not cryptographically prove honest test execution. Supplier challenge, independent review and a reviewer-timeout fallback remain explicit trust assumptions. Thirdweb’s December 2023 response says its tool mitigated over 9,800 contracts across 37 chains and offered retroactive gas grants subject to eligibility. This is evidence of a real vendor-funded remediation precedent, not proof of PatchBond demand; a retroactive grant also does not help a customer who cannot fund the initial repair transaction: [incident report](https://blog.thirdweb.com/vulnerability-report/), [mitigation tutorial](https://blog.thirdweb.com/security/contract-mitigation/).
 
-Controlled regression: stale-price rejection plus valid-operation and unit/configuration checks. This is not a recreation or claim of prevention of the Bonzo incident. No arbitrary vulnerability discovery, universal proxy analysis, automatic upgrades, continuous warranty, AI-written security verdicts or multi-source-chain fleet in this version.
+First supported family: a documented oracle adapter and one pinned OpenZeppelin transparent-proxy version. Sepolia is the inspected source chain; Arc testnet is grant settlement. Three fixtures demonstrate an old implementation, repaired implementation and correct code with unsafe configuration. Runtime inventory is configurable within a measured limit.
+
+Controlled regression: stale-price rejection plus valid-operation and unit/configuration checks. This is not a recreation or claim of prevention of the Bonzo incident. No arbitrary vulnerability discovery, universal proxy analysis, automatic upgrades, continuous warranty, AI-written security verdicts or multi-source-chain fleet in this version. Grants are fixed allowances, not exact gas reimbursement; retroactive grants do not solve a customer's inability to fund the initial repair transaction.
 
 ## Revisions to the handbook
-- ENS is CONDITIONAL. It supports supplier release publication, not repair truth. Use it only after validating a real workflow and mentor fit; do not invent a dependency merely to call it central.
-- Diagnostic verification is the core. Funded acceptance is optional for users and required for the intended Arc demo.
-- Initial funded policy may set bond to zero. A nonzero bond is permitted only after its covered breaches, attribution, cap and arbiter rules are defined. Zero bond must require no artificial second transfer.
-- No new sponsor replaces ENS without a recorded scope decision. Targeting three partners is not proof of qualifying for three.
+- ENS is CONDITIONAL. It supports supplier release publication, not repair truth. Use it only after validating a real workflow and mentor fit; otherwise defer and remove the ENS eligibility claim.
+- Per-deployment diagnostics and fresh verification are the core. The supplier-funded Arc campaign is the intended Arc demonstration and must be genuinely funded and functional on testnet; do not make the financial path mandatory for ordinary verifier use.
+- No maintainer bond, customer repair fee, penalty or slashing in this MVP. No maintainer-liability adjudication system.
+- Campaign eligibility is fixed before funding, e.g. a commitment/Merkle root over historical affected deployments and recipients. Fully fund N × G before activation. Each accepted claim reserves one fixed G; the contract never pays twice for the same campaign/deployment.
+- Campaign terms, policy/test-pack hashes, role addresses and deadlines are immutable after activation. Claim, challenge and review deadlines are bounded; pending/disputed claims keep funds reserved. Reviewer silence rejects/releases the reservation and can harm an honest claimant; disclose this explicitly.
+- Arc Studio CLI is the supported driver for the hosted Studio workspace. Codex may invoke it, provide reviewed files, and pull artifacts. Studio's hosted app/workspace is separate from the local repo. For Arc eligibility, contracts/app must actually be built/tested/deployed in Studio's workflow; local-only Arc deployment is insufficient. Exact treatment of CLI-driven sessions under “without leaving Studio” remains mentor-confirmable; preserve the project URL and CLI evidence.
 - No assertion of winning all categories, prize stacking, production readiness or less competition.
-- We keep the handbook's bounded F < D < R < C < A model; do not replace it with an ambiguous “release after some delay.”
 
 ## Chosen team structure
 A = user and this agent: integration coordinator, schema/config owner, API/database/jobs, inspection and verification/evidence, eventual UI.
@@ -50,13 +53,13 @@ Versions above are proposed major lines, not installed versions. PB-00 records e
 CRE has a separate WASM environment. [CRE runtime](https://docs.chain.link/cre/concepts/typescript-wasm-runtime)
 
 ## Backend-first interpretation
-No feature frontend until PB-24 backend handoff. Arc Studio must nevertheless be the starting point for Arc work. Its minimal generated app or integration smoke view is setup evidence, not permission to spend time designing screens. Resolve export/Git sync and external worker support before fixing the app hosting structure.
-All Arc prizes require Studio as the starting point and a working frontend/backend; advanced stablecoin logic has further Studio contract workflow expectations. A locally built vault deployed to Arc is not by itself compliance. [Arc requirements](https://ethglobal.com/events/mumbai/prizes/arc)
+No feature frontend until PB-24 backend handoff. Arc Studio is used through its CLI as the hosted starting point for the Arc campaign/contracts; this is not merely a local Arc deployment. The verifier API/worker may remain a separately hosted backend if Studio can call it safely; prove this before fixing hosting. Use `arc-studio run --output json`, reviewed `--file` inputs, and `arc-studio pull` to maintain traceable source provenance. Keep share URL and Studio build/test/deploy evidence.
+All Arc prizes require Studio as the starting point plus a working frontend/backend; the advanced stablecoin category specifically expects contracts to be written/tested/deployed and connected to the app in Studio. A local-only vault deployment is insufficient. Mentor-confirm whether CLI-mediated Codex work satisfies “without leaving Studio.” [Arc requirements](https://ethglobal.com/events/mumbai/prizes/arc)
 
 ## No fake runtime behavior
 Allowed: named protocol constants, enums, pinned versions, deterministic test fixtures, explicit supported pattern lists, demo policy values chosen by participants.
 Configuration: RPC URLs, chain IDs/selectors, deployed addresses, forwarders, permitted workflow identity, token addresses, test-pack hashes, artifact endpoints, resource limits and confirmation policies. Validate; fail closed if required configuration is missing. Test-only private keys never travel into testnet configuration.
-Per agreement: inventory, parties, recipients, evaluator, deadlines, amounts, nonzero-bond clauses and policy identity. Freeze after consent.
+Per campaign: supplier, eligibility snapshot/root, source chain, eligible recipients, fixed grant G, count N, fully funded N × G budget, verifier/reviewer, policy/test-pack hashes, deadlines and evidence freshness. Freeze before activation; no bond or customer repair fee.
 Forbidden: if address equals fixture then pass; green badges from seed data; API booleans bypassing signatures; hidden mock fallback when sponsor calls fail; auto-changing deadlines; float token arithmetic; admin mark-pass/withdraw-all shortcuts.
 No private keys, authenticated RPC URLs or tokens in Git, artifacts, screenshots, logs or browser bundles.
 
@@ -64,11 +67,11 @@ No private keys, authenticated RPC URLs or tokens in Git, artifacts, screenshots
 G0: Studio workflow and external-worker arrangement verified; CRE access mode known; CCIP route tested; historical RPC and worker runtime tested.
 G1: shared schema, signatures, canonical encoding, fixture ABI and snapshot policy frozen with cross-language test vectors.
 G2: actual inspector produces fail/pass/unknown results with reproducible complete evidence.
-G3: agreement and money invariants pass locally and source/destination route changes real state.
+G3: campaign and grant accounting invariants pass locally; if CCIP is retained, source/destination route changes real state.
 G4: backend handoff passes; frontend work opens.
 G5: two-machine fresh run and sponsor-evidence audit pass.
 
-Freeze before deposits: exact evaluator signing scheme, source approver addresses, Arc depositor/challenger/beneficiary identities, arbiter, fee, optional bond and caps, deadlines, finality/snapshot freshness policy, dispute reasons and evidence retention. Input from wallet owners/mentors may be required; never invent their consent.
+Freeze before deposits: receipt signer scheme, supplier/challenger/reviewer/recipient identities, eligible deployment snapshot, USDC address/decimals, N × G cap, claim/challenge/review deadlines, finality and evidence freshness, dispute reasons and retention. Input from wallet owners/mentors may be required; never invent consent. Use a fixed allowance rather than claiming exact gas reimbursement.
 ENS gate: mentor feedback and a useful release-publication scenario. If omitted, use a validated manifest selected and approved by the parties; do not claim ENS eligibility.
 Live CRE blocked: retain correctly labelled CLI simulation and receiver integration tests. Do not use a hidden manual report adapter to claim a live end-to-end Chainlink settlement.
 All gates describe future checks, not checks already passed.

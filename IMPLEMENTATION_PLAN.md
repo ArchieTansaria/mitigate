@@ -2,8 +2,8 @@
 
 > For agentic workers: this is a planning artifact, not authorization to start coding. Once authorized, use the available task-by-task execution workflow (superpowers:executing-plans or superpowers:subagent-driven-development when available). A teammate without those skills follows the same task tests/review/commit cycle. No skill installation is required to understand this plan.
 
-**Goal:** Deliver a reusable repair-verification backend and bounded funded acceptance flow, then build its frontend.
-**Architecture:** Offchain inspection/evidence worker plus authenticated API; Sepolia acceptance registry; CCIP delivery to Arc escrow; CRE orchestrates evidence and supported chain reads. ENS is conditional.
+**Goal:** Help a supplier run a funded USDC remediation campaign for customer-owned deployments, paying a capped grant only after each deployment independently passes the agreed repair checks.
+**Architecture:** Offchain verifier inspects a bounded, eligible deployment inventory and issues fresh, scoped evidence; the customer executes repairs under its own authority. A supplier-funded Arc campaign reserves one fixed grant per eligible deployment and releases it after a valid receipt and bounded challenge path. CRE coordinates external evidence and supported chain reads; CCIP delivers authenticated acceptance facts where the live route is feasible. ENS remains conditional.
 **Tech stack:** Proposed stack in DECISIONS.md; exact version pins are PB-00 output.
 **Spec:** DECISIONS.md, INTERFACES.md, and relevant HANDBOOK.md sections.
 
@@ -11,15 +11,14 @@
 No product implementation in the planning turn. Backend first. One supported proxy/application family, configurable inventory, one source chain per initial run. No arbitrary uploaded execution, global security claim, owner keys in worker, fake runtime outputs or silent mock fallback.
 A owns API/verifier/schema/config and eventual UI. B owns contracts/fixtures/integrations. Joint review of schema and financial invariants.
 Arc Studio provenance starts before Arc-targeted development. Live and simulated execution are distinct.
-Every funded report uses the exact approved policy and whole required scope. Fixed cutoffs F<D<R<C<A; operations strictly before cutoff, timeout at/after.
-Nonzero bond requires meaningful preagreed clauses. Direct onchain timeout exits work without the backend.
+Each deployment is evaluated and paid independently; one customer’s incomplete repair never blocks another customer. Campaign terms, eligibility snapshot, repair-policy hash, test-pack hash, recipient, grant cap and deadlines are fixed before funding. No customer repair fee, maintainer bond, or financial penalty is part of this MVP. A valid receipt is an authorized attestation to evidence, not cryptographic proof that a test was honestly run. Direct Arc claim/challenge/withdrawal paths and bounded timeout exits must work without the verifier/API.
 Protocol constants/test fixtures are named; addresses, endpoints and policy values are inputs/configuration. No runtime branches keyed to demo addresses.
 
 ## Review focus
-1. Authority differs across chains or inside a proxy pattern: PB-03/08/14/16/20.
+1. Authority differs across chains or inside a proxy pattern, or a verifier attestation is mistaken for an objective security proof: PB-03/08/14/16/20.
 2. A passing preview, stale snapshot, omitted deployment or paused app masquerades as completion: PB-07/09/10/21/23.
-3. Timely completion is stored but refund races before processing: PB-18/20.
-4. Partial funding/award, zero bond or duplicate message strands/creates funds: PB-17/19/20.
+3. Timely accepted claims race campaign refunds, or pending claims lose their reserved grant: PB-18/20.
+4. Partial funding, duplicate claims/receipts, replayed evidence or accounting drift strand/create funds: PB-17/19/20.
 5. Backend disappearance, endpoint abuse or cross-tenant requests undermines evidence/exits: PB-06/23/24.
 
 ## How to use each task card
@@ -32,14 +31,15 @@ Shared files mentioned by a later non-owner require an owner-authored prerequisi
 ## Dependency order
 - Initial A: PB-00 -> PB-02. Initial B: PB-01. Then joint PB-03.
 - A core: PB-04 -> PB-05 -> PB-06; after B's PB-07, PB-08 -> PB-09 -> PB-10 -> PB-11 -> PB-12.
-- B core: PB-07; PB-14 with A -> PB-15 -> PB-16/PB-17 -> PB-18 -> PB-19 -> PB-20.
+- B core: PB-07; PB-14 campaign policy with A -> PB-15 eligibility/consent -> PB-16 signed acceptance -> PB-17 fully funded campaign -> PB-18 individual claims -> PB-19 challenge/accounting -> PB-20 CCIP delivery.
 - B CRE: PB-21 after A's signed evidence; B ENS PB-13 only if justified.
 - A consumes merged ABIs for PB-22; both reach PB-23/PB-24.
 - UI PB-25/PB-26 only after PB-24; operational deployment PB-27 and submission PB-28 follow.
 These dependencies permit two backend streams. Do not assign one person only UI while both are waiting for backend integration.
 
 ## Scope priority
-Core: complete diagnostics, actual repair recheck, truthful evidence, safe funded lifecycle.
+Core: complete diagnostics, actual per-deployment repair recheck, truthful evidence, and safe supplier-funded grant lifecycle.
+Arc is a remediation-funding and distribution layer, not a repair executor or security oracle. The supplier funds grants; deployment owners perform repairs and authorize transactions. The contract enforces budget and claim rules, while the verifier/reviewer remain explicit trust assumptions.
 Target integrations: Arc Studio, CRE and CCIP with accurate live/simulated evidence.
 Conditional: ENS. Optional UI polish and additional patterns wait.
 If time becomes tight, cut optional features or category claims explicitly. Do not cut authorization, coverage, accounting, provenance or timeout safeguards to preserve a sponsor count.
@@ -57,17 +57,20 @@ If time becomes tight, cut optional features or category claims explicitly. Do n
 - [ ] Review owned-file diff and interface/security impact; commit as `chore(repo): establish reproducible workspace and checks [PB-00]` (or the relevant explicit deferral).
 - [ ] Other owner reviews; merge; coordinator records commit/status and releases dependent task.
 
-## PB-01 — Sponsor feasibility and Studio starting point
-**Owner:** B
-**Prerequisites:** PB-00 (documentation/config only is sufficient)
-**Create/modify:** docs/evidence/sponsor-probes.md; docs/decisions/sponsor-runtime.md; Studio-generated minimal project
-**Interface/deliverable:** Measured Arc Studio/CRE/CCIP access decision; no claimed end-to-end integration
+## PB-01 — Arc Studio CLI workflow and sponsor feasibility
+**Owner:** B (teammate)
+**Prerequisites:** PB-00 docs/config are sufficient
+**Create/modify:** docs/evidence/sponsor-probes.md; docs/decisions/sponsor-runtime.md; Studio project created/driven through Arc Studio CLI
+**Interface/deliverable:** A verified Arc Studio project and CLI-to-repo artifact workflow; measured CRE/CCIP feasibility; no claimed end-to-end integration until state is proven
 
-- [ ] Start Arc-targeted project in Studio; record shareable URL, export/Git-sync workflow and external API/worker connectivity before dependent Arc app implementation.
-- [ ] Test CRE CLI and determine live-deploy access; send a minimal CCIP message that changes a real Arc testnet receiver state using supported tooling.
-- [ ] Capture exact versions, transaction/state evidence and failures; clarify Studio development requirements and category stacking with mentors. Store no private conversations without permission.
-- [ ] Validate: `Reproduce commands recorded in docs/evidence/sponsor-probes.md; verify destination storage, not only logs`. Record exact output, environment and any skipped stage in docs/handoffs/PB-01.md.
-- [ ] Review owned-file diff and interface/security impact; commit as `docs(integrations): record Studio CRE and CCIP feasibility [PB-01]` (or the relevant explicit deferral).
+- [ ] From the authenticated owner terminal, verify `pnpm exec arc-studio whoami`, `apps --json` and `sessions --json`; identify whether the recent TUI session created an app. Never share credentials.
+- [ ] Audit the existing Studio project `https://studio.arc.io/app/9dee5ecd-ab62-459b-a54f-5ae7b2f06a52` (app ID `9dee5ecd-ab62-459b-a54f-5ae7b2f06a52`) and its generated CCIP receiver before starting another session. Use `arc-studio run --app <appId> --output json` for focused follow-up; do not create a duplicate app.
+- [ ] Prove artifact round-trip on the existing receiver/report with `arc-studio pull --app <appId> --dry-run` then pull only reviewed paths into a scratch directory; exclude `.env`, credentials, caches and generated build output. Record non-destructive conflict behavior. Do not assume Studio edits the local checkout directly.
+- [ ] Preserve this existing Studio project as the starting point for Arc-targeted app/contracts. Audit the generated contract and tests; independently rerun them after pull. Test whether the hosted app can call the separately hosted verifier; record API boundary, auth/CORS and runtime constraints.
+- [ ] Independently probe CRE CLI/runtime and Sepolia-to-Arc CCIP route. For any live message, verify Arc receiver storage/event and transaction/message IDs; a simulation or log alone is not live proof.
+- [ ] Ask Arc mentors whether Codex-driven CLI sessions and locally reviewed/pulled artifacts meet “built in Arc Studio” and the advanced-stablecoin “without leaving Studio” criterion. Record answer as mentor guidance, not a published rule.
+- [ ] Validate: reproducible commands and evidence in docs/evidence/sponsor-probes.md and docs/handoffs/PB-01.md.
+- [ ] Review and commit as `docs(integrations): verify Studio CLI and Arc sponsor workflow [PB-01]` (or document a blocker/deferral).
 - [ ] Other owner reviews; merge; coordinator records commit/status and releases dependent task.
 
 ## PB-02 — Worker and historical RPC feasibility
@@ -219,103 +222,107 @@ If time becomes tight, cut optional features or category claims explicitly. Do n
 **Create/modify:** docs/decisions/ens-fit.md; integrations/ens/src/publication.ts; integrations/ens/test/publication.test.ts
 **Interface/deliverable:** ENS-approved manifest resolver OR documented deferral
 
-- [ ] Record user value beyond pinned agreement and mentor feedback; if absent defer this task and explicitly remove ENS eligibility claim.
+- [ ] Record user value beyond a pinned campaign manifest and mentor feedback; if absent defer this task and explicitly remove ENS eligibility claim.
 - [ ] If accepted, configure real ENSv2 Sepolia name and dedicated resolver; separate candidate-key and approved-key permissions with root/admin trust documented.
-- [ ] Test live unauthorized approval rejection, revocation and resolution of actual manifests; content mismatch fails; existing agreement remains pinned when records change.
+- [ ] Test live unauthorized approval rejection, revocation and resolution of actual manifests; content mismatch fails; existing campaign policy remains pinned when records change.
 - [ ] Validate: `pnpm exec vitest run integrations/ens/test/publication.test.ts; documented live permission txs if enabled`. Record exact output, environment and any skipped stage in docs/handoffs/PB-13.md.
 - [ ] Review owned-file diff and interface/security impact; commit as `feat(ens): publish permissioned repair manifests OR docs(scope): defer unsupported ENS integration [PB-13]` (or the relevant explicit deferral).
 - [ ] Other owner reviews; merge; coordinator records commit/status and releases dependent task.
 
-## PB-14 — Freeze funded policy commercial and authority terms
-**Owner:** A coordinates; B reviews
-**Prerequisites:** PB-03; owners supply actual addresses/terms
-**Create/modify:** docs/policies/demo-policy.md; packages/schema/test/policy.test.ts
-**Interface/deliverable:** Validated explicit policy for initial demo; no deposits until complete
+## PB-14 — Freeze supplier campaign policy and trust boundaries
+**Owner:** A coordinates; B (teammate) reviews
+**Prerequisites:** PB-03; no live deposit until terms and roles are approved
+**Create/modify:** docs/policies/demo-policy.md; packages/schema/test/policy.test.ts; docs/evidence/trust-model.md
+**Interface/deliverable:** Versioned campaign policy for one supplier-funded remediation campaign; no maintenance fee or bond
 
-- [ ] Select fee, zero/nonzero bond, covered breach reasons/caps, arbiter and role addresses without inventing consent; record exactly who controls each repair.
-- [ ] Set explicit F<D<R<C<A and finality/evidence retention; define no-decision principal-return default and its fairness limitation.
-- [ ] Test invalid ordering, wrong domain, unsupported token configuration and missing nonzero-bond clauses; distinguish actual contributions from nominal amounts.
-- [ ] Validate: `pnpm exec vitest run packages/schema/test/policy.test.ts`. Record exact output, environment and any skipped stage in docs/handoffs/PB-14.md.
-- [ ] Review owned-file diff and interface/security impact; commit as `docs(policy): define funded repair obligations and recovery rules [PB-14]` (or the relevant explicit deferral).
-- [ ] Other owner reviews; merge; coordinator records commit/status and releases dependent task.
+- [ ] Freeze `campaignId`, source chain, eligible deployment commitment/root, uniform grant `G`, eligible count `N`, total required funding `N × G`, claim deadline `D`, challenge window `W`, adjudication bound `A`, receipt freshness/finality rules, verifier signer, independent reviewer, supplier, recipient derivation and campaign policy/test-pack hashes.
+- [ ] Set illustrative demo grant amounts as explicit config; do not claim exact gas reimbursement. Terms are immutable after activation; campaign is active only when the full `N × G` budget is deposited.
+- [ ] Define states and roles: eligible -> pending -> awarded/disputed/rejected -> withdrawn; incomplete or unknown verification cannot reserve a payable claim. No automatic slashing, repair fee, maintainer bond or customer penalty.
+- [ ] Document that the verifier signature attests to a scoped report but does not prove honest execution; supplier challenge, independent review and timeout fallback are explicit trust assumptions. Reviewer timeout rejects/releases the reservation and may disadvantage an honest claimant; disclose this limitation.
+- [ ] Test invalid domain, amounts/decimals, duplicate eligibility, deadline order, stale evidence, missing reviewer and unsupported token/configuration. Freeze only after human review; no invented addresses or consent.
+- [ ] Validate: `pnpm exec vitest run packages/schema/test/policy.test.ts`; record evidence in docs/handoffs/PB-14.md.
+- [ ] Commit `docs(policy): define supplier remediation campaign and trust model [PB-14]`.
 
-## PB-15 — Source registry and bilateral consent
-**Owner:** B
+## PB-15 — Campaign terms and eligible deployment registry
+**Owner:** B (teammate)
 **Prerequisites:** PB-03, PB-14
-**Create/modify:** contracts/src/AcceptanceRegistry.sol; contracts/test/AcceptanceRegistry.t.sol
-**Interface/deliverable:** registerPolicy, approvePolicy and immutable policy/approval state
+**Create/modify:** contracts/src/CampaignRegistry.sol; contracts/test/CampaignRegistry.t.sol
+**Interface/deliverable:** Immutable campaign identity, eligibility commitment and policy hashes; recipient/deployment uniqueness
 
-- [ ] Test unauthorized participant, one approval only, duplicate approval, changed terms and cross-domain replay.
-- [ ] Implement onchain consent from actual accounts including contract-wallet callers; freeze terms and domain; no admin override.
-- [ ] Emit/index authoritative approvals and keep policy available for exact retransmission; incomplete approval cannot initialize financial use.
-- [ ] Validate: `forge test --root contracts --match-contract AcceptanceRegistryTest`. Record exact output, environment and any skipped stage in docs/handoffs/PB-15.md.
-- [ ] Review owned-file diff and interface/security impact; commit as `feat(registry): record immutable bilateral maintenance policies [PB-15]` (or the relevant explicit deferral).
-- [ ] Other owner reviews; merge; coordinator records commit/status and releases dependent task.
+- [ ] Test unauthorized supplier, duplicate campaign/deployment, wrong chain/domain, changed terms and invalid recipient proof.
+- [ ] Record an eligibility commitment (e.g. Merkle root) over historical affected deployment identity and authorized recipient; bind source chain, campaign, repair policy and test-pack hashes.
+- [ ] Freeze policy at campaign creation and make activation impossible until PB-17 confirms full funding; no admin mark-accepted or post-funding eligibility edits.
+- [ ] Ensure an eligible customer can prove one deployment without one customer’s repair state affecting other claims; prevent duplicate payout for the same campaign/deployment even if wallet or submitter changes.
+- [ ] Validate: `forge test --root contracts --match-contract CampaignRegistryTest`; record evidence in docs/handoffs/PB-15.md.
+- [ ] Commit `feat(campaign): register immutable eligibility and repair policy [PB-15]`.
 
-## PB-16 — Authenticated completion receiver
-**Owner:** B
-**Prerequisites:** PB-15
-**Create/modify:** contracts/src/ReportReceiver.sol; contracts/src/AcceptanceRegistry.sol; contracts/test/ReportReceiver.t.sol
-**Interface/deliverable:** Authenticated onReport -> CompletionAccepted under exact policy
+## PB-16 — Signed, scoped acceptance receipt
+**Owner:** B (teammate), with A schema review
+**Prerequisites:** PB-10, PB-14, PB-15; shared receipt encoding from PB-03
+**Create/modify:** packages/schema/src/acceptance-receipt.ts; contracts/src/AcceptanceVerifier.sol; contracts/test/AcceptanceVerifier.t.sol
+**Interface/deliverable:** Replay-resistant receipt binding a specific passing deployment check to a campaign claim
 
-- [ ] Test wrong forwarder/workflow owner/identity, wrong policy/domain, diagnostic/preview result, incomplete commitments and deadline D boundary.
-- [ ] Implement ReportReceiver as an abstract authenticated base inherited by AcceptanceRegistry, with an internal acceptance hook and no public acceptance bypass. Configure CRE's consumer address as the deployed registry. Runtime evidence rules are enforced by the agreed workflow/evaluator, not arbitrary UI booleans.
-- [ ] Verify callback -> registry storage -> dispatchable completion, and rejection of unauthorized direct acceptance calls. A receiver event alone is insufficient. Keep any local mock adapter in test-only paths and separate configuration.
-- [ ] Validate: `forge test --root contracts --match-contract ReportReceiverTest`. Record exact output, environment and any skipped stage in docs/handoffs/PB-16.md.
-- [ ] Review owned-file diff and interface/security impact; commit as `feat(registry): authenticate qualifying repair reports [PB-16]` (or the relevant explicit deferral).
-- [ ] Other owner reviews; merge; coordinator records commit/status and releases dependent task.
+- [ ] Bind campaign ID, source chain/deployment, authorized recipient, policy/test-suite hashes, observed block number/hash, per-condition outcomes, evidence content hash, issue/expiry times and unique receipt ID.
+- [ ] Reject failed/unknown/incomplete results, unsupported test-pack version, stale snapshot, wrong recipient/deployment/campaign, wrong signer, replay and mismatched domain.
+- [ ] Read actual current source-chain facts through the supported verifier/CRE flow; preserve the distinction between source observations and destination settlement state.
+- [ ] Test that a correct implementation hash with unsafe configuration or failed behavior is rejected; a valid operation still works after repair. Do not claim arbitrary vulnerability detection or cryptographic proof that tests ran honestly.
+- [ ] Validate schema cross-language vectors and `forge test --root contracts --match-contract AcceptanceVerifierTest`; record evidence in docs/handoffs/PB-16.md.
+- [ ] Commit `feat(acceptance): verify scoped remediation receipts [PB-16]`.
 
-## PB-17 — Vault funding and incomplete-funding recovery
-**Owner:** B
-**Prerequisites:** PB-01, PB-14, PB-15
-**Create/modify:** contracts/src/MaintenanceVault.sol; contracts/test/VaultFunding.t.sol
-**Interface/deliverable:** Fund fee/bond, strict accounting, zero-bond activation, cancellation and pull withdrawals
+## PB-17 — Fully funded USDC campaign activation
+**Owner:** B (teammate)
+**Prerequisites:** PB-01 Arc Studio project and token/runtime facts; PB-14; PB-15
+**Create/modify:** contracts/src/RemediationCampaign.sol; contracts/test/CampaignFunding.t.sol
+**Interface/deliverable:** Arc Studio-built Arc testnet campaign that becomes active only after full `N × G` USDC funding
 
-- [ ] Test sender roles, ERC20 allowance/amounts, decimals, direct-transfer nonassignment, partial funding, overfunding rejection and multiple agreement isolation.
-- [ ] Implement fixed destination participants and non-upgradeable vault; cancellation at F allocates actual contributions only.
-- [ ] Prove zero bond activates once fee requirement is met; complete/partial obligations cannot pay early; repeated withdrawals cannot drain others.
-- [ ] Validate: `forge test --root contracts --match-contract VaultFundingTest`. Record exact output, environment and any skipped stage in docs/handoffs/PB-17.md.
-- [ ] Review owned-file diff and interface/security impact; commit as `feat(vault): account for funding and recover incomplete agreements [PB-17]` (or the relevant explicit deferral).
-- [ ] Other owner reviews; merge; coordinator records commit/status and releases dependent task.
+- [ ] Confirm the exact Arc testnet USDC ERC-20 address/decimals from current official docs at implementation time; use token units explicitly (never mix native and ERC-20 interfaces).
+- [ ] Test supplier-only funding, allowance and transfer failures, underfunded activation rejection, exact/over funding policy, token mismatch, direct transfers not assigned as campaign funds, and campaign isolation.
+- [ ] Activate only after full published grant budget is escrowed. Store funded, unallocated, reserved, awarded, paid and refunded amounts with auditable events.
+- [ ] Keep deposit/withdrawal authority explicit and contract non-upgradeable for MVP unless a documented security review justifies otherwise. No privileged sweep of reserved/awarded grants.
+- [ ] Build/test/deploy this Arc-targeted module via Arc Studio CLI workspace; retain Studio project URL and CLI evidence, then pull reviewed artifacts into repo. A local-only deployment does not satisfy the intended Studio workflow.
+- [ ] Validate: `forge test --root contracts --match-contract CampaignFundingTest` plus Studio test/deployment evidence recorded in docs/handoffs/PB-17.md.
+- [ ] Commit `feat(campaign): escrow fully funded remediation grants [PB-17]`.
 
-## PB-18 — Successful allocation and no-completion recovery
-**Owner:** B
+## PB-18 — Per-deployment grant claim and settlement
+**Owner:** B (teammate)
 **Prerequisites:** PB-16, PB-17
-**Create/modify:** contracts/src/MaintenanceVault.sol; contracts/test/VaultSettlement.t.sol
-**Interface/deliverable:** Eligible completion finalization at C; no completion returns principals
+**Create/modify:** contracts/src/RemediationCampaign.sol; contracts/test/CampaignClaims.t.sol
+**Interface/deliverable:** One capped grant per eligible repaired deployment; individual claims do not block one another
 
-- [ ] Test source time before D, receipt before R, complete funding, challenge cutoff and exact boundary seconds.
-- [ ] Allocate fee/bond only to fixed recipients using pull payments; missing completion returns principals after safe pending processing.
-- [ ] Reject over-allocation and terminal revival; no time-based behavior assumes a transaction happens automatically.
-- [ ] Validate: `forge test --root contracts --match-contract VaultSettlementTest`. Record exact output, environment and any skipped stage in docs/handoffs/PB-18.md.
-- [ ] Review owned-file diff and interface/security impact; commit as `feat(vault): finalize bounded repair settlement and refunds [PB-18]` (or the relevant explicit deferral).
-- [ ] Other owner reviews; merge; coordinator records commit/status and releases dependent task.
+- [ ] A valid receipt before `D` reserves exactly `G` for the deployment; transfer nothing during claim submission. Failed/unknown/inconclusive checks cannot reserve a grant.
+- [ ] After challenge window `W` expires without challenge, anyone may finalize and credit a pull-withdrawal balance for the fixed recipient. No recipient substitution by submitter/front-runner.
+- [ ] Reject duplicate claim/receipt and replay; permit a failed claim to retry before `D` with fresh evidence while only one pending claim exists per deployment.
+- [ ] A failed transfer must not block other claims; withdrawal is recipient-pulled and retryable. No “all deployments pass” condition for campaign settlement.
+- [ ] Validate: `forge test --root contracts --match-contract CampaignClaimsTest`; record evidence in docs/handoffs/PB-18.md.
+- [ ] Commit `feat(campaign): reserve and settle independent customer grants [PB-18]`.
 
-## PB-19 — Challenges arbitration and accounting invariants
-**Owner:** B
+## PB-19 — Challenges, bounded review and campaign accounting
+**Owner:** B (teammate); A reviews evidence semantics
 **Prerequisites:** PB-18
-**Create/modify:** contracts/src/MaintenanceVault.sol; contracts/test/{VaultDisputes,VaultInvariant}.t.sol
-**Interface/deliverable:** Direct authorized challenge, bounded arbiter allocation, permissionless timeout
+**Create/modify:** contracts/src/RemediationCampaign.sol; contracts/test/{CampaignDisputes,CampaignInvariant}.t.sol
+**Interface/deliverable:** Time-bounded challenge/review path, supplier recovery of unused funds and accounting invariants
 
-- [ ] Test unauthorized challenger, repeated challenge, cap violations, partial award remainder, timeout A and direct exits with backend offline.
-- [ ] Every terminal result allocates entire accounted balance; expired arbiter cannot change allocation; fixed deadlines cannot reset.
-- [ ] Fuzz action sequences and amounts across agreements; withdrawn plus remaining cannot exceed deposits; no unrestricted admin fund exit.
-- [ ] Validate: `forge test --root contracts --match-contract 'Vault(Disputes|Invariant)Test'`. Record exact output, environment and any skipped stage in docs/handoffs/PB-19.md.
-- [ ] Review owned-file diff and interface/security impact; commit as `feat(vault): bound disputes and preserve accounting invariants [PB-19]` (or the relevant explicit deferral).
-- [ ] Other owner reviews; merge; coordinator records commit/status and releases dependent task.
+- [ ] Only the configured supplier/challenger may challenge a pending claim before its original `W` cutoff; challenge cannot reset that cutoff. Reviewer decision is bounded by `A`.
+- [ ] Reviewer award credits exactly `G`; rejection or review timeout releases exactly that reservation. Silence never awards funds. Make the timeout’s claimant-unfriendly limitation visible in docs/UI.
+- [ ] After claim cutoff `D`, no new claims are accepted. Pending/disputed claims keep their reservation; supplier can recover only truly unallocated balance after the applicable campaign/claim deadlines. No late challenge or terminal revival.
+- [ ] Enforce invariant: deposited = unallocated + reserved + awarded-unwithdrawn + paid + refunded. Fuzz sequences, deadlines, duplicates, partial token failures and multiple independent deployment claims.
+- [ ] All terminal/timeout paths remain callable without the API; external calls cannot reenter or drain another claim.
+- [ ] Validate: `forge test --root contracts --match-contract 'Campaign(Disputes|Invariant)Test'`; record evidence in docs/handoffs/PB-19.md.
+- [ ] Commit `feat(campaign): bound disputes and preserve grant accounting [PB-19]`.
 
-## PB-20 — Authenticated CCIP policy and completion delivery
-**Owner:** B
-**Prerequisites:** PB-16, PB-19; PB-01 route proof
-**Create/modify:** contracts/src/messaging/; contracts/test/MessageOrdering.t.sol; contracts/script/Deploy.s.sol; config/deployments/; docs/runbooks/deploy-backend.md; docs/evidence/ccip.md
-**Interface/deliverable:** POLICY_APPROVED and COMPLETION_RECORDED envelopes; safe receipt/inbox processing
+## PB-20 — CCIP delivery of verified claim facts to Arc
+**Owner:** B (teammate)
+**Prerequisites:** PB-01 route proof; PB-15–19; CRE receipt flow defined
+**Create/modify:** contracts/src/messaging/; contracts/test/CampaignMessageOrdering.t.sol; contracts/script/Deploy.s.sol; config/deployments/; docs/runbooks/deploy-backend.md; docs/evidence/ccip.md
+**Interface/deliverable:** Authenticated, idempotent campaign/acceptance messages causing intended Arc campaign state changes
 
-- [ ] Test wrong router/source selector/sender, duplicates, different transport IDs for same business fact, completion before setup/funding and retry.
-- [ ] Preserve first authenticated receipt, bounded pending work and exact stored source payload; no-completion refund evaluates timely pending completion first.
-- [ ] Before the live send, implement minimal reproducible product deployment and router/registry/vault wiring; generate public addresses, ABIs, code hashes and transaction provenance in config/deployments. Document exact commands in deploy-backend.md. Then execute testnet sends, read Arc policy/completion state and record message IDs. Prove terminal states cannot revive from late delivery; label report source if CRE is simulated.
-- [ ] Validate: `forge test --root contracts --match-contract MessageOrderingTest; recorded testnet scripts`. Record exact output, environment and any skipped stage in docs/handoffs/PB-20.md.
-- [ ] Review owned-file diff and interface/security impact; commit as `feat(ccip): deliver replay-safe policies and repair completion [PB-20]` (or the relevant explicit deferral).
-- [ ] Other owner reviews; merge; coordinator records commit/status and releases dependent task.
+- [ ] Define minimal message envelope carrying campaign/deployment/receipt identity and accepted outcome; bind source selector/sender and destination campaign; never trust arbitrary caller payloads.
+- [ ] Reject wrong router/source/sender/campaign, duplicates/replays, forged outcome, expired report and late delivery that would revive a terminal campaign/claim.
+- [ ] Test completion-before-campaign, retries, duplicate transport IDs for the same business fact, out-of-order delivery and bounded pending messages.
+- [ ] Live evidence must include source transaction, CCIP message ID, receiver transaction, destination event/storage read and final USDC claim state; simulated CRE/CCIP is labeled simulation.
+- [ ] Build and run the Arc contract path from the Studio project; document exact CLI workflow and pulled source provenance. Do not imply a log alone is a callback or state change.
+- [ ] Validate: `forge test --root contracts --match-contract CampaignMessageOrderingTest` plus actual testnet route evidence when safely available; record in docs/handoffs/PB-20.md.
+- [ ] Commit `feat(ccip): relay authenticated remediation acceptance [PB-20]`.
 
 ## PB-21 — CRE workflow using actual evidence and policy reads
 **Owner:** B
@@ -327,20 +334,20 @@ If time becomes tight, cut optional features or category claims explicitly. Do n
 - [ ] Test mismatched policy, omitted deployment, poisoned/stale API response and snapshot incompatibility; do not claim API consensus proves test execution.
 - [ ] Run successful CLI simulation; if live access exists verify forwarder and receiver execution/state. Label mock-forwarder limitation and never silently swap manual delivery.
 - [ ] Validate: `pnpm exec vitest run workflows/cre/test/workflow.test.ts; exact CLI simulation/deploy commands recorded in evidence`. Record exact output, environment and any skipped stage in docs/handoffs/PB-21.md.
-- [ ] Review owned-file diff and interface/security impact; commit as `feat(cre): evaluate repair evidence against onchain agreement [PB-21]` (or the relevant explicit deferral).
+- [ ] Review owned-file diff and interface/security impact; commit as `feat(cre): evaluate repair evidence against campaign policy [PB-21]` (or the relevant explicit deferral).
 - [ ] Other owner reviews; merge; coordinator records commit/status and releases dependent task.
 
-## PB-22 — Chain indexer and agreement API views
+## PB-22 — Chain indexer and campaign API views
 **Owner:** A
 **Prerequisites:** PB-06, PB-15, PB-20; B exports ABI
-**Create/modify:** services/api/src/indexer/; services/api/src/routes/agreements.ts; services/api/test/indexer.integration.test.ts; docs/runbooks/backend-start.md; service launch configuration
-**Interface/deliverable:** Agreement/readiness/receipt/payment views with explicit sync provenance
+**Create/modify:** services/api/src/indexer/; services/api/src/routes/campaigns.ts; services/api/test/indexer.integration.test.ts; docs/runbooks/backend-start.md; service launch configuration
+**Interface/deliverable:** Campaign eligibility, evidence, claim and payment views with explicit sync provenance
 
 - [ ] Index from recorded deployment block with event deduplication, restart checkpoint and reorg rollback; financial actions still checked onchain.
 - [ ] Test duplicate logs, lag, removed block, event order and API unavailable cases; no database write can mint approval/payment.
 - [ ] Expose unsigned policy/funding/challenge/finalize/withdraw requests from immutable authoritative terms; include correct chain switching requirements. Extend the backend-start runbook and service configuration to consume PB-20's generated manifests and launch API/worker/indexer before PB-24; do not wait for PB-27.
 - [ ] Validate: `pnpm exec vitest run services/api/test/indexer.integration.test.ts`. Record exact output, environment and any skipped stage in docs/handoffs/PB-22.md.
-- [ ] Review owned-file diff and interface/security impact; commit as `feat(api): expose chain-derived agreement state [PB-22]` (or the relevant explicit deferral).
+- [ ] Review owned-file diff and interface/security impact; commit as `feat(api): expose chain-derived campaign state [PB-22]` (or the relevant explicit deferral).
 - [ ] Other owner reviews; merge; coordinator records commit/status and releases dependent task.
 
 ## PB-23 — Backend security and outage integration tests
@@ -353,7 +360,7 @@ If time becomes tight, cut optional features or category claims explicitly. Do n
 - [ ] Test artifact URL abuse, nonce replay, cross-tenant reads and relevant onchain configuration change after observation; preserve historical versus current distinction.
 - [ ] Demonstrate direct challenges and timeout withdrawals without platform; reorg after C flags evidence but cannot invent a late financial clawback.
 - [ ] Validate: `pnpm exec vitest run tests/integration/security-outages.test.ts`. Record exact output, environment and any skipped stage in docs/handoffs/PB-23.md.
-- [ ] Review owned-file diff and interface/security impact; commit as `test(integration): cover evidence failures and independent fund exits [PB-23]` (or the relevant explicit deferral).
+- [ ] Review owned-file diff and interface/security impact; commit as `test(integration): cover evidence failures and independent grant exits [PB-23]` (or the relevant explicit deferral).
 - [ ] Other owner reviews; merge; coordinator records commit/status and releases dependent task.
 
 ## PB-24 — Backend handoff gate before feature UI
@@ -362,7 +369,7 @@ If time becomes tight, cut optional features or category claims explicitly. Do n
 **Create/modify:** tests/integration/backend-flow.test.ts; docs/evidence/backend-handoff.md; generated openapi.json and ABI exports
 **Interface/deliverable:** Real backend workflow runnable without frontend; frozen consumer contract
 
-- [ ] Run inventory -> failing diagnostic -> authorized repair -> fresh funded evidence -> acceptance -> destination receipt -> allocation -> withdrawal at declared integration level.
+- [ ] Run campaign setup -> eligible inventory -> failing diagnostic -> owner-authorized repair -> fresh passing receipt -> claim/challenge outcome -> grant withdrawal at declared integration level.
 - [ ] Run failure/refund/dispute scenario and replay on teammate machine with fresh IDs/addresses. All simulation/live boundaries must be visible.
 - [ ] Deliver OpenAPI, ABIs, env-key list, migrations, runbook and runtime-generated example IDs; missing live CRE prevents full-live claim, not fake substitution.
 - [ ] Validate: `pnpm test:integration; forge test --root contracts; documented two-machine run`. Record exact output, environment and any skipped stage in docs/handoffs/PB-24.md.
@@ -375,24 +382,24 @@ If time becomes tight, cut optional features or category claims explicitly. Do n
 **Create/modify:** apps/web/src/features/{campaigns,evidence}/; apps/web/tests/verification.spec.ts
 **Interface/deliverable:** Real API-driven inventory/run/evidence screens
 
-- [ ] Use Studio-compatible existing app scaffold; authenticate wallet and import configurable addresses; no demo-only response data.
+- [ ] Extend the existing Arc Studio project scaffold; authenticate wallets and load configurable campaign addresses; no demo-only response data.
 - [ ] Display job versus assertion state, expected/observed conditions, coverage, snapshot, unknown/unsupported and retry states.
 - [ ] Browser test new inventory -> run -> exact failures and evidence; test another tenant, malformed input and backend outage.
 - [ ] Validate: `pnpm test:e2e -- verification.spec.ts`. Record exact output, environment and any skipped stage in docs/handoffs/PB-25.md.
 - [ ] Review owned-file diff and interface/security impact; commit as `feat(web): explain deployment verification with real evidence [PB-25]` (or the relevant explicit deferral).
 - [ ] Other owner reviews; merge; coordinator records commit/status and releases dependent task.
 
-## PB-26 — Frontend repair and agreement actions
+## PB-26 — Frontend repair and campaign claim actions
 **Owner:** A; B reviews signing and money views
 **Prerequisites:** PB-25
-**Create/modify:** apps/web/src/features/{actions,agreements}/; apps/web/tests/agreement.spec.ts
-**Interface/deliverable:** Owner-specific transaction proposals and accurate settlement UI
+**Create/modify:** apps/web/src/features/{actions,campaigns}/; apps/web/tests/campaign.spec.ts
+**Interface/deliverable:** Owner-specific repair proposals and accurate supplier-campaign claim/withdrawal UI
 
 - [ ] Display chain/target/calldata/value/authority and proposed effects; sign through user wallet only; handle rejection and wrong chain.
-- [ ] Render source accepted, CCIP pending, Arc recorded, disputed, allocated and withdrawable separately; no success badge before actual state.
-- [ ] Browser test permissions, stale proposal, fee/token decimals, challenge/finalize/withdraw and zero-bond case; rerun verification after repair.
-- [ ] Validate: `pnpm test:e2e -- agreement.spec.ts`. Record exact output, environment and any skipped stage in docs/handoffs/PB-26.md.
-- [ ] Review owned-file diff and interface/security impact; commit as `feat(web): connect authorized repairs to agreement lifecycle [PB-26]` (or the relevant explicit deferral).
+- [ ] Render verification pass/fail/unknown, pending CCIP, campaign funding, reserved/disputed/awarded/withdrawable, paid and supplier-recoverable balances as distinct states; no success badge before actual destination state.
+- [ ] Browser test permissions, stale receipt, eligibility proof, USDC decimals, challenge/finalize/withdraw, replay and reviewer timeout; rerun verification after repair.
+- [ ] Validate: `pnpm test:e2e -- campaign.spec.ts`. Record exact output, environment and any skipped stage in docs/handoffs/PB-26.md.
+- [ ] Review owned-file diff and interface/security impact; commit as `feat(web): connect verified repairs to campaign claims [PB-26]` (or the relevant explicit deferral).
 - [ ] Other owner reviews; merge; coordinator records commit/status and releases dependent task.
 
 ## PB-27 — Deployment reproducibility and observability
@@ -402,7 +409,7 @@ If time becomes tight, cut optional features or category claims explicitly. Do n
 **Interface/deliverable:** Final release audit and observability of deployments already implemented in PB-20 and service startup from PB-11/PB-22; this task is not the first deployment prerequisite
 
 - [ ] Generate deployment outputs with chain IDs/addresses/code hashes/txs; never hand-copy magic addresses into product source.
-- [ ] Track correlation by agreement/run/report/message ID; redact secrets; expose readiness and indexing lag; record evaluator key operational procedure.
+- [ ] Track correlation by campaign/deployment/run/receipt/message ID; redact secrets; expose readiness and indexing lag; record evaluator key operational procedure.
 - [ ] Reproduce setup in fresh environment; ensure actual Studio path, evidence storage retention and services usable by teammate/judges.
 - [ ] Validate: `Recorded deployment commands; fresh-environment smoke run and redacted-log inspection`. Record exact output, environment and any skipped stage in docs/handoffs/PB-27.md.
 - [ ] Review owned-file diff and interface/security impact; commit as `chore(deploy): document reproducible environments and evidence [PB-27]` (or the relevant explicit deferral).
@@ -414,8 +421,8 @@ If time becomes tight, cut optional features or category claims explicitly. Do n
 **Create/modify:** docs/submission/{demo,requirements,evidence,limitations}.md
 **Interface/deliverable:** Honest reproducible demo and category-specific qualification evidence
 
-- [ ] Repeat fresh 2-3 minute workflow: missed deployment -> owner action -> complete evidence -> actual declared acceptance/settlement; keep failures inspectable.
-- [ ] Check Studio URL, public repo, live app, diagram/video, CRE source/logs/receiver state, CCIP IDs and conditional ENS real permission txs.
+- [ ] Repeat fresh 2-3 minute workflow: supplier fully funds a campaign -> show three eligible deployments -> one fails due to unsafe configuration and one remains old -> customer repairs under its own authority -> fresh receipt reserves and awards only that deployment’s grant -> replay is rejected -> unused funds remain supplier-recoverable after deadlines.
+- [ ] Check shareable Studio URL, CLI session/app evidence, public repo, working app/backend, architecture diagram/video, CRE source/logs/receiver state, CCIP message and destination-state evidence, campaign accounting invariants, and conditional ENS permission transactions.
 - [ ] Record reused libraries and AI assistance; no guarantee of awards/stacking or incident prevention. Any failed gate removes its dependent claim.
 - [ ] Validate: `Full declared local checks once at final revision; one fresh testnet demo with new IDs`. Record exact output, environment and any skipped stage in docs/handoffs/PB-28.md.
 - [ ] Review owned-file diff and interface/security impact; commit as `docs(submission): map working features to sponsor evidence [PB-28]` (or the relevant explicit deferral).
