@@ -21,3 +21,4 @@ Feature 01 is the completed local bootstrap. Feature 02 records a product direct
 | PB-15 | 06-campaign-registry.md | 7963dd1 | Immutable campaign terms and recipient-bound eligibility; no funding |
 | PB-16 | 07-signed-campaign-receipts.md | PB-16 commit | Scoped verifier signatures and receipt replay protection; no settlement |
 | PB-17 | 08-funded-campaign-activation.md | PB-17 commit | Supplier escrow activates only at full tracked funding; no claim settlement |
+| PB-13 | 18-ens-release-publication.md | See Git log PB-13 | ENSv2 publication client/content checks; live role proof and sponsor eligibility pending |

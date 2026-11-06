@@ -31,8 +31,8 @@
   ],
   "type": "module",
   "scripts": {
-    "lint": "biome check packages services scripts vitest.config.ts tsconfig.json",
-    "format": "biome check --write packages services scripts vitest.config.ts tsconfig.json",
+    "lint": "biome check packages services integrations scripts vitest.config.ts tsconfig.json",
+    "format": "biome check --write packages services integrations scripts vitest.config.ts tsconfig.json",
     "typecheck": "tsc --noEmit",
     "test": "pnpm build:fixtures && vitest run",
     "test:contracts": "node scripts/forge.mjs test",

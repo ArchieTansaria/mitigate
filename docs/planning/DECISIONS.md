@@ -14,7 +14,7 @@ First supported family: a documented oracle adapter and one pinned OpenZeppelin 
 Controlled regression: stale-price rejection plus valid-operation and unit/configuration checks. This is not a recreation or claim of prevention of the Bonzo incident. No arbitrary vulnerability discovery, universal proxy analysis, automatic upgrades, continuous warranty, AI-written security verdicts or multi-source-chain fleet in this version. Grants are fixed allowances, not exact gas reimbursement; retroactive grants do not solve a customer's inability to fund the initial repair transaction.
 
 ## Revisions to the handbook
-- ENS is CONDITIONAL. It supports supplier release publication, not repair truth. Use it only after validating a real workflow and mentor fit; otherwise defer and remove the ENS eligibility claim.
+- ENS remains a conditional sponsor target. PB-13 now implements the release-publication client and records a plausible discovery/delegated-approval value, but live ENSv2 Sepolia permissions and mentor fit are pending; do not claim eligibility. It supports supplier release publication, not repair truth. See `docs/decisions/ens-fit.md` and `docs/handoffs/PB-13.md`.
 - Per-deployment diagnostics and fresh verification are the core. The supplier-funded Arc campaign is the intended Arc demonstration and must be genuinely funded and functional on testnet; do not make the financial path mandatory for ordinary verifier use.
 - No maintainer bond, customer repair fee, penalty or slashing in this MVP. No maintainer-liability adjudication system.
 - Campaign eligibility is fixed before funding, e.g. a commitment/Merkle root over historical affected deployments and recipients. Fully fund N × G before activation. Each accepted claim reserves one fixed G; the contract never pays twice for the same campaign/deployment.
@@ -75,7 +75,7 @@ G4: backend handoff passes; frontend work opens.
 G5: two-machine fresh run and sponsor-evidence audit pass.
 
 Freeze before deposits: receipt signer scheme, supplier/challenger/reviewer/recipient identities, eligible deployment snapshot, USDC address/decimals, N × G cap, claim/challenge/review deadlines, finality and evidence freshness, dispute reasons and retention. Input from wallet owners/mentors may be required; never invent consent. Use a fixed allowance rather than claiming exact gas reimbursement.
-ENS gate: mentor feedback and a useful release-publication scenario. If omitted, use a validated manifest selected and approved by the parties; do not claim ENS eligibility.
+ENS gate: live ENSv2 Sepolia use, demonstrated separate key-level roles, unauthorized-write rejection/revocation, actual approved-manifest resolution, campaign-policy immutability after a record edit, and mentor feedback. If the user value or mentor fit is rejected, use a validated manifest selected and approved by the parties; do not claim ENS eligibility.
 Live CRE blocked: retain correctly labelled CLI simulation and receiver integration tests. Do not use a hidden manual report adapter to claim a live end-to-end Chainlink settlement.
 All gates describe future checks, not checks already passed.
 

@@ -10,6 +10,7 @@ Updated: 2026-11-07 (Asia/Kolkata). Repository: /Users/aryapathak/Documents/patc
 - PB-10: complete ordered diagnostic evidence, scope/snapshot/coverage validation, dedicated host-side verifier signing and independent signature/freshness verification.
 - PB-11: separate executable API/worker, real queue-to-evidence flow, crash recovery, cancellation, completion deadline enforcement and standalone offline replay. A completed job can report failed or unknown repair checks.
 - PB-12: private unsigned repair proposals/revalidation, known-family layout/source checks, supplier/customer authority separation, real snapshot/current-state simulation and owner-executed local repair followed by a fresh diagnostic. No automatic execution or payout.
+- PB-13 local slice: configurable ENSv2 candidate/approved manifest records, content digest/schema checks, chain/resolver preflight and different proposer/approver wallet guard. Live Sepolia permissions, integration into campaign creation/UI, mentor fit and ENS prize eligibility remain unproven.
 - CRE capability gate: actual WASM CLI simulation verifies shared EIP-712 fixtures, HTTP and finalized Sepolia reads. This is not the PB-21 product workflow or DON deployment.
 
 ## Parallel owners and next work

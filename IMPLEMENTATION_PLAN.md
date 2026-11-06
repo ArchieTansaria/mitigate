@@ -235,10 +235,12 @@ Implemented behavior and actual validation: `docs/handoffs/PB-12.md`, `docs/evid
 **Create/modify:** docs/decisions/ens-fit.md; integrations/ens/src/publication.ts; integrations/ens/test/publication.test.ts
 **Interface/deliverable:** ENS-approved manifest resolver OR documented deferral
 
-- [ ] Record user value beyond a pinned campaign manifest and mentor feedback; if absent defer this task and explicitly remove ENS eligibility claim.
-- [ ] If accepted, configure real ENSv2 Sepolia name and dedicated resolver; separate candidate-key and approved-key permissions with root/admin trust documented.
-- [ ] Test live unauthorized approval rejection, revocation and resolution of actual manifests; content mismatch fails; existing campaign policy remains pinned when records change.
-- [ ] Validate: `pnpm exec vitest run integrations/ens/test/publication.test.ts; documented live permission txs if enabled`. Record exact output, environment and any skipped stage in docs/handoffs/PB-13.md.
+- [x] Record the release-discovery and separated-authority user value, tradeoffs, and missing mentor confirmation in docs/decisions/ens-fit.md. ENS prize eligibility remains unclaimed.
+- [x] Implement configurable ENSv2 candidate/approved record keys, dedicated-resolver preflight, independent proposer/approver guard, and manifest content/schema verification in integrations/ens/src/publication.ts.
+- [x] Test canonical pointer creation, digest mismatch, malformed manifest/URI, signer separation and allowed chain IDs. Include integrations in root test/typecheck/lint scopes.
+- [ ] Configure a real ENSv2 Sepolia name and dedicated resolver; separate candidate-key and approved-key permissions with root/admin trust documented.
+- [ ] Test live unauthorized approval rejection, revocation and resolution of actual manifests; verify a funded campaign policy remains pinned after later ENS record changes.
+- [ ] Validate: `pnpm exec vitest run integrations/ens/test/publication.test.ts`; document live permission transactions and any skipped stage in docs/handoffs/PB-13.md.
 - [ ] Review owned-file diff and interface/security impact; commit as `feat(ens): publish permissioned repair manifests OR docs(scope): defer unsupported ENS integration [PB-13]` (or the relevant explicit deferral).
 - [ ] Other owner reviews; merge; coordinator records commit/status and releases dependent task.
 
