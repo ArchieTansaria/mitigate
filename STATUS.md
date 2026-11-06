@@ -15,7 +15,7 @@ Remote target: https://github.com/ArchieTansaria/mitigate
 ## Environment facts
 - Installed: Node v24.1.0 and pnpm v11.22.0.
 - Project recommends Node v24.22.2 for a consistent two-machine setup; current Node v24.1.0 satisfies the Node 24 engine floor but should be updated before implementation work.
-- Arc Studio CLI 1.2.2 is installed; `agent-guide` and `skills --json` work. `whoami` reports not authenticated. Follow `docs/integrations/ARC_STUDIO.md` and run `pnpm exec arc-studio login --paste` in a normal terminal. No Studio project URL exists yet.
+- Arc Studio CLI 1.2.2 is installed. Owner confirms `whoami` works in their normal terminal; Codex's command sandbox still reports unauthenticated. `login --paste` hit a rate limit before returning a token. No Studio app URL is verified yet.
 - Foundry is not installed.
 - GitHub remote is `https://github.com/ArchieTansaria/mitigate`; remote sync could not be checked from this environment because DNS lookup failed.
 - Local `gh` credential for `runningpoem30` is invalid; the owner has pushed the bootstrap commit manually.
@@ -23,7 +23,7 @@ Remote target: https://github.com/ArchieTansaria/mitigate
 ## Next
 1. Push local commits after review; the owner's earlier push of `c94eca7` is reported but cannot be verified from this network.
 2. Confirm teammate's GitHub account and add it as collaborator if needed.
-3. Owner authenticates Studio, then complete PB-01 live app/CRE/CCIP tests.
+3. Owner runs `pnpm exec arc-studio apps --json` from the authenticated terminal; then resolve sandbox credential access and complete PB-01 live app/CRE/CCIP tests.
 4. Finish PB-00 reproducible checks before starting PB-02 worker/RPC implementation.
 5. Jointly freeze schemas (PB-03), then split implementation tasks from TASKS.md.
 

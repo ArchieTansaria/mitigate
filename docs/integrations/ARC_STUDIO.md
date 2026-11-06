@@ -1,5 +1,5 @@
 # Arc Studio and Codex
-Status: Arc Studio CLI 1.2.2 is pinned and installed. `agent-guide` and `skills --json` work; `whoami` reports this machine is not authenticated. No Studio project exists yet.
+Status: Arc Studio CLI 1.2.2 is pinned and installed. Owner reports `whoami` succeeds in their normal terminal. The Codex command sandbox still reports unauthenticated because it cannot see that terminal's credential. No Studio project has been verified yet.
 
 ## What Arc requires
 Every Arc prize at ETHGlobal Mumbai requires using Arc Studio as the starting point. The event asks for a shareable Studio project URL, working frontend and backend, architecture diagram, demo/docs and source repository. See https://ethglobal.com/events/mumbai/prizes/arc . A locally developed vault merely deployed to Arc is weak evidence.
@@ -10,7 +10,7 @@ Important: Studio runs in its own server-side sandbox; it cannot directly edit t
 
 ## Recommended project connection
 1. Install the exact Arc Studio CLI package pinned in package.json as a development dependency. Use pnpm exec arc-studio from this repo. Circle's official page offers this CLI for use with coding agents.
-2. In a normal terminal, run `pnpm exec arc-studio login --paste`. Circle's current agent guide says this opens the browser authorization page and stores the token in `~/.arc-studio/credentials.json` with mode 0600 so a sandboxed runner can read it. Enter the token only into the local terminal prompt; never paste it into chat, a prompt, source code or logs. Each teammate authenticates their own account.
+2. For a sandboxed runner, Circle's current agent guide recommends `pnpm exec arc-studio login --paste`; after successful authorization it stores the token in `~/.arc-studio/credentials.json` with mode 0600 so the sandbox can read it. Enter a token only into the local terminal prompt; never paste it into chat, a prompt, source code or logs. Each teammate authenticates their own account. In this project, the owner tried this and Arc's authorization page returned `Rate limit exceeded` before showing a token. Do not keep retrying; use the already-authenticated normal terminal for read-only CLI work until Circle allows another authorization attempt or the sandbox credential route is resolved.
 3. Run `pnpm exec arc-studio whoami` to confirm authentication, then `pnpm exec arc-studio agent-guide` for the current workflow. Do not run the Claude-only skill registration command inside Codex.
 4. Start an Arc-focused run with only the needed contract source and task docs using --file. Do not send the whole repository or secrets.
 5. Run pnpm exec arc-studio pull --dry-run --diff, inspect conflict/manifest behavior, then pull only the intended outputs. Review git diff and checks before committing.
@@ -18,7 +18,7 @@ Important: Studio runs in its own server-side sandbox; it cannot directly edit t
 7. Keep the Studio project URL in deployment evidence and show Studio plus actual contract state/transactions in the demo.
 
 ## Codex route
-The Arc CLI is the subagent/sandbox surface, not a persistent Codex MCP connection. We can invoke it from this repo after your local login; Studio does not become a permanently connected MCP tool. Its current `skills --json` list includes Chainlink and ENS skill IDs, but that alone does not qualify the project for those prizes or prove a CRE/CCIP workflow.
+The Arc CLI is the subagent/sandbox surface, not a persistent Codex MCP connection. A successful `whoami` in the owner's terminal does not guarantee the separate Codex command sandbox can use that credential. Its current `skills --json` list includes Chainlink and ENS skill IDs, but that alone does not qualify the project for those prizes or prove a CRE/CCIP workflow.
 
 After the owner logs in, use Studio for a bounded Arc feasibility task within PB-01: create a minimal receiver, test a real state transition on Arc testnet, and record its project URL, transaction hash, decoded event and observed state. Then test whether the Studio app can call the external verification service. Do not ask Studio to generate the entire platform in one go.
 
