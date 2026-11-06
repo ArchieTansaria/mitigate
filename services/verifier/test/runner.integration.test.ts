@@ -114,3 +114,16 @@ test("runner failure does not substitute a mock success", async () => {
   expect(result.status).toBe("unknown");
   expect(result.reason).toBe("EXECUTION_FAILED");
 });
+
+test("replay rejects unrecognized code in a supplied state bundle before execution", async () => {
+  const inspection = await inspected(1),
+    observed = must(inspection.observed);
+  must(observed.state[observed.entrypoint]).code = "0x60006000fd";
+  const result = await runTestPack({
+    inspection,
+    manifest: must(f.rows[1]).manifest,
+    pack,
+  });
+  expect(result.status).toBe("unsupported");
+  expect(result.reason).toBe("UNRECOGNIZED_REPLAY_STATE");
+});

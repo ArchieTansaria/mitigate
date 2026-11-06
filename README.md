@@ -1,7 +1,7 @@
 # PatchBond
 PatchBond helps a supplier fund remediation across customer-owned smart-contract deployments. It checks each deployment against agreed repair tests, explains what remains wrong, and can release a capped USDC grant only after fresh evidence confirms that deployment passes.
 
-**Current state:** PB-04–07 provide validated config, durable PostgreSQL jobs/artifacts, a wallet-authenticated diagnostic API, and artificial repair fixtures with real local deployment evidence. The shared Solidity boundary was built/tested through [Arc Studio](https://studio.arc.io/app/9dee5ecd-ab62-459b-a54f-5ae7b2f06a52). CRE signature/HTTP/EVM compatibility passes actual CLI WASM simulation. The repair worker, product CRE reports and live financial settlement remain unconnected. See [STATUS.md](STATUS.md), [backend startup](docs/runbooks/backend-start.md) and [validation evidence](docs/evidence/backend-validation.md).
+**Current state:** PB-04–11 now connect a wallet-authenticated API, durable jobs, confirmed deployment inspection, isolated behavioral tests, signed diagnostic evidence and offline replay. Separate API/worker processes and crash recovery run against real local PostgreSQL/Anvil/Docker. The shared Solidity boundary was built/tested through [Arc Studio](https://studio.arc.io/app/9dee5ecd-ab62-459b-a54f-5ae7b2f06a52). CRE capability simulation is verified; product CRE reports, campaign receipt production, live payouts and frontend remain pending. See [STATUS.md](STATUS.md), [backend startup](docs/runbooks/backend-start.md) and [replay](docs/runbooks/replay.md).
 
 ## Start here
 1. Read AGENTS.md.

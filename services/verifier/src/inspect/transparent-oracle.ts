@@ -286,6 +286,7 @@ export async function inspectDeployment(
           "authority",
           "configuration",
           "unpaused",
+          "market-owner",
         ].includes(p.id)
       )
         throw new Error("UNSUPPORTED_CONFIGURATION_POLICY");
@@ -310,6 +311,18 @@ export async function inspectDeployment(
         configurationOwner,
       );
     }
+    const customerPredicate = m.configurationPredicates.find(
+      (p) => p.readMethod === "configurationOwner()",
+    );
+    if (!customerPredicate) throw new Error("UNSUPPORTED_CONFIGURATION_POLICY");
+    const expectedCustomer = getAddress(customerPredicate.expected);
+    condition(
+      "market-owner",
+      expectedCustomer,
+      marketOwner,
+      marketOwner === expectedCustomer,
+      marketOwner,
+    );
     condition("unpaused", "false", String(paused), !paused, marketOwner);
     const state: Observed["state"] = {};
     for (const [address, bytecode, slots] of [
@@ -399,4 +412,43 @@ export async function inspectDeployment(
       })),
     };
   }
+}
+
+// Replaying a signed artifact must not expand the executor into an arbitrary-code runner.
+export function assertRecognizedState(o: Observed, p: SupportedPattern) {
+  const expected = [
+    o.entrypoint,
+    o.proxy,
+    o.implementation,
+    o.source,
+    o.proxyAdmin,
+  ].sort();
+  if (
+    new Set(expected).size !== 5 ||
+    JSON.stringify(Object.keys(o.state).sort()) !== JSON.stringify(expected)
+  )
+    throw new Error("UNRECOGNIZED_REPLAY_STATE");
+  const market = o.state[o.entrypoint],
+    proxy = o.state[o.proxy],
+    implementation = o.state[o.implementation],
+    source = o.state[o.source],
+    admin = o.state[o.proxyAdmin];
+  if (
+    !market ||
+    !proxy ||
+    !implementation ||
+    !source ||
+    !admin ||
+    !matches(market.code, p.market) ||
+    !matches(proxy.code, p.proxy, o.proxyAdmin) ||
+    !matches(admin.code, p.admin) ||
+    !matches(source.code, p.source) ||
+    (!matches(implementation.code, p.v1) &&
+      !matches(implementation.code, p.v2)) ||
+    !proxy.storage[adminSlot] ||
+    !proxy.storage[implementationSlot] ||
+    addressSlot(proxy.storage[adminSlot]) !== o.proxyAdmin ||
+    addressSlot(proxy.storage[implementationSlot]) !== o.implementation
+  )
+    throw new Error("UNRECOGNIZED_REPLAY_STATE");
 }

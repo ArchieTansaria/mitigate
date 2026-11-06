@@ -130,6 +130,29 @@ test("unsupported predicates and authority models cannot silently become green",
     ).status,
   ).toBe("unsupported");
 });
+test("customer market ownership is part of the agreed configuration", async () => {
+  const row = must(f.rows[1]);
+  await f.write(
+    row.market,
+    "function transferOwnership(address newOwner)",
+    "transferOwnership",
+    [f.supplier],
+  );
+  const result = await inspect(1);
+  expect(result.assertions.find((a) => a.id === "configuration")?.outcome).toBe(
+    "fail",
+  );
+  expect(
+    result.conditions.find((a) => a.id === "market-owner")?.responsible,
+  ).toBe(f.supplier);
+  await f.write(
+    row.market,
+    "function transferOwnership(address newOwner)",
+    "transferOwnership",
+    [f.customer],
+    f.supplier,
+  );
+});
 test("unrecognized proxy/admin code cannot produce a guessed upgrade owner", async () => {
   const row = must(f.rows[1]);
   await f.client.request({

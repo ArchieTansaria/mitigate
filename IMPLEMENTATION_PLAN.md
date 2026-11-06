@@ -8,7 +8,7 @@
 **Spec:** DECISIONS.md, INTERFACES.md, and relevant HANDBOOK.md sections.
 
 ## Current execution checkpoint (2026-11-07)
-PB-01 Studio build/test/pull and CRE capability simulation are verified; actual CCIP delivery remains PB-20. PB-02/03 foundations are implemented, including EIP-712 verification in the actual CRE WASM runtime. A completed PB-04–07: validated config, PostgreSQL jobs/artifacts, authenticated diagnostic API and artificial oracle fixtures with real local deployment exports. See per-task handoffs and docs/evidence/backend-validation.md. B continues PB-14–20 without rebuilding shared interfaces. A next connects PB-08–11 inspection/execution/evidence/worker, then PB-12 and PB-21. An accepted queue request is not a repair pass; financial or live sponsor integration is not complete.
+PB-01 Studio build/test/pull and CRE capability simulation are verified; actual CCIP delivery remains PB-20. PB-02/03 foundations are implemented, including EIP-712 verification in the actual CRE WASM runtime. A completed PB-04–07: validated config, PostgreSQL jobs/artifacts, authenticated diagnostic API and artificial oracle fixtures with real local deployment exports. See per-task handoffs and docs/evidence/backend-validation.md. B continues PB-14–20 without rebuilding shared interfaces. A has now connected PB-08–11 inspection/execution/signed diagnostic evidence/worker/replay locally; next PB-12 and PB-21, plus authoritative campaign receipt integration. Physical second-machine replay remains pending. An accepted queue request is not a repair pass; financial or live sponsor integration is not complete.
 
 ## Global constraints
 Backend first. Implementation is authorized. One supported proxy/application family, configurable inventory, one source chain per initial run. No arbitrary uploaded execution, global security claim, owner keys in worker, fake runtime outputs or silent mock fallback.
@@ -205,12 +205,14 @@ Financial acceptance receipts are deliberately still gated on authoritative camp
 **Create/modify:** services/verifier/src/{main,consume-job,replay}.ts; services/verifier/test/consumer.integration.test.ts; services/api/test/diagnostic-flow.integration.test.ts; docs/runbooks/{backend-start,replay}.md
 **Interface/deliverable:** Diagnostic inventory -> scope -> run -> evidence -> reproducible replay
 
-- [ ] Implement the executable worker consumer: claim queued jobs, renew bounded leases, inspect/run/sign/publish, and commit result only if its current lease token still owns the job. Wire independent API and worker startup commands and configuration.
-- [ ] Start separate API and worker processes; submit inventory/scope/run through HTTP using fresh fixture addresses. Kill a worker mid-job, recover after lease expiry, and reject the old worker's late result. No supplier approval/escrow is required for diagnostic public reads.
+- [x] Implement the executable worker consumer: claim queued jobs, renew bounded leases, inspect/run/sign/publish, and commit result only if its current lease token still owns the job. Wire independent API and worker startup commands and configuration.
+- [x] Start separate API and worker processes; submit inventory/scope/run through HTTP using fresh fixture addresses. Kill a worker mid-job, recover after lease expiry, and reject the old worker's late result. No supplier approval/escrow is required for diagnostic public reads.
 - [ ] Export snapshot/tool/test/artifact identities and replay commands; disclose archive RPC requirements. Replay on a second clean environment and reject changed artifacts. Include consumer.integration.test.ts in the diagnostic flow validation command.
-- [ ] Validate: `pnpm exec vitest run services/verifier/test/consumer.integration.test.ts services/api/test/diagnostic-flow.integration.test.ts` and the documented replay command. Record exact output, environment and any skipped stage in docs/handoffs/PB-11.md.
-- [ ] Review owned-file diff and interface/security impact; commit as `feat(api): complete replayable diagnostic workflow [PB-11]` (or the relevant explicit deferral).
+- [x] Validate: `pnpm test:diagnostic` and the documented replay command. Record exact output, environment and any skipped stage in docs/handoffs/PB-11.md.
+- [x] Review owned-file diff and interface/security impact; commit as `feat(api): complete replayable diagnostic workflow [PB-11]` (or the relevant explicit deferral).
 - [ ] Other owner reviews; merge; coordinator records commit/status and releases dependent task.
+
+Implemented offline replay and changed-artifact rejection in a fresh CLI/container on the same machine. Physical second-machine validation is still open; the combined replay bullet remains unchecked intentionally. See docs/handoffs/PB-11.md.
 
 ## PB-12 — Unsigned repair proposals and post-execution recheck
 **Owner:** A

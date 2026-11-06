@@ -14,9 +14,11 @@ import {
 } from "viem";
 import { canonicalHash } from "../../../../packages/schema/src/encoding.ts";
 import { ManifestSchema } from "../../../../packages/schema/src/types.ts";
-import type {
-  Inspection,
-  InspectionAssertion,
+import {
+  assertRecognizedState,
+  type Inspection,
+  type InspectionAssertion,
+  loadSupportedPattern,
 } from "../inspect/transparent-oracle.ts";
 import { containerArguments, runBoundedProcess } from "../runtime.ts";
 export const RUNNER_IMAGE =
@@ -27,7 +29,9 @@ export type ApprovedPack = {
   harnessHash: Hex;
   files: Array<{ path: string; digest: Hex }>;
 };
-export async function loadApprovedPack(): Promise<ApprovedPack> {
+export async function loadApprovedPack(
+  root = new URL("../../../../", import.meta.url),
+): Promise<ApprovedPack> {
   const files = [];
   for (const path of [
     "OracleAdapterAssertions.sol",
@@ -35,19 +39,36 @@ export async function loadApprovedPack(): Promise<ApprovedPack> {
     "README.md",
   ]) {
     const bytes = await readFile(
-      new URL(`../../../../testpacks/oracle-adapter/${path}`, import.meta.url),
+      new URL(`testpacks/oracle-adapter/${path}`, root),
     );
     files.push({ path, digest: keccak256(toHex(bytes)) });
   }
   const artifact = JSON.parse(
     await readFile(
       new URL(
-        "../../../../fixtures/out/VerificationHarness.sol/VerificationHarness.json",
-        import.meta.url,
+        "fixtures/out/VerificationHarness.sol/VerificationHarness.json",
+        root,
       ),
       "utf8",
     ),
   );
+  const assertionHash = files.find(
+    (f) => f.path === "OracleAdapterAssertions.sol",
+  )?.digest;
+  const harnessSourceHash = keccak256(
+    toHex(
+      await readFile(new URL("fixtures/src/VerificationHarness.sol", root)),
+    ),
+  );
+  const sources = artifact.metadata?.sources;
+  if (
+    !assertionHash ||
+    sources?.["testpack/OracleAdapterAssertions.sol"]?.keccak256 !==
+      assertionHash ||
+    sources?.["src/VerificationHarness.sol"]?.keccak256 !== harnessSourceHash ||
+    Object.keys(sources ?? {}).length !== 2
+  )
+    throw new Error("STALE_COMPILED_TEST_PACK");
   const harnessCode = artifact.deployedBytecode.object as Hex;
   if (
     !/^0x([0-9a-f]{2})+$/i.test(harnessCode) ||
@@ -99,6 +120,7 @@ export async function runTestPack(input: {
   pack: ApprovedPack;
   dockerBinary?: string;
   timeoutMs?: number;
+  signal?: AbortSignal;
 }): Promise<RunnerResult> {
   const { inspection, pack } = input,
     m = ManifestSchema.parse(input.manifest);
@@ -145,6 +167,11 @@ export async function runTestPack(input: {
   const timeoutMs = input.timeoutMs ?? 30000;
   if (!Number.isInteger(timeoutMs) || timeoutMs < 1 || timeoutMs > 60000)
     return fail("unknown", "INVALID_EXECUTION_LIMIT");
+  try {
+    assertRecognizedState(inspection.observed, await loadSupportedPattern());
+  } catch {
+    return fail("unsupported", "UNRECOGNIZED_REPLAY_STATE");
+  }
   const o = inspection.observed,
     timestamp = BigInt(inspection.snapshot.blockTimestamp),
     age = BigInt(o.maxAge);
@@ -195,9 +222,13 @@ export async function runTestPack(input: {
     `${rpc("evm_mine", [])} >/dev/null`,
     `test "$(cast block latest --field timestamp --rpc-url http://127.0.0.1:8545 --rpc-timeout 2)" = ${timestamp}`,
   ];
-  for (const [address, account] of Object.entries(o.state)) {
+  for (const [address, account] of Object.entries(o.state).sort(([a], [b]) =>
+    a.localeCompare(b),
+  )) {
     script.push(`${rpc("anvil_setCode", [address, account.code])} >/dev/null`);
-    for (const [slot, value] of Object.entries(account.storage))
+    for (const [slot, value] of Object.entries(account.storage).sort(
+      ([a], [b]) => a.localeCompare(b),
+    ))
       script.push(
         `${rpc("anvil_setStorageAt", [address, slot, value])} >/dev/null`,
       );
@@ -294,18 +325,30 @@ export async function runTestPack(input: {
     await writeFile(join(directory, "run.sh"), scriptText, { mode: 0o644 });
     const args = containerArguments(RUNNER_IMAGE, name);
     const entry = args.indexOf("--entrypoint=forge");
-    args[entry] = "--entrypoint=/bin/sh";
+    args[entry] = "--entrypoint=/usr/bin/timeout";
     args.splice(
       entry,
       0,
       "--mount",
       `type=bind,src=${directory},dst=/work,readonly`,
     );
-    args[args.length - 1] = "/work/run.sh";
-    const result = await runBoundedProcess(docker, args, {
-      timeoutMs,
-      maxOutputBytes: 32768,
-    });
+    args.pop();
+    args.push(
+      "--signal=TERM",
+      "--kill-after=2s",
+      String(Math.max(1, Math.ceil(timeoutMs / 1000))),
+      "/bin/sh",
+      "/work/run.sh",
+    );
+    const result = await runBoundedProcess(
+      docker,
+      args,
+      {
+        timeoutMs,
+        maxOutputBytes: 32768,
+      },
+      input.signal,
+    );
     if (result.status !== "completed")
       return fail(
         "unknown",

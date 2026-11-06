@@ -12,13 +12,12 @@ import {
   SnapshotSchema,
 } from "../../../../packages/schema/src/types.ts";
 export class ObservationError extends Error {}
-export class SnapshotRpc {
+export class BoundedRpc {
   private sequence = 0;
   private count = 0;
   readonly signal: AbortSignal;
   constructor(
     readonly url: string,
-    readonly snapshot: Snapshot,
     timeoutMs = 15000,
   ) {
     if (
@@ -27,7 +26,6 @@ export class SnapshotRpc {
       timeoutMs > 60000
     )
       throw new ObservationError("INVALID_RPC_CONFIG");
-    SnapshotSchema.parse(snapshot);
     this.signal = AbortSignal.timeout(timeoutMs);
   }
   async rpc(method: string, params: unknown[]): Promise<unknown> {
@@ -65,6 +63,16 @@ export class SnapshotRpc {
     )
       throw new ObservationError("RPC_UNAVAILABLE_OR_UNSUPPORTED");
     return message.result;
+  }
+}
+export class SnapshotRpc extends BoundedRpc {
+  constructor(
+    url: string,
+    readonly snapshot: Snapshot,
+    timeoutMs = 15000,
+  ) {
+    super(url, timeoutMs);
+    SnapshotSchema.parse(snapshot);
   }
   get pin() {
     return { blockHash: this.snapshot.blockHash, requireCanonical: true };
@@ -135,4 +143,41 @@ export class SnapshotRpc {
       throw new ObservationError("INVALID_CALL_RESULT");
     return decodeFunctionResult({ abi, functionName, data: result as Hex });
   }
+}
+
+export async function selectSnapshot(
+  url: string,
+  chainId: string,
+  confirmations: number,
+): Promise<Snapshot> {
+  if (
+    !Number.isInteger(confirmations) ||
+    confirmations < 1 ||
+    confirmations > 10000
+  )
+    throw new ObservationError("INVALID_CONFIRMATIONS");
+  const rpc = new BoundedRpc(url);
+  const actual = await rpc.rpc("eth_chainId", []),
+    head = await rpc.rpc("eth_blockNumber", []);
+  if (
+    typeof actual !== "string" ||
+    typeof head !== "string" ||
+    BigInt(actual) !== BigInt(chainId)
+  )
+    throw new ObservationError("CHAIN_MISMATCH");
+  const number = BigInt(head) - BigInt(confirmations);
+  if (number < 0n) throw new ObservationError("INSUFFICIENT_CONFIRMATIONS");
+  const b = (await rpc.rpc("eth_getBlockByNumber", [toHex(number), false])) as {
+    number?: string;
+    hash?: string;
+    timestamp?: string;
+  } | null;
+  if (!b?.number || !b.timestamp || BigInt(b.number) !== number)
+    throw new ObservationError("BLOCK_UNAVAILABLE");
+  return SnapshotSchema.parse({
+    chainId,
+    blockNumber: number.toString(),
+    blockHash: b.hash,
+    blockTimestamp: BigInt(b.timestamp).toString(),
+  });
 }

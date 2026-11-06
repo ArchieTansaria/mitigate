@@ -176,14 +176,18 @@ export class Repository {
     token: string,
     ref: ArtifactRef,
     store: ArtifactStore,
+    completion: { signal?: AbortSignal; deadline?: Date } = {},
   ) {
     const parsed = ArtifactRefSchema.parse(ref);
     const bytes = await store.get(parsed.digest);
     if (bytes.length !== parsed.byteLength)
       throw new Error("ARTIFACT_SIZE_MISMATCH");
+    completion.signal?.throwIfAborted();
+    if (completion.deadline && !Number.isFinite(completion.deadline.getTime()))
+      throw new Error("INVALID_COMPLETION_DEADLINE");
     const r = await this.pool.query(
-      "UPDATE runs SET state='succeeded',error_code=NULL,artifact=$3,lease_token=NULL,lease_until=NULL,updated_at=clock_timestamp() WHERE id=$1 AND lease_token=$2 AND state='running' AND lease_until>clock_timestamp()",
-      [id, token, JSON.stringify(parsed)],
+      "UPDATE runs SET state='succeeded',error_code=NULL,artifact=$3,lease_token=NULL,lease_until=NULL,updated_at=clock_timestamp() WHERE id=$1 AND lease_token=$2 AND state='running' AND lease_until>clock_timestamp() AND ($4::timestamptz IS NULL OR clock_timestamp()<$4)",
+      [id, token, JSON.stringify(parsed), completion.deadline ?? null],
     );
     if (r.rowCount !== 1) throw new Error("LEASE_LOST");
   }

@@ -33,7 +33,8 @@ const publicJob = (j: Job) => ({
   attempts: j.attempts,
   errorCode: j.errorCode,
   evidenceAvailable: j.artifact !== null,
-  repairResult: "not-evaluated" as const,
+  repairResult:
+    j.state === "succeeded" ? "available-in-evidence" : "not-evaluated",
 });
 const idParam = z.strictObject({ id: z.uuid() });
 const challengeBody = z.strictObject({

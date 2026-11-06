@@ -86,3 +86,17 @@ it("settles timeout even when a detached descendant retains output pipes", async
   expect(r.status).toBe("timeout");
   expect(elapsed).toBeLessThan(1200);
 });
+
+it("cancels active execution without waiting for its wall deadline", async () => {
+  const abort = new AbortController();
+  const started = performance.now();
+  const result = runBoundedProcess(
+    process.execPath,
+    ["-e", "setInterval(()=>{},1000)"],
+    { timeoutMs: 10000, maxOutputBytes: 1000 },
+    abort.signal,
+  );
+  setTimeout(() => abort.abort(), 100);
+  expect((await result).status).toBe("cancelled");
+  expect(performance.now() - started).toBeLessThan(1500);
+});

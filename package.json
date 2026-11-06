@@ -34,7 +34,7 @@
     "lint": "biome check packages services scripts vitest.config.ts tsconfig.json",
     "format": "biome check --write packages services scripts vitest.config.ts tsconfig.json",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run",
+    "test": "pnpm build:fixtures && vitest run",
     "test:contracts": "node scripts/forge.mjs test",
     "test:integration": "vitest run --config vitest.integration.config.ts",
     "check": "pnpm lint && pnpm typecheck && pnpm test && pnpm test:contracts",
@@ -45,7 +45,10 @@
     "build:fixtures": "node fixtures/forge.mjs build",
     "test:fixtures": "node fixtures/forge.mjs test",
     "test:fixtures:deploy": "node --test fixtures/test/deploy-local.test.mjs",
-    "deploy:fixtures:local": "node fixtures/deploy-local.mjs"
+    "deploy:fixtures:local": "node fixtures/deploy-local.mjs",
+    "worker:start": "tsx --env-file=.env.local services/verifier/src/main.ts",
+    "replay": "tsx services/verifier/src/replay-cli.ts",
+    "test:diagnostic": "vitest run --config vitest.integration.config.ts services/verifier/test/consumer.integration.test.ts services/api/test/diagnostic-flow.integration.test.ts"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "3.1163.0",

@@ -1,5 +1,5 @@
 # Current execution update — 2026-11-06
-A completed the initial PB-03 Solidity/TypeScript foundation through Arc Studio and local verification at the user’s explicit request. B now starts PB-14 using docs/handoffs/PB-03-contracts.md. Earlier future-tense assignment/bootstrap text below is historical; STATUS.md and TASKS.md give current execution state. PB-04–07 are now implemented and CRE WASM capability simulation passes; the repair worker and product sponsor integration remain pending.
+A completed the initial PB-03 Solidity/TypeScript foundation through Arc Studio and local verification at the user’s explicit request. B now starts PB-14 using docs/handoffs/PB-03-contracts.md. Earlier future-tense assignment/bootstrap text below is historical; STATUS.md and TASKS.md give current execution state. PB-04–11 now implement the local diagnostic API/inspection/execution/signing/worker/replay pipeline. CRE WASM capability simulation passes; product sponsor/financial integration and physical second-machine proof remain pending.
 
 # Current decisions and build gates
 Status: implementation baseline proposed from the agreed handbook; no coding performed.
