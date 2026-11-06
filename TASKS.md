@@ -3,8 +3,8 @@ One task per active writer. Full acceptance cases, dependencies, files and comma
 
 | Task | Owner | Scope | State |
 |---|---|---|---|
-| PB-00 | A | Repository, docs and reproducible toolchain | committed locally; push pending |
-| PB-01 | B | Arc Studio / CRE / CCIP feasibility | waiting for Studio owner login |
+| PB-00 | A | Repository, docs and reproducible toolchain | complete; follow-up cleanup commit needs pushing |
+| PB-01 | B | Arc Studio / CRE / CCIP feasibility | local CLI preflight done; live tests await Studio login |
 | PB-02 | A | Historical RPC and worker runtime probe | planned |
 | PB-03 | Joint | Shared schema, encoding and ABI freeze | planned |
 | PB-04–06 | A | Config, persistence/jobs and authenticated API | planned |
@@ -17,5 +17,3 @@ One task per active writer. Full acceptance cases, dependencies, files and comma
 | PB-22–24 | Joint | Indexer, outage/security tests, backend handoff | planned |
 | PB-25–26 | A | UI | gated on PB-24 |
 | PB-27–28 | Joint | Deployment audit and submission | gated |
-
-\n
