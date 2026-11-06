@@ -1,0 +1,5 @@
+# Feature 07 — signed campaign receipts (PB-16)
+
+PB-16 validates the frozen PB-03 receipt against the PB-15 policy and recipient-bound eligibility proof. The read-only validator checks scope, policy hash, test pack, snapshot/hash/time consistency, campaign-claim/deployed/pass enums, freshness, Merkle eligibility, signer and strict low-s 65-byte ECDSA. Only the configured campaign can consume a receipt ID, preventing a public relayer from burning it; the campaign must consume atomically with its own reservation.
+
+The exact EIP-712 field order/domain, viem signing example and fixture reference are in `docs/interfaces/receipt-signing.md`. Arc Studio ran 69 PB-16 tests, including exact frozen PB-03 hash/signature parity and a test-only real-signer fixture. The placeholder vector Merkle root is handled only by a test registry stand-in in the vector end-to-end tests; other tests exercise the real PB-15 registry. No deployment/live evidence or cryptographic proof of honest test execution is claimed.

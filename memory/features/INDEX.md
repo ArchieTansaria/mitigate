@@ -9,3 +9,5 @@ Feature 01 is the completed local bootstrap. Feature 02 records a product direct
 
 | 04 | 04-shared-studio-foundation.md | See Git log PB-03 | Shared boundary/tooling; no live settlement |
 | 05 | 05-bounded-runtime-probes.md | See Git log PB-02 | RPC/container feasibility; no repair acceptance |
+| 06 | 06-campaign-registry.md | 7963dd1 [PB-15] | Immutable campaign terms and recipient-bound eligibility; no funding |
+| 07 | 07-signed-campaign-receipts.md | PB-16 commit | Scoped verifier signatures and receipt replay protection; no settlement |
