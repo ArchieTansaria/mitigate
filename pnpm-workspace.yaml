@@ -3,7 +3,11 @@ packages:
   - "packages/*"
   - "services/*"
   - "workflows/*"
+  - "!workflows/cre-probe"
 allowBuilds:
   '@circle-fin/arc-studio-cli': true
   '@foundry-rs/forge': true
   '@foundry-rs/anvil': true
+  esbuild: true
+minimumReleaseAgeExclude:
+  - '@aws-sdk/client-s3@3.1163.0'
