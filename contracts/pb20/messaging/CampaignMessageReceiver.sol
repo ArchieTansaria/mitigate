@@ -4,6 +4,7 @@ pragma solidity 0.8.28;
 import {CCIPReceiver} from "@chainlink/contracts-ccip/contracts/applications/CCIPReceiver.sol";
 import {Client} from "@chainlink/contracts-ccip/contracts/libraries/Client.sol";
 import {PatchBondTypes} from "../../pb03/PatchBondTypes.sol";
+import {ICampaignRegistry} from "../../pb15/ICampaignRegistry.sol";
 import {IRemediationCampaign} from "../../pb17/IRemediationCampaign.sol";
 
 /// @title CampaignMessageReceiver
@@ -39,6 +40,8 @@ contract CampaignMessageReceiver is CCIPReceiver {
     address public immutable campaign;
     bytes32 public immutable campaignId;
     bytes32 public immutable policyHash;
+    address public immutable registry;
+    uint64 public immutable claimDeadline;
     uint256 public immutable maxPending;
     uint256 public immutable maxPayloadBytes;
     uint256 public immutable maxProofLength;
@@ -57,9 +60,11 @@ contract CampaignMessageReceiver is CCIPReceiver {
     error InvalidSourceSender();
     error InvalidSourceChainId();
     error InvalidCampaign();
+    error InvalidRegistry();
     error InvalidCampaignId();
     error InvalidPolicyHash();
     error InvalidLimit();
+    error CampaignUnavailable(address campaign);
     error SourceSenderMismatch(address given, address expected);
     error SourceChainMismatch(uint256 given, uint256 expected);
     error CampaignAddressMismatch(address given, address expected);
@@ -91,6 +96,7 @@ contract CampaignMessageReceiver is CCIPReceiver {
         address campaign_,
         bytes32 campaignId_,
         bytes32 policyHash_,
+        address registry_,
         uint256 maxPending_,
         uint256 maxPayloadBytes_,
         uint256 maxProofLength_
@@ -98,19 +104,23 @@ contract CampaignMessageReceiver is CCIPReceiver {
         if (sourceChainSelector_ == 0) revert InvalidSourceChainSelector();
         if (sourceSender_ == address(0)) revert InvalidSourceSender();
         if (sourceChainId_ == 0) revert InvalidSourceChainId();
-        if (campaign_.code.length == 0) revert InvalidCampaign();
+        if (campaign_ == address(0)) revert InvalidCampaign();
         if (campaignId_ == bytes32(0)) revert InvalidCampaignId();
         if (policyHash_ == bytes32(0)) revert InvalidPolicyHash();
+        if (registry_.code.length == 0) revert InvalidRegistry();
         if (maxPending_ == 0 || maxPayloadBytes_ == 0 || maxProofLength_ == 0) revert InvalidLimit();
 
-        IRemediationCampaign c = IRemediationCampaign(campaign_);
-        PatchBondTypes.Policy memory p = c.policy();
+        ICampaignRegistry r = ICampaignRegistry(registry_);
+        if (!r.campaignExists(campaignId_)) revert InvalidCampaignId();
+        PatchBondTypes.Policy memory p = r.policyOf(campaignId_);
         if (p.sourceRegistry != sourceSender_) revert SourceSenderMismatch(sourceSender_, p.sourceRegistry);
         if (p.sourceChainId != sourceChainId_) revert SourceChainMismatch(sourceChainId_, p.sourceChainId);
         if (p.campaign != campaign_) revert CampaignAddressMismatch(p.campaign, campaign_);
-        if (p.campaignId != campaignId_ || c.campaignId() != campaignId_) revert CampaignIdMismatch(campaignId_, c.campaignId());
-        bytes32 expectedHash = c.policyHash();
-        if (expectedHash != policyHash_) revert PolicyHashMismatch(policyHash_, expectedHash);
+        if (p.campaignId != campaignId_) revert CampaignIdMismatch(campaignId_, p.campaignId);
+        bytes32 registeredHash = r.policyHashOf(campaignId_);
+        bytes32 computedHash = PatchBondTypes.policyHash(p);
+        if (computedHash != registeredHash) revert PolicyHashMismatch(policyHash_, registeredHash);
+        if (policyHash_ != registeredHash) revert PolicyHashMismatch(policyHash_, registeredHash);
 
         sourceChainSelector = sourceChainSelector_;
         sourceSender = sourceSender_;
@@ -118,6 +128,8 @@ contract CampaignMessageReceiver is CCIPReceiver {
         campaign = campaign_;
         campaignId = campaignId_;
         policyHash = policyHash_;
+        registry = registry_;
+        claimDeadline = p.claimDeadline;
         maxPending = maxPending_;
         maxPayloadBytes = maxPayloadBytes_;
         maxProofLength = maxProofLength_;
@@ -168,8 +180,7 @@ contract CampaignMessageReceiver is CCIPReceiver {
             return;
         }
         if (block.timestamp > r.expiresAt) revert ReportExpired(r.expiresAt, block.timestamp);
-        uint64 deadline = IRemediationCampaign(campaign).policy().claimDeadline;
-        if (block.timestamp >= deadline) revert ClaimWindowClosed(deadline, block.timestamp);
+        if (block.timestamp >= claimDeadline) revert ClaimWindowClosed(claimDeadline, block.timestamp);
         if (pendingCount >= maxPending) revert PendingQueueFull(maxPending);
 
         stored.status = MessageStatus.Pending;
@@ -184,6 +195,7 @@ contract CampaignMessageReceiver is CCIPReceiver {
     function processMessage(bytes32 businessMessageId) external {
         StoredMessage storage stored = _messages[businessMessageId];
         if (stored.status != MessageStatus.Pending) revert MessageNotPending(businessMessageId, stored.status);
+        if (campaign.code.length == 0) revert CampaignUnavailable(campaign);
         // The campaign performs the authoritative PB-16 signature and eligibility checks. Any revert preserves
         // Pending status and the queue slot, so delivery can be retried after transient readiness/funding issues.
         IRemediationCampaign(campaign).submitClaim(stored.receipt, stored.signature, stored.eligibilityProof);
@@ -195,8 +207,7 @@ contract CampaignMessageReceiver is CCIPReceiver {
     function dropStale(bytes32 businessMessageId) external {
         StoredMessage storage stored = _messages[businessMessageId];
         if (stored.status != MessageStatus.Pending) revert MessageNotPending(businessMessageId, stored.status);
-        uint64 deadline = IRemediationCampaign(campaign).policy().claimDeadline;
-        if (block.timestamp <= stored.receipt.expiresAt && block.timestamp < deadline) {
+        if (block.timestamp <= stored.receipt.expiresAt && block.timestamp < claimDeadline) {
             revert MessageNotStale(businessMessageId);
         }
         stored.status = MessageStatus.Dropped;

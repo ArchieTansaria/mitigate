@@ -43,10 +43,11 @@ import {SimulationRouter} from "./SimulationRouter.sol";
  *
  * CampaignMessageReceiver is CCIPReceiver (source chain -> this chain)
  *   constructor(address router, uint64 sourceChainSelector, address sourceSender, uint256 sourceChainId,
- *               address campaign, bytes32 campaignId, bytes32 policyHash, uint256 maxPending,
+ *               address campaign, bytes32 campaignId, bytes32 policyHash, address registry, uint256 maxPending,
  *               uint256 maxPayloadBytes, uint256 maxProofLength)
- *   `sourceSender` must equal campaign.policy().sourceRegistry; sourceChainId, campaignId and policyHash must equal
- *   the campaign's; all limits nonzero. Immutable, exposed by getters of the same name (router via getRouter()).
+ *   `sourceSender`, sourceChainId, campaignId and policyHash must equal the immutable registry policy (the predicted
+ *   campaign address may not have code yet); all limits nonzero. Immutable, exposed by getters of the same name
+ *   (router via getRouter()). Processing remains retryable until the campaign is deployed.
  *   ccipReceive (router only; nothing here calls the campaign) validates, then stores the message as Pending:
  *       source selector, source sender, no tokens, payload/proof bounds, schema, outcome, campaign / policy / source
  *       chain, purpose 1 / mode 1 / result 1, businessMessageId derivation, not expired, claim window open.
@@ -139,6 +140,7 @@ abstract contract Pb20Base is ClaimBase {
             address(routeCampaign),
             id,
             routePolicyHash,
+            address(registry),
             maxPending,
             MAX_PAYLOAD,
             MAX_PROOF

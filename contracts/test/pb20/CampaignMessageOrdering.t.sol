@@ -6,8 +6,10 @@ import {IAny2EVMMessageReceiver} from "@chainlink/contracts-ccip/contracts/inter
 import {CCIPReceiver} from "@chainlink/contracts-ccip/contracts/applications/CCIPReceiver.sol";
 import {Client} from "@chainlink/contracts-ccip/contracts/libraries/Client.sol";
 import {FinalityCodec} from "@chainlink/contracts-ccip/contracts/libraries/FinalityCodec.sol";
+import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import {PatchBondTypes} from "../../pb03/PatchBondTypes.sol";
 import {IRemediationCampaign} from "../../pb17/IRemediationCampaign.sol";
+import {RemediationCampaign} from "../../pb17/RemediationCampaign.sol";
 import {IAcceptanceVerifier} from "../../pb16/IAcceptanceVerifier.sol";
 import {CampaignMessageSender} from "../../pb20/messaging/CampaignMessageSender.sol";
 import {CampaignMessageReceiver} from "../../pb20/messaging/CampaignMessageReceiver.sol";
@@ -285,34 +287,36 @@ contract CampaignMessageOrderingTest is Pb20Base {
         vm.expectRevert(
             abi.encodeWithSelector(CampaignMessageReceiver.SourceSenderMismatch.selector, attacker, address(sender))
         );
-        new CampaignMessageReceiver(rt, FIXTURE_SOURCE_SELECTOR, attacker, SOURCE_CHAIN, c, ID_P, ph, 4, 8192, 8);
+        new CampaignMessageReceiver(rt, FIXTURE_SOURCE_SELECTOR, attacker, SOURCE_CHAIN, c, ID_P, ph, address(registry), 4, 8192, 8);
 
         // A campaign in direct-signed mode (sourceRegistry == 0) cannot be fed by any CCIP sender.
         vm.expectRevert(
             abi.encodeWithSelector(CampaignMessageReceiver.SourceSenderMismatch.selector, address(sender), address(0))
         );
         new CampaignMessageReceiver(
-            rt, FIXTURE_SOURCE_SELECTOR, address(sender), SOURCE_CHAIN, address(claimCampaign), ID_C, directPolicyHash, 4, 8192, 8
+            rt, FIXTURE_SOURCE_SELECTOR, address(sender), SOURCE_CHAIN, address(claimCampaign), ID_C, directPolicyHash, address(registry), 4, 8192, 8
         );
 
         vm.expectRevert(); // wrong source chain ID
-        new CampaignMessageReceiver(rt, FIXTURE_SOURCE_SELECTOR, address(sender), SOURCE_CHAIN + 1, c, ID_P, ph, 4, 8192, 8);
+        new CampaignMessageReceiver(rt, FIXTURE_SOURCE_SELECTOR, address(sender), SOURCE_CHAIN + 1, c, ID_P, ph, address(registry), 4, 8192, 8);
         vm.expectRevert(); // wrong campaign ID
-        new CampaignMessageReceiver(rt, FIXTURE_SOURCE_SELECTOR, address(sender), SOURCE_CHAIN, c, ID_Q, ph, 4, 8192, 8);
+        new CampaignMessageReceiver(rt, FIXTURE_SOURCE_SELECTOR, address(sender), SOURCE_CHAIN, c, ID_Q, ph, address(registry), 4, 8192, 8);
         vm.expectRevert(); // wrong policy hash
-        new CampaignMessageReceiver(rt, FIXTURE_SOURCE_SELECTOR, address(sender), SOURCE_CHAIN, c, ID_P, keccak256("x"), 4, 8192, 8);
-        vm.expectRevert(); // campaign is not a contract
-        new CampaignMessageReceiver(rt, FIXTURE_SOURCE_SELECTOR, address(sender), SOURCE_CHAIN, attacker, ID_P, ph, 4, 8192, 8);
+        new CampaignMessageReceiver(rt, FIXTURE_SOURCE_SELECTOR, address(sender), SOURCE_CHAIN, c, ID_P, keccak256("x"), address(registry), 4, 8192, 8);
+        vm.expectRevert(); // campaign address is not the address committed by this policy
+        new CampaignMessageReceiver(rt, FIXTURE_SOURCE_SELECTOR, address(sender), SOURCE_CHAIN, attacker, ID_P, ph, address(registry), 4, 8192, 8);
         vm.expectRevert(); // zero router
-        new CampaignMessageReceiver(address(0), FIXTURE_SOURCE_SELECTOR, address(sender), SOURCE_CHAIN, c, ID_P, ph, 4, 8192, 8);
+        new CampaignMessageReceiver(address(0), FIXTURE_SOURCE_SELECTOR, address(sender), SOURCE_CHAIN, c, ID_P, ph, address(registry), 4, 8192, 8);
         vm.expectRevert(); // zero selector
-        new CampaignMessageReceiver(rt, 0, address(sender), SOURCE_CHAIN, c, ID_P, ph, 4, 8192, 8);
+        new CampaignMessageReceiver(rt, 0, address(sender), SOURCE_CHAIN, c, ID_P, ph, address(registry), 4, 8192, 8);
+        vm.expectRevert(); // registry without code
+        new CampaignMessageReceiver(rt, FIXTURE_SOURCE_SELECTOR, address(sender), SOURCE_CHAIN, c, ID_P, ph, attacker, 4, 8192, 8);
         vm.expectRevert(); // zero capacity
-        new CampaignMessageReceiver(rt, FIXTURE_SOURCE_SELECTOR, address(sender), SOURCE_CHAIN, c, ID_P, ph, 0, 8192, 8);
+        new CampaignMessageReceiver(rt, FIXTURE_SOURCE_SELECTOR, address(sender), SOURCE_CHAIN, c, ID_P, ph, address(registry), 0, 8192, 8);
         vm.expectRevert(); // zero payload bound
-        new CampaignMessageReceiver(rt, FIXTURE_SOURCE_SELECTOR, address(sender), SOURCE_CHAIN, c, ID_P, ph, 4, 0, 8);
+        new CampaignMessageReceiver(rt, FIXTURE_SOURCE_SELECTOR, address(sender), SOURCE_CHAIN, c, ID_P, ph, address(registry), 4, 0, 8);
         vm.expectRevert(); // zero proof bound
-        new CampaignMessageReceiver(rt, FIXTURE_SOURCE_SELECTOR, address(sender), SOURCE_CHAIN, c, ID_P, ph, 4, 8192, 0);
+        new CampaignMessageReceiver(rt, FIXTURE_SOURCE_SELECTOR, address(sender), SOURCE_CHAIN, c, ID_P, ph, address(registry), 4, 8192, 0);
     }
 
     // ================================================================== destination receiver: authentication
@@ -705,6 +709,63 @@ contract CampaignMessageOrderingTest is Pb20Base {
         assertEq(uint8(_status(b.businessId)), uint8(PROCESSED));
         assertEq(uint8(_claimStatus(0)), uint8(IRemediationCampaign.ClaimStatus.Pending));
         assertEq(routeCampaign.accounting().reserved, GRANT);
+    }
+
+    function test_aMessageArrivingBeforeCampaignDeploymentIsHeldUntilTheCampaignExists() public {
+        routeId = ID_Q;
+        uint256 n = vm.getNonce(address(this));
+        address senderAddr = vm.computeCreateAddress(address(this), n);
+        address receiverAddr = vm.computeCreateAddress(address(this), n + 1);
+        address campaignAddr = vm.computeCreateAddress(address(this), n + 2);
+
+        PatchBondTypes.Policy memory p = _policy(routeId, campaignAddr, supplierA, address(usdc));
+        p.sourceRegistry = senderAddr;
+        p.eligibilityRoot = _root(routeId);
+        p.verifier = verifierAddr;
+        routePolicyHash = PatchBondTypes.policyHash(p);
+        _register(p);
+
+        sender = new CampaignMessageSender(
+            address(sourceRouter), FIXTURE_DESTINATION_SELECTOR, receiverAddr, routeId, routePolicyHash, reporter
+        );
+        receiver = new CampaignMessageReceiver(
+            address(destinationRouter),
+            FIXTURE_SOURCE_SELECTOR,
+            address(sender),
+            SOURCE_CHAIN,
+            campaignAddr,
+            routeId,
+            routePolicyHash,
+            address(registry),
+            MAX_PENDING,
+            MAX_PAYLOAD,
+            MAX_PROOF
+        );
+        assertEq(campaignAddr.code.length, 0, "policy and receiver are ready before campaign deployment");
+
+        Bundle memory b;
+        b.receipt = _receipt(routeId, 0);
+        b.signature = _signWith(verifierKey, RemediationCampaign(campaignAddr), b.receipt);
+        b.proof = _proofFor(routeId, 0);
+        b.wire = _wireOf(b.receipt, b.signature, b.proof);
+        b.data = abi.encode(b.wire);
+        b.businessId = b.wire.businessMessageId;
+        _deliverBundle(1, b);
+        assertEq(uint8(_status(b.businessId)), uint8(PENDING));
+
+        vm.expectRevert(abi.encodeWithSelector(CampaignMessageReceiver.CampaignUnavailable.selector, campaignAddr));
+        receiver.processMessage(b.businessId);
+        assertEq(receiver.pendingCount(), 1, "a pre-deployment report remains retryable");
+
+        routeCampaign = new RemediationCampaign(registry, verifier, routeId, IERC20(address(usdc)));
+        assertEq(address(routeCampaign), campaignAddr, "campaign deployed at its committed prediction");
+        _fundAndActivate(routeCampaign);
+        receiver.processMessage(b.businessId);
+
+        assertEq(uint8(_status(b.businessId)), uint8(PROCESSED));
+        assertEq(uint8(_claimStatus(0)), uint8(IRemediationCampaign.ClaimStatus.Pending));
+        assertEq(routeCampaign.accounting().reserved, GRANT);
+        assertTrue(verifier.isConsumed(routeId, b.receipt.receiptId));
     }
 
     // ================================================================== forged inputs and failure isolation
