@@ -6,7 +6,7 @@ One active writer per task. Exact acceptance cases, paths and commands are in IM
 | Owner | Start now | Then |
 |---|---|---|
 | A (owner + Codex) | PB-00 remaining reproducible toolchain/CI checks; PB-02 historical RPC/worker probe | Joint PB-03 schema freeze, then PB-04–06 API/jobs and PB-08–12 verifier/evidence |
-| B (teammate) | PB-01 Arc Studio CLI app/session check, artifact round-trip, mentor question, CRE/CCIP feasibility | After PB-03, PB-07 fixtures; then PB-14–20 supplier-funded Arc campaign/acceptance/CCIP contracts |
+| B (teammate) | PB-01 inspect existing Studio project/session, artifact round-trip, mentor question, CRE/CCIP feasibility | After PB-03, PB-07 fixtures; then PB-14–20 supplier-funded Arc campaign/acceptance/CCIP contracts |
 | Joint | Keep PB-03 receipt/eligibility/accounting interfaces frozen before parallel implementation | PB-22–24 integration and backend handoff |
 
 ## Full board
@@ -14,7 +14,7 @@ One active writer per task. Exact acceptance cases, paths and commands are in IM
 | Task | Owner | Scope | State |
 |---|---|---|---|
 | PB-00 | A | Repository, docs and reproducible toolchain | docs/context done; CI, scripts, Foundry pin and fresh-clone checks remain |
-| PB-01 | B | Arc Studio CLI / CRE / CCIP feasibility | CLI guide verified; app/session and live tests outstanding |
+| PB-01 | B | Arc Studio CLI / CRE / CCIP feasibility | Studio app confirmed in browser; CLI listing/session, artifact pull and live tests outstanding |
 | PB-02 | A | Historical RPC and worker runtime probe | planned |
 | PB-03 | Joint | Shared receipt, campaign eligibility, encoding and ABI freeze | planned |
 | PB-04–06 | A | Config, persistence/jobs and authenticated API | planned |
