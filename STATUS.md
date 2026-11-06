@@ -9,6 +9,8 @@ Updated: 2026-11-07 (Asia/Kolkata). Repository: /Users/aryapathak/Documents/patc
 - PB-07: pinned artificial transparent-proxy oracle fixtures, stale/fresh/configuration regression pack, configurable local Anvil deployment and real provenance export.
 - CRE capability gate: actual WASM CLI simulation verifies shared EIP-712 fixtures, rejects tampering, fetches HTTP and reads finalized Sepolia state. This is not PB-21 product integration or DON deployment.
 
+- PB-08: confirmed snapshot inspection follows actual application routing and recognizes exact supported runtime/admin layouts; reports separate authority and unmet configuration. Seven real Anvil checks pass.
+
 ## Parallel owners
 B continues PB-14–20 using docs/handoffs/TEAMMATE-START.md and the frozen PB-03 contract interface. A has not modified B's campaign contracts or shared hosted Studio contract workspace in this batch. A's next dependent work is PB-08 path inspection, PB-09 isolated scenario execution, PB-10 evidence signing and PB-11 consumer integration, then PB-12 proposals and PB-21 product CRE workflow.
 

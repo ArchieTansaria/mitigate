@@ -162,11 +162,11 @@ If time becomes tight, cut optional features or category claims explicitly. Do n
 **Create/modify:** services/verifier/src/inspect/transparent-oracle.ts; services/verifier/test/inspection.test.ts
 **Interface/deliverable:** inspectDeployment -> observed path/code/config/authority plus explicit unsupported status
 
-- [ ] Test real fixture paths, changed addresses, wrong implementation, wrong setting, unexpected proxy/admin version and unresolved links.
-- [ ] Implement the single supported module using ABI/getters/recognized storage arrangement at the pinned snapshot; inspect actual path from entrypoint.
-- [ ] Explain expected versus observed with responsible account; unknown proxy versions cannot inherit an unsafe guessed upgrade authority.
-- [ ] Validate: `pnpm exec vitest run services/verifier/test/inspection.test.ts`. Record exact output, environment and any skipped stage in docs/handoffs/PB-08.md.
-- [ ] Review owned-file diff and interface/security impact; commit as `feat(verifier): inspect application dependency and authority paths [PB-08]` (or the relevant explicit deferral).
+- [x] Test real fixture paths, changed addresses, wrong implementation, wrong setting, unexpected proxy/admin version and unresolved links.
+- [x] Implement the single supported module using ABI/getters/recognized storage arrangement at the pinned snapshot; inspect actual path from entrypoint.
+- [x] Explain expected versus observed with responsible account; unknown proxy versions cannot inherit an unsafe guessed upgrade authority.
+- [x] Validate: `pnpm exec vitest run services/verifier/test/inspection.test.ts`. Record exact output, environment and any skipped stage in docs/handoffs/PB-08.md.
+- [x] Review owned-file diff and interface/security impact; commit as `feat(verifier): inspect application dependency and authority paths [PB-08]` (or the relevant explicit deferral).
 - [ ] Other owner reviews; merge; coordinator records commit/status and releases dependent task.
 
 ## PB-09 — Isolated repair-test execution
