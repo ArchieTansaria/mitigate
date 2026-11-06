@@ -1,7 +1,7 @@
 # PatchBond
 PatchBond helps a supplier fund remediation across customer-owned smart-contract deployments. It checks each deployment against agreed repair tests, explains what remains wrong, and can release a capped USDC grant only after fresh evidence confirms that deployment passes.
 
-**Current state:** repository/team docs are bootstrapped. Arc Studio contains a CCIP receiver prototype; it has not been pulled into the repo, independently reviewed, or live-deployed. Product verifier/API/worker and live CRE/CCIP integration remain unimplemented. [Open the Studio project](https://studio.arc.io/app/9dee5ecd-ab62-459b-a54f-5ae7b2f06a52). See STATUS.md and memory/.
+**Current state:** PB-04–07 provide validated config, durable PostgreSQL jobs/artifacts, a wallet-authenticated diagnostic API, and artificial repair fixtures with real local deployment evidence. The shared Solidity boundary was built/tested through [Arc Studio](https://studio.arc.io/app/9dee5ecd-ab62-459b-a54f-5ae7b2f06a52). CRE signature/HTTP/EVM compatibility passes actual CLI WASM simulation. The repair worker, product CRE reports and live financial settlement remain unconnected. See [STATUS.md](STATUS.md), [backend startup](docs/runbooks/backend-start.md) and [validation evidence](docs/evidence/backend-validation.md).
 
 ## Start here
 1. Read AGENTS.md.
@@ -20,4 +20,4 @@ One documented adapter/proxy family; configurable deployment inventory; one sour
 No maintainer bond, customer repair fee, penalty or slashing is in the MVP. No secrets, private keys, access tokens, authenticated URLs or private customer artifacts belong in Git, logs, screenshots or agent prompts.
 
 ## Executable foundations
-Start with docs/toolchain.md, docs/handoffs/PB-01.md, PB-02.md and PB-03-contracts.md. Campaign/receipt interfaces and verifier runtime probes are implemented; B starts PB-14. CRE requires account setup; no live financial campaign is deployed yet.
+Start with docs/toolchain.md, docs/handoffs/PB-01.md, PB-02.md and PB-03-contracts.md. Campaign/receipt interfaces and verifier runtime probes are implemented; B starts PB-14. CRE account login and capability simulation are verified; no live financial campaign is deployed yet.

@@ -7,8 +7,8 @@
 **Tech stack:** Proposed stack in DECISIONS.md; exact version pins are PB-00 output.
 **Spec:** DECISIONS.md, INTERFACES.md, and relevant HANDBOOK.md sections.
 
-## Current execution checkpoint (2026-11-06)
-PB-01 Studio CLI build/test/pull is verified; CRE needs account login and real CCIP delivery is pending PB-20. PB-02 has implemented/tested historical RPC and isolated container probes, with successful Arc/Sepolia reads. PB-03 campaign/receipt types, validation, vectors and Solidity/TS parity are implemented by A at the user’s explicit request. B can start PB-14 using docs/handoffs/PB-03-contracts.md. Do not redo the shared interfaces. This does not mark the full financial campaign or live CRE/CCIP path complete.
+## Current execution checkpoint (2026-11-07)
+PB-01 Studio build/test/pull and CRE capability simulation are verified; actual CCIP delivery remains PB-20. PB-02/03 foundations are implemented, including EIP-712 verification in the actual CRE WASM runtime. A completed PB-04–07: validated config, PostgreSQL jobs/artifacts, authenticated diagnostic API and artificial oracle fixtures with real local deployment exports. See per-task handoffs and docs/evidence/backend-validation.md. B continues PB-14–20 without rebuilding shared interfaces. A next connects PB-08–11 inspection/execution/evidence/worker, then PB-12 and PB-21. An accepted queue request is not a repair pass; financial or live sponsor integration is not complete.
 
 ## Global constraints
 Backend first. Implementation is authorized. One supported proxy/application family, configurable inventory, one source chain per initial run. No arbitrary uploaded execution, global security claim, owner keys in worker, fake runtime outputs or silent mock fallback.

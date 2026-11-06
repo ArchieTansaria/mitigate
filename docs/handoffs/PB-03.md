@@ -19,6 +19,6 @@ Domain: PatchBond / 1 / destinationChainId / campaign address. All receipt field
 
 All numeric JSON blockchain values are canonical decimal strings; Solidity fields are uints. ERC-20 amounts are six-decimal USDC units. Test fixture addresses/keys/amounts are never production configuration. diagnosticTypedData uses a separate PatchBondDiagnostic domain and DiagnosticEvidence type and cannot settle grants.
 
-The signature and complete assertion list do not prove that security tests were honestly executed. The trusted backend test runner is later work. CRE runtime signature verification is pending account setup and must not be described as proven. CRE login does not block campaign policy/unit tests.
+The signature and complete assertion list do not prove that security tests were honestly executed. The trusted backend test runner is later work. CRE runtime signature verification now passes in the capability simulation; see CRE-PROBE.md. This does not prove full product acceptance or deployed DON verification.
 
 Commands: pnpm check; pnpm vectors:check; pnpm test:integration (Docker running). Request an explicit coordinated interface change if a field must change; regenerate vectors only with matching Solidity/TS changes.

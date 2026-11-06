@@ -1,5 +1,5 @@
 # Current execution update — 2026-11-06
-A completed the initial PB-03 Solidity/TypeScript foundation through Arc Studio and local verification at the user’s explicit request. B now starts PB-14 using docs/handoffs/PB-03-contracts.md. Earlier future-tense assignment/bootstrap text below is historical; STATUS.md and TASKS.md give current execution state. CRE authentication remains pending.
+A completed the initial PB-03 Solidity/TypeScript foundation through Arc Studio and local verification at the user’s explicit request. B now starts PB-14 using docs/handoffs/PB-03-contracts.md. Earlier future-tense assignment/bootstrap text below is historical; STATUS.md and TASKS.md give current execution state. PB-04–07 are now implemented and CRE WASM capability simulation passes; the repair worker and product sponsor integration remain pending.
 
 # Two-person and two-agent workflow
 ## How to start in a new folder
