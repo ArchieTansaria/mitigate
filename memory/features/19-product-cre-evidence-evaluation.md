@@ -1,0 +1,5 @@
+# PB-21 — Product CRE evidence evaluation
+
+The local CRE workflow verifies the shared PB-10 evidence signature and checks policy hashes, campaign scope, purpose/mode, freshness, full deployment and assertion coverage, eligibility/recipient registration, and finalized source and campaign facts. It returns a non-settlement evaluation report. Six synthetic-input unit cases pass, and strict TypeScript checking passes.
+
+The current verifier only builds diagnostic evidence, so it cannot satisfy PB-21's campaign-claim purpose. PB-16 defines the frozen receipt consumer; the A-side campaign receipt producer is absent. PB-20 delivery/receiver integration is absent, the new workflow directory lacks CRE project manifests, and CLI simulation was blocked by missing workflow configuration and DNS failure validating the cached CLI login. CRE deploy access remains disabled. No live DON, forwarder, receiver, receipt, deployment or transaction is claimed. See `docs/handoffs/PB-21.md` and `docs/evidence/cre.md`.

@@ -15,6 +15,7 @@
   "include": [
     "packages/**/*.ts",
     "services/**/*.ts",
+    "integrations/**/*.ts",
     "scripts/**/*.ts",
     "vitest*.ts"
   ]

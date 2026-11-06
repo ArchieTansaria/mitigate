@@ -21,5 +21,8 @@ Feature 01 is the completed local bootstrap. Feature 02 records a product direct
 | PB-15 | 06-campaign-registry.md | 7963dd1 | Immutable campaign terms and recipient-bound eligibility; no funding |
 | PB-16 | 07-signed-campaign-receipts.md | PB-16 commit | Scoped verifier signatures and receipt replay protection; no settlement |
 | PB-17 | 08-funded-campaign-activation.md | PB-17 commit | Supplier escrow activates only at full tracked funding; no claim settlement |
-| PB-18 | 09-campaign-claim-lifecycle.md | Pending | Independent receipt-bound claims, reserved grants and recipient-only pull withdrawals |
-| PB-19 | 10-campaign-disputes-and-recovery.md | Pending | Bounded challenge/review, timeout rejection and supplier recovery of unallocated funds only |
+| PB-13 | 18-ens-release-publication.md | See Git log PB-13 | ENSv2 publication client/content checks; live role proof and sponsor eligibility pending |
+| PB-18 | 09-campaign-claim-lifecycle.md | 3711d97 | Independent receipt-bound claims, reserved grants and recipient-only pull withdrawals |
+| PB-19 | 10-campaign-disputes-and-recovery.md | c66bbcb, a6c0ce3 | Bounded challenge/review, timeout rejection and supplier recovery of unallocated funds only |
+| PB-20 | PB-20 handoff | caaacb6, 0f9dc22, f0b4b81 | Authenticated CCIP sender/receiver and bounded predeployment queue; local simulation only |
+| PB-21 | 19-product-cre-evidence-evaluation.md | e721370 | Fail-closed scoped evidence evaluator; no receipt issuance, live DON or delivery |
