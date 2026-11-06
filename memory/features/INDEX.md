@@ -22,3 +22,4 @@ Feature 01 is the completed local bootstrap. Feature 02 records a product direct
 | PB-16 | 07-signed-campaign-receipts.md | PB-16 commit | Scoped verifier signatures and receipt replay protection; no settlement |
 | PB-17 | 08-funded-campaign-activation.md | PB-17 commit | Supplier escrow activates only at full tracked funding; no claim settlement |
 | PB-18 | 09-campaign-claim-lifecycle.md | Pending | Independent receipt-bound claims, reserved grants and recipient-only pull withdrawals |
+| PB-19 | 10-campaign-disputes-and-recovery.md | Pending | Bounded challenge/review, timeout rejection and supplier recovery of unallocated funds only |

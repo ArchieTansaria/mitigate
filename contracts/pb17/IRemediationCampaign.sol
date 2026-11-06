@@ -4,12 +4,10 @@ pragma solidity 0.8.28;
 import {PatchBondTypes} from "../pb03/PatchBondTypes.sol";
 
 /// @title IRemediationCampaign
-/// @notice Read surface, errors and lifecycle of the supplier-funded campaign escrow. PB-17 funds and activates it;
-/// PB-18 adds the per-deployment claim lifecycle (submit, finalize, withdraw).
+/// @notice Read surface, errors and lifecycle of the supplier-funded campaign escrow through PB-19.
 /// @dev Accounting identity from the trust model:
 ///      deposited = unallocated + reserved + awardedUnwithdrawn + paid + refunded.
-/// PB-17 moves `deposited` and `unallocated`. PB-18 moves value between `unallocated`, `reserved`,
-/// `awardedUnwithdrawn` and `paid`. `refunded` stays zero until a later task adds recovery.
+/// PB-17 funds; PB-18 reserves and pays claims; PB-19 disputes claims and refunds only unallocated funds.
 interface IRemediationCampaign {
     struct Accounting {
         uint256 deposited;
@@ -20,8 +18,8 @@ interface IRemediationCampaign {
         uint256 refunded;
     }
 
-    /// @notice Lifecycle of one deployment's claim. Disputed and Rejected are entered by the later challenge/review
-    /// task; nothing in PB-18 sets them. A deployment may be claimed again only from None or Rejected.
+    /// @notice Lifecycle of one deployment's claim. A rejected deployment may retry only with a fresh receipt before
+    /// the claim deadline.
     enum ClaimStatus {
         None,
         Pending,
@@ -53,6 +51,18 @@ interface IRemediationCampaign {
 
     /// @notice The recipient pulled their awarded grant.
     event GrantWithdrawn(bytes32 indexed deploymentKey, address indexed recipient, uint256 amount);
+
+    /// @notice A configured challenger disputed a pending claim before its original challenge cutoff.
+    event ClaimChallenged(bytes32 indexed deploymentKey, address indexed challenger, bytes32 reasonHash, uint64 reviewDeadline);
+
+    /// @notice The configured reviewer resolved a dispute. Rejection releases the reservation; award keeps it payable.
+    event ChallengeResolved(bytes32 indexed deploymentKey, address indexed reviewer, bool awarded, uint256 amount);
+
+    /// @notice Reviewer silence rejected the claim and released its reservation.
+    event ChallengeExpired(bytes32 indexed deploymentKey, uint256 amount);
+
+    /// @notice Supplier recovered only currently unallocated escrow after the claim deadline.
+    event UnallocatedRecovered(address indexed supplier, uint256 amount, uint256 totalRefunded);
 
     // ---------------------------------------------------------------- errors (construction)
 
@@ -94,6 +104,13 @@ interface IRemediationCampaign {
     /// @dev The token moved a different amount than the grant (short or excessive transfer). `actual` is the
     /// recipient's balance change or the campaign's balance change, whichever differed.
     error PayoutAmountMismatch(uint256 expected, uint256 actual);
+    error NotChallenger(address caller, address supplier, address challenger);
+    error NotReviewer(address caller, address reviewer);
+    error ClaimNotDisputed(bytes32 deploymentKey, ClaimStatus status);
+    error ChallengeWindowClosed(uint64 challengeCutoff, uint256 nowTs);
+    error ReviewWindowClosed(uint64 reviewDeadline, uint256 nowTs);
+    error ReviewWindowOpen(uint64 reviewDeadline, uint256 nowTs);
+    error NoUnallocatedFunds();
 
     // ---------------------------------------------------------------- reads
 
@@ -136,6 +153,9 @@ interface IRemediationCampaign {
             uint256 withdrawable
         );
 
+    /// @notice Fixed timeout set when challenged; zero before any challenge and retained after resolution for history.
+    function reviewDeadlineOf(bytes32 deploymentKey) external view returns (uint64);
+
     /// @notice Token balance held beyond the tracked deposit (direct transfers). Never counted, never withdrawable.
     function untrackedTokenBalance() external view returns (uint256);
 
@@ -169,4 +189,16 @@ interface IRemediationCampaign {
     /// @dev Moves one grant from `awardedUnwithdrawn` to `paid` and transfers exactly that amount. If the token
     /// transfer fails or moves a different amount, the whole call reverts and the claim stays Awarded.
     function withdrawGrant(bytes32 deploymentKey) external;
+
+    /// @notice Supplier or configured challenger may dispute a Pending claim strictly before its original cutoff.
+    function challengeClaim(bytes32 deploymentKey, bytes32 reasonHash) external;
+
+    /// @notice Configured reviewer resolves a Disputed claim before its fixed review deadline.
+    function resolveChallenge(bytes32 deploymentKey, bool award) external;
+
+    /// @notice Anyone may reject a Disputed claim and release its reservation at or after the review deadline.
+    function expireChallenge(bytes32 deploymentKey) external;
+
+    /// @notice Supplier pulls only unallocated funds, and only at or after the claim deadline.
+    function recoverUnallocated() external;
 }

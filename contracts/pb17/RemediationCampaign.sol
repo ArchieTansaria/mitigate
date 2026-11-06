@@ -43,8 +43,11 @@ contract RemediationCampaign is IRemediationCampaign, ReentrancyGuard {
     bytes32 private immutable _policyHash;
     uint256 private immutable _requiredFunding;
     address private immutable _supplier;
+    address private immutable _challenger;
+    address private immutable _reviewer;
     uint64 private immutable _claimDeadline;
     uint64 private immutable _challengeWindow;
+    uint64 private immutable _reviewTimeout;
     uint256 private immutable _grantAmount;
 
     PatchBondTypes.Policy private _policy;
@@ -56,6 +59,7 @@ contract RemediationCampaign is IRemediationCampaign, ReentrancyGuard {
         address recipient;
         bytes32 receiptId;
         uint64 challengeCutoff;
+        uint64 reviewDeadline;
     }
 
     mapping(bytes32 deploymentKey => Claim) private _claims;
@@ -98,8 +102,11 @@ contract RemediationCampaign is IRemediationCampaign, ReentrancyGuard {
         _policyHash = computedHash;
         _requiredFunding = required;
         _supplier = p.supplier;
+        _challenger = p.challenger;
+        _reviewer = p.reviewer;
         _claimDeadline = p.claimDeadline;
         _challengeWindow = p.challengeWindow;
+        _reviewTimeout = p.reviewTimeout;
         _grantAmount = p.grantAmount;
         _policy = p;
     }
@@ -176,7 +183,8 @@ contract RemediationCampaign is IRemediationCampaign, ReentrancyGuard {
             status: ClaimStatus.Pending,
             recipient: receipt.recipient,
             receiptId: receipt.receiptId,
-            challengeCutoff: cutoff
+            challengeCutoff: cutoff,
+            reviewDeadline: 0
         });
 
         // Interaction: the verifier validates every PB-03/PB-16 rule against the registry and burns the receipt for
@@ -249,6 +257,95 @@ contract RemediationCampaign is IRemediationCampaign, ReentrancyGuard {
         receiptId = claim.receiptId;
         challengeCutoff = claim.challengeCutoff;
         withdrawable = status == ClaimStatus.Awarded ? _grantAmount : 0;
+    }
+
+    /// @inheritdoc IRemediationCampaign
+    function reviewDeadlineOf(bytes32 deploymentKey) external view returns (uint64) {
+        return _claims[deploymentKey].reviewDeadline;
+    }
+
+    // ------------------------------------------------------------------ challenges and bounded review (PB-19)
+
+    /// @inheritdoc IRemediationCampaign
+    function challengeClaim(bytes32 deploymentKey, bytes32 reasonHash) external nonReentrant {
+        if (msg.sender != _supplier && msg.sender != _challenger) {
+            revert NotChallenger(msg.sender, _supplier, _challenger);
+        }
+
+        Claim storage claim = _claims[deploymentKey];
+        if (claim.status != ClaimStatus.Pending) revert ClaimNotPending(deploymentKey, claim.status);
+        if (block.timestamp >= claim.challengeCutoff) {
+            revert ChallengeWindowClosed(claim.challengeCutoff, block.timestamp);
+        }
+
+        uint64 reviewDeadline = SafeCast.toUint64(block.timestamp + _reviewTimeout);
+        claim.status = ClaimStatus.Disputed;
+        claim.reviewDeadline = reviewDeadline;
+
+        emit ClaimChallenged(deploymentKey, msg.sender, reasonHash, reviewDeadline);
+    }
+
+    /// @inheritdoc IRemediationCampaign
+    function resolveChallenge(bytes32 deploymentKey, bool award) external nonReentrant {
+        if (msg.sender != _reviewer) revert NotReviewer(msg.sender, _reviewer);
+
+        Claim storage claim = _claims[deploymentKey];
+        if (claim.status != ClaimStatus.Disputed) revert ClaimNotDisputed(deploymentKey, claim.status);
+        uint64 deadline = claim.reviewDeadline;
+        if (block.timestamp >= deadline) revert ReviewWindowClosed(deadline, block.timestamp);
+
+        uint256 grant = _grantAmount;
+        _accounting.reserved -= grant;
+        if (award) {
+            claim.status = ClaimStatus.Awarded;
+            _accounting.awardedUnwithdrawn += grant;
+        } else {
+            claim.status = ClaimStatus.Rejected;
+            _accounting.unallocated += grant;
+        }
+
+        emit ChallengeResolved(deploymentKey, msg.sender, award, grant);
+    }
+
+    /// @inheritdoc IRemediationCampaign
+    function expireChallenge(bytes32 deploymentKey) external nonReentrant {
+        Claim storage claim = _claims[deploymentKey];
+        if (claim.status != ClaimStatus.Disputed) revert ClaimNotDisputed(deploymentKey, claim.status);
+        uint64 deadline = claim.reviewDeadline;
+        if (block.timestamp < deadline) revert ReviewWindowOpen(deadline, block.timestamp);
+
+        uint256 grant = _grantAmount;
+        claim.status = ClaimStatus.Rejected;
+        _accounting.reserved -= grant;
+        _accounting.unallocated += grant;
+
+        emit ChallengeExpired(deploymentKey, grant);
+    }
+
+    /// @inheritdoc IRemediationCampaign
+    function recoverUnallocated() external nonReentrant {
+        if (msg.sender != _supplier) revert NotSupplier(msg.sender, _supplier);
+        if (block.timestamp < _claimDeadline) revert DeadlinePassed(_claimDeadline, block.timestamp);
+
+        uint256 amount = _accounting.unallocated;
+        if (amount == 0) revert NoUnallocatedFunds();
+
+        // Checks-effects-interactions: reserved and awarded funds remain held for their claims. Failed or non-exact
+        // token transfers revert the accounting update and can be retried by the supplier.
+        _accounting.unallocated = 0;
+        _accounting.refunded += amount;
+        uint256 supplierBefore = _token.balanceOf(_supplier);
+        uint256 campaignBefore = _token.balanceOf(address(this));
+        _token.safeTransfer(_supplier, amount);
+        uint256 supplierAfter = _token.balanceOf(_supplier);
+        uint256 campaignAfter = _token.balanceOf(address(this));
+
+        uint256 received = supplierAfter > supplierBefore ? supplierAfter - supplierBefore : 0;
+        if (received != amount) revert PayoutAmountMismatch(amount, received);
+        uint256 sent = campaignBefore > campaignAfter ? campaignBefore - campaignAfter : 0;
+        if (sent != amount) revert PayoutAmountMismatch(amount, sent);
+
+        emit UnallocatedRecovered(_supplier, amount, _accounting.refunded);
     }
 
     // ------------------------------------------------------------------ reads
