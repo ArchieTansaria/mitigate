@@ -1,0 +1,21 @@
+{
+  "name": "patchbond",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "pnpm@11.22.0",
+  "engines": {
+    "node": ">=24 <25",
+    "pnpm": ">=11.22.0 <12"
+  },
+  "devDependencies": {
+    "@circle-fin/arc-studio-cli": "1.2.2"
+  },
+  "engineStrict": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*",
+    "services/*",
+    "workflows/*"
+  ]
+}
+\n

@@ -1,0 +1,29 @@
+# Secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+secrets/
+credentials/
+# JS/tool output
+node_modules/
+.pnpm-store/
+dist/
+build/
+coverage/
+.turbo/
+.cache/
+.tmp/
+# Solidity output
+out/
+cache/
+broadcast/
+# Local work
+.DS_Store
+*.log
+.superpowers/
+.tmp-artifacts/
+
+\n

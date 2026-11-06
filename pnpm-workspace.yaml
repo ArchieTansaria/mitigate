@@ -1,0 +1,8 @@
+packages:
+  - "apps/*"
+  - "packages/*"
+  - "services/*"
+  - "workflows/*"
+allowBuilds:
+  '@circle-fin/arc-studio-cli': true
+\n
