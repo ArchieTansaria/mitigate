@@ -1,0 +1,12 @@
+{
+  "status": "completed",
+  "stdout": "forge Version: 1.7.1\nCommit SHA: 4072e48705af9d93e3c0f6e29e93b5e9a40caed8\nBuild Timestamp: 2026-05-08T08:42:18.141435021Z (1778229738)\nBuild Profile: dist\n",
+  "stderr": "",
+  "exitCode": 0,
+  "durationMs": 1153,
+  "image": "ghcr.io/foundry-rs/foundry@sha256:8347b728d5d393dac1c018691b36f506d23b9dcd78341d40ea0fcb11c3a19cdd",
+  "containerName": "patchbond-probe-ee283f54-58c6-4ce1-81dc-6301e9851863",
+  "cleanupStatus": "completed",
+  "isolated": true,
+  "checkedAt": "2026-11-06T17:29:23.500Z"
+}

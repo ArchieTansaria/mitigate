@@ -1,0 +1,33 @@
+[
+  {
+    "network": "arc",
+    "checkedAt": "2026-11-06T17:31:41.053Z",
+    "address": "0x3600000000000000000000000000000000000000",
+    "status": "ready",
+    "snapshot": {
+      "chainId": "5042002",
+      "blockNumber": "71063801",
+      "blockHash": "0xca1f2b9c76380aea020d83717c1c7dff0d6e331136530b17f6115946f6e4e04b",
+      "blockTimestamp": "1793986288"
+    },
+    "codeHash": "0xc9987bd3af6b26a030951faa7eacc017b68343aeedf3ce5fe68f821c4b93939d",
+    "storageValue": "0x000000000000000000000000dc29bab4a7d5425ca44eef20a5b67e3d897f9a03",
+    "durationMs": 1047,
+    "erc20Decimals": 6
+  },
+  {
+    "network": "sepolia",
+    "checkedAt": "2026-11-06T17:31:42.059Z",
+    "address": "0x0BF3dE8c5D3e8A2B34D2BEeB17ABfCeBaf363A59",
+    "status": "ready",
+    "snapshot": {
+      "chainId": "11155111",
+      "blockNumber": "12078033",
+      "blockHash": "0x4ebf88022f4c2aa1518f44fea74f3ab63e8b99c349d57d62d023a8e2931c007b",
+      "blockTimestamp": "1793986056"
+    },
+    "codeHash": "0xb0b5a5a199085b5e41254c16e72fb37416a41c006d3f5f58a7bed54e36c4bfa5",
+    "storageValue": "0x000000000000000000000000903ca654f4ef2d3ce8a63f4dc58e53d2a5468de6",
+    "durationMs": 1980
+  }
+]

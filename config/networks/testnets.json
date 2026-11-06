@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "arc": {
+    "chainId": "5042002",
+    "rpcUrl": "https://rpc.testnet.arc.io",
+    "explorer": "https://explorer.testnet.arc.io",
+    "usdc": "0x3600000000000000000000000000000000000000",
+    "erc20Decimals": 6,
+    "nativeDecimals": 18,
+    "source": "https://docs.arc.io/arc/references/contract-addresses"
+  },
+  "sepolia": {
+    "chainId": "11155111",
+    "ccipSelector": "16015286601757825753",
+    "source": "https://docs.chain.link/ccip/directory/testnet/chain/ethereum-testnet-sepolia"
+  }
+}
