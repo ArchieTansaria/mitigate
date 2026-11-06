@@ -22,11 +22,10 @@ Remote target: https://github.com/ArchieTansaria/mitigate
 
 ## Product direction (2026-11-06)
 - Adopted supplier-funded remediation campaign: supplier deposits a fully backed USDC grant per historically eligible deployment; each customer repairs under its own authority; a fresh scoped acceptance receipt can unlock only that deployment's grant. No maintainer bond, repair fee, penalty or slashing in MVP.
-- Updated canonical architecture/task instructions in IMPLEMENTATION_PLAN.md, DECISIONS.md and TASKS.md. Teammate B starts with PB-01 Studio CLI feasibility, then fixtures PB-07 after shared schema PB-03, then campaign contracts PB-14–20. A owns PB-00/PB-02 and backend verifier/API.
+- Updated canonical architecture/task instructions in IMPLEMENTATION_PLAN.md, DECISIONS.md and TASKS.md. Teammate B owns the full campaign contract stream PB-14–20, beginning with Studio access and Solidity PB-03 structures/vectors. A owns toolchain, backend verifier/API, fixtures, TypeScript receipt producer, CRE and conditional ENS. No campaign task is marked implemented by this reassignment.
 
 ## Next
-1. Teammate B inspects existing Studio project/app and session from the authenticated terminal; audit/pull only reviewed contract/test/docs paths to scratch, never `.env`.
-2. B performs PB-01 artifact round-trip, independently reproduces the Studio-reported tests, reviews the “with errors” result, and asks the mentor whether Codex-driven CLI work satisfies the track wording; no repeated login attempt.
-3. A finishes remaining PB-00 checks and PB-02; then both freeze PB-03 receipt/campaign interfaces.
-4. Push local commits after review; remote sync is not confirmed from this environment.
-5. ENS remains conditional. Testnet deployment/funding must be an explicit human-reviewed action.
+1. B reads docs/handoffs/TEAMMATE-START.md, accesses the existing Studio project with authorized credentials and begins contract PB-03/PB-14, then PB-15–19 in order. No separate audit-only task.
+2. A builds toolchain/backend and consumes B's ABI/signing vectors for TypeScript. Unit tests may use labelled fixtures; live integration waits for real evidence and matching encodings.
+3. B builds/tests/deploys Arc contracts through the hosted Studio workflow and pulls reviewed source into its Git branch. Project access must be verified per teammate; no credential sharing.
+4. A owns shared status/lockfile updates; both maintain per-task handoffs and feature memory. Remote sync must be checked before claiming changes are available to the teammate.

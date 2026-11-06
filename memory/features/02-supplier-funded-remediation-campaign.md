@@ -24,3 +24,6 @@ The verifier signature attests to a report; it does not prove honest test execut
 
 ## Source of truth
 Read `IMPLEMENTATION_PLAN.md` and `docs/planning/DECISIONS.md`; older handbook passages about bilateral maintenance fees/bonds are superseded for this MVP. ENS remains conditional. This feature is a product/architecture decision only; the separate Studio CCIP prototype exists, but no remediation campaign contract, grant or testnet deployment is verified.
+
+## Current implementation ownership (2026-11-06)
+B owns the complete campaign contract stream PB-14–20 and its Solidity PB-03 prerequisites in the existing Arc Studio project. A owns verifier/backend, fixture contracts, TypeScript receipt producer, CRE and conditional ENS. See docs/handoffs/TEAMMATE-START.md. This records an assignment, not implemented campaign functionality.

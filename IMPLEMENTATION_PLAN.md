@@ -1,6 +1,6 @@
 # PatchBond implementation plan
 
-> For agentic workers: this is a planning artifact, not authorization to start coding. Once authorized, use the available task-by-task execution workflow (superpowers:executing-plans or superpowers:subagent-driven-development when available). A teammate without those skills follows the same task tests/review/commit cycle. No skill installation is required to understand this plan.
+> For agentic workers: the user has authorized implementation. Follow the current module ownership below; use the available task-by-task execution workflow (superpowers:executing-plans or superpowers:subagent-driven-development when available). A teammate without those skills follows the same task tests/review/commit cycle. No skill installation is required to understand this plan.
 
 **Goal:** Help a supplier run a funded USDC remediation campaign for customer-owned deployments, paying a capped grant only after each deployment independently passes the agreed repair checks.
 **Architecture:** Offchain verifier inspects a bounded, eligible deployment inventory and issues fresh, scoped evidence; the customer executes repairs under its own authority. A supplier-funded Arc campaign reserves one fixed grant per eligible deployment and releases it after a valid receipt and bounded challenge path. CRE coordinates external evidence and supported chain reads; CCIP delivers authenticated acceptance facts where the live route is feasible. ENS remains conditional.
@@ -8,8 +8,8 @@
 **Spec:** DECISIONS.md, INTERFACES.md, and relevant HANDBOOK.md sections.
 
 ## Global constraints
-No product implementation in the planning turn. Backend first. One supported proxy/application family, configurable inventory, one source chain per initial run. No arbitrary uploaded execution, global security claim, owner keys in worker, fake runtime outputs or silent mock fallback.
-A owns API/verifier/schema/config and eventual UI. B owns contracts/fixtures/integrations. Joint review of schema and financial invariants.
+Backend first. Implementation is authorized. One supported proxy/application family, configurable inventory, one source chain per initial run. No arbitrary uploaded execution, global security claim, owner keys in worker, fake runtime outputs or silent mock fallback.
+A owns API/verifier/schema/config, verifier fixtures, CRE, conditional ENS and eventual UI. B owns campaign/acceptance/messaging contracts PB-14–20 and their prerequisites. B authors Solidity encoding vectors; A implements matching TypeScript. Joint review of schema and financial invariants.
 Arc Studio provenance starts before Arc-targeted development. Live and simulated execution are distinct.
 Each deployment is evaluated and paid independently; one customer’s incomplete repair never blocks another customer. Campaign terms, eligibility snapshot, repair-policy hash, test-pack hash, recipient, grant cap and deadlines are fixed before funding. No customer repair fee, maintainer bond, or financial penalty is part of this MVP. A valid receipt is an authorized attestation to evidence, not cryptographic proof that a test was honestly run. Direct Arc claim/challenge/withdrawal paths and bounded timeout exits must work without the verifier/API.
 Protocol constants/test fixtures are named; addresses, endpoints and policy values are inputs/configuration. No runtime branches keyed to demo addresses.
@@ -28,14 +28,16 @@ Commands are target interfaces established at PB-00, not scripts available in th
 Commit examples include task IDs; split a large task into multiple passing focused commits if useful. Never mark the task done until relevant evidence, review and merge exist.
 Shared files mentioned by a later non-owner require an owner-authored prerequisite PR or explicit reassignment; they are not permission for concurrent writes.
 
-## Dependency order
-- Initial A: PB-00 -> PB-02. Initial B: PB-01. Then joint PB-03.
-- A core: PB-04 -> PB-05 -> PB-06; after B's PB-07, PB-08 -> PB-09 -> PB-10 -> PB-11 -> PB-12.
-- B core: PB-07; PB-14 campaign policy with A -> PB-15 eligibility/consent -> PB-16 signed acceptance -> PB-17 fully funded campaign -> PB-18 individual claims -> PB-19 challenge/accounting -> PB-20 CCIP delivery.
-- B CRE: PB-21 after A's signed evidence; B ENS PB-13 only if justified.
-- A consumes merged ABIs for PB-22; both reach PB-23/PB-24.
-- UI PB-25/PB-26 only after PB-24; operational deployment PB-27 and submission PB-28 follow.
-These dependencies permit two backend streams. Do not assign one person only UI while both are waiting for backend integration.
+## Dependency order and current two-agent split
+This split supersedes earlier numeric-range and audit-first assignments. See docs/handoffs/TEAMMATE-START.md.
+- A: PB-00/PB-02 and TypeScript half of PB-03, PB-04–12 (including PB-07 fixtures), PB-21 CRE, conditional PB-13 ENS, PB-22–28 backend integration/UI.
+- B: establish access to the existing Studio app as setup within PB-01; implement Solidity structs/signing vectors as the contract half of PB-03, then PB-14 -> PB-15 -> PB-16 contract validation -> PB-17 -> PB-18 -> PB-19 -> PB-20 contracts. B owns these missing prerequisites; PB-17/18 are not standalone start-ready tasks.
+- B owns campaign policy/trust docs; A owns corresponding TypeScript schema validation. B publishes contract types/vectors in docs/handoffs/PB-03-contracts.md; A consumes them. Exact encoding parity is required before integration, not completion of the entire backend before contract unit tests.
+- PB-01 is split by capability: B owns Studio setup and contract/runtime facts; A owns CRE feasibility; B tests the CCIP contract route with A. Unrelated CRE/CCIP probes do not block writing campaign contracts.
+- PB-10 real evidence is required for PB-16 end-to-end acceptance, not for implementing and unit-testing its signature validator. Label fixtures and incomplete integration explicitly; no fixture bypass in live paths.
+- PB-17 still requires PB-14 terms, PB-15 registry interfaces and verified token/runtime configuration for live execution. PB-18 still requires PB-16 contract validator and PB-17 funding. These dependencies are built by B in order.
+- A and B implement in separate clones and owned files. B is the active writer for the hosted Studio contract workspace; coordinate later Studio UI changes to prevent concurrent overwrites.
+- Integration requires matching TS/Solidity vectors, real backend evidence, real sponsor transactions and actual contract state. Unit-test completion does not establish end-to-end completion.
 
 ## Scope priority
 Core: complete diagnostics, actual per-deployment repair recheck, truthful evidence, and safe supplier-funded grant lifecycle.
@@ -58,13 +60,13 @@ If time becomes tight, cut optional features or category claims explicitly. Do n
 - [ ] Other owner reviews; merge; coordinator records commit/status and releases dependent task.
 
 ## PB-01 — Arc Studio CLI workflow and sponsor feasibility
-**Owner:** B (teammate)
+**Owner:** B for Studio/contract runtime and CCIP; A for CRE
 **Prerequisites:** PB-00 docs/config are sufficient
 **Create/modify:** docs/evidence/sponsor-probes.md; docs/decisions/sponsor-runtime.md; Studio project created/driven through Arc Studio CLI
 **Interface/deliverable:** A verified Arc Studio project and CLI-to-repo artifact workflow; measured CRE/CCIP feasibility; no claimed end-to-end integration until state is proven
 
 - [ ] From the authenticated owner terminal, verify `pnpm exec arc-studio whoami`, `apps --json` and `sessions --json`; match the listed app to the browser-confirmed project and capture its session. Never share credentials.
-- [ ] Audit the existing Studio project `https://studio.arc.io/app/9dee5ecd-ab62-459b-a54f-5ae7b2f06a52` (app ID `9dee5ecd-ab62-459b-a54f-5ae7b2f06a52`) and its generated CCIP receiver before starting another session. Use `arc-studio run --app <appId> --output json` for focused follow-up; do not create a duplicate app.
+- [ ] Open the existing Studio project `https://studio.arc.io/app/9dee5ecd-ab62-459b-a54f-5ae7b2f06a52` (app ID `9dee5ecd-ab62-459b-a54f-5ae7b2f06a52`) and confirm access before issuing build commands. Inspect the generated receiver when messaging integration begins; it is not a prerequisite to campaign implementation. Use `arc-studio run --app <appId> --output json` for focused follow-up; do not create a duplicate app.
 - [ ] Prove artifact round-trip on the existing receiver/report with `arc-studio pull --app <appId> --dry-run` then pull only reviewed paths into a scratch directory; exclude `.env`, credentials, caches and generated build output. Record non-destructive conflict behavior. Do not assume Studio edits the local checkout directly.
 - [ ] Preserve this existing Studio project as the starting point for Arc-targeted app/contracts. Audit the generated contract and tests; independently rerun them after pull. Test whether the hosted app can call the separately hosted verifier; record API boundary, auth/CORS and runtime constraints.
 - [ ] Independently probe CRE CLI/runtime and Sepolia-to-Arc CCIP route. For any live message, verify Arc receiver storage/event and transaction/message IDs; a simulation or log alone is not live proof.
@@ -87,8 +89,8 @@ If time becomes tight, cut optional features or category claims explicitly. Do n
 - [ ] Other owner reviews; merge; coordinator records commit/status and releases dependent task.
 
 ## PB-03 — Freeze shared schemas encoding and fixture interfaces
-**Owner:** A implements; B reviews
-**Prerequisites:** PB-01 and PB-02
+**Owner:** B implements Solidity structures/vectors; A implements matching TypeScript
+**Prerequisites:** INTERFACES.md for initial types and unit tests; PB-01/PB-02 runtime facts before integration
 **Create/modify:** packages/schema/src/{manifest,inventory,policy,evidence,encoding,attestation}.ts; packages/schema/test/vectors.test.ts; contracts/test/EncodingVectors.t.sol; docs/interfaces.md
 **Interface/deliverable:** Objects and interfaces in INTERFACES.md; exact Solidity tuples, signatures and fixture ABI agreement
 
@@ -139,15 +141,15 @@ If time becomes tight, cut optional features or category claims explicitly. Do n
 - [ ] Other owner reviews; merge; coordinator records commit/status and releases dependent task.
 
 ## PB-07 — Known-bug application fixtures and approved test pack
-**Owner:** B
+**Owner:** A
 **Prerequisites:** PB-03; PB-01 for any Arc-specific generated code
-**Create/modify:** fixtures/src/{TestPriceSource,OracleAdapterV1,OracleAdapterV2,RiverMarket}.sol; fixtures/script/Deploy.s.sol; testpacks/oracle-adapter/; contracts/test/FixtureBehavior.t.sol
+**Create/modify:** fixtures/src/{TestPriceSource,OracleAdapterV1,OracleAdapterV2,RiverMarket}.sol; fixtures/script/Deploy.s.sol; testpacks/oracle-adapter/; fixtures/test/FixtureBehavior.t.sol
 **Interface/deliverable:** Pinned transparent-proxy family, shared ABI and configurable fixture deployment manifest
 
 - [ ] Implement old adapter with the deliberate stale-price issue and corrected version; distinct supplier upgrade/customer configuration authorities.
 - [ ] Tests demonstrate bad-input rejection after repair and legitimate borrowing/calculations; include wrong scaling configuration and paused application.
 - [ ] Deploy fresh configurable instances without app-side address exceptions; export addresses, ABIs, code hashes and txs generated from execution. Document artificial fixture and interventions.
-- [ ] Validate: `forge test --root contracts --match-contract FixtureBehaviorTest`. Record exact output, environment and any skipped stage in docs/handoffs/PB-07.md.
+- [ ] Validate: `forge test --root fixtures --match-contract FixtureBehaviorTest`. Record exact output, environment and any skipped stage in docs/handoffs/PB-07.md.
 - [ ] Review owned-file diff and interface/security impact; commit as `feat(fixtures): model stale-price repair and deployment drift [PB-07]` (or the relevant explicit deferral).
 - [ ] Other owner reviews; merge; coordinator records commit/status and releases dependent task.
 
@@ -217,7 +219,7 @@ If time becomes tight, cut optional features or category claims explicitly. Do n
 - [ ] Other owner reviews; merge; coordinator records commit/status and releases dependent task.
 
 ## PB-13 — Conditional ENS release publication gate
-**Owner:** B
+**Owner:** A
 **Prerequisites:** PB-01, PB-03; mentor/product fit decision
 **Create/modify:** docs/decisions/ens-fit.md; integrations/ens/src/publication.ts; integrations/ens/test/publication.test.ts
 **Interface/deliverable:** ENS-approved manifest resolver OR documented deferral
@@ -230,8 +232,8 @@ If time becomes tight, cut optional features or category claims explicitly. Do n
 - [ ] Other owner reviews; merge; coordinator records commit/status and releases dependent task.
 
 ## PB-14 — Freeze supplier campaign policy and trust boundaries
-**Owner:** A coordinates; B (teammate) reviews
-**Prerequisites:** PB-03; no live deposit until terms and roles are approved
+**Owner:** B implements policy/trust docs; A implements matching TypeScript validation
+**Prerequisites:** PB-03 contract policy/receipt structure; no live deposit until terms and roles are approved
 **Create/modify:** docs/policies/demo-policy.md; packages/schema/test/policy.test.ts; docs/evidence/trust-model.md
 **Interface/deliverable:** Versioned campaign policy for one supplier-funded remediation campaign; no maintenance fee or bond
 
@@ -257,8 +259,8 @@ If time becomes tight, cut optional features or category claims explicitly. Do n
 - [ ] Commit `feat(campaign): register immutable eligibility and repair policy [PB-15]`.
 
 ## PB-16 — Signed, scoped acceptance receipt
-**Owner:** B (teammate), with A schema review
-**Prerequisites:** PB-10, PB-14, PB-15; shared receipt encoding from PB-03
+**Owner:** B for Solidity validator; A for TypeScript receipt producer
+**Prerequisites:** PB-14/PB-15 and PB-03 contract receipt encoding for contract tests; PB-10 real evidence and cross-language vectors before end-to-end integration
 **Create/modify:** packages/schema/src/acceptance-receipt.ts; contracts/src/AcceptanceVerifier.sol; contracts/test/AcceptanceVerifier.t.sol
 **Interface/deliverable:** Replay-resistant receipt binding a specific passing deployment check to a campaign claim
 
@@ -325,7 +327,7 @@ If time becomes tight, cut optional features or category claims explicitly. Do n
 - [ ] Commit `feat(ccip): relay authenticated remediation acceptance [PB-20]`.
 
 ## PB-21 — CRE workflow using actual evidence and policy reads
-**Owner:** B
+**Owner:** A
 **Prerequisites:** PB-10, PB-16; PB-03 signature/runtime proof
 **Create/modify:** workflows/cre/src/main.ts; workflows/cre/test/workflow.test.ts; docs/evidence/cre.md
 **Interface/deliverable:** Report retrieval + policy/fact checks + authenticated report generation/delivery

@@ -1,5 +1,5 @@
 # Shared interface contract
-Status: planning specification. Current campaign model adopted 2026-11-06. PB-03 must produce executable schemas, Solidity structs and golden vectors before dependent code. This document is not a generated OpenAPI schema or compiled ABI. Older handbook agreement/bond structures are superseded for this MVP; read docs/planning/DECISIONS.md.
+Status: planning specification. Current campaign model adopted 2026-11-06. PB-03 contract structures/vectors are owned by B; matching TypeScript schemas/vectors are owned by A. Each module can be unit-tested against this boundary; matching vectors are mandatory before integration. This document is not a generated OpenAPI schema or compiled ABI. Older handbook agreement/bond structures are superseded for this MVP; read docs/planning/DECISIONS.md.
 
 ## Common vocabulary
 Address: normalized EVM address; validate before accepting. Hash32: 32-byte hex value. Amount: base-unit unsigned integer encoded as a decimal string in HTTP/JSON; bigint internally; uint256 onchain. Never JavaScript floating point for balances.
@@ -31,7 +31,7 @@ Initial verifier: explicit EOA signing EIP-712 typed AcceptanceReceipt fields ca
 Campaign creation/funding is authorized by the supplier wallet on Arc. Claimant wallet authorization binds the fixed recipient; verifier signature support is limited to the declared EOA scheme initially. Do not claim arbitrary EIP-1271 verifier support. Offchain login may support EIP-1271 separately as described below.
 CRE must parse/verify the chosen signing scheme in its actual supported runtime. If unsupported, block/change the interface through joint review, not skip verification.
 
-Produce vectors for: valid campaign, changed recipient, changed chain, altered eligibility root, duplicate deployment rejected, wrong campaign/test-pack, preview mode rejected, stale evidence, replayed receipt and one valid signature plus invalid signature. Both TS and Solidity hashes must match where Solidity consumes the encoding. One owner A edits encodings; B reviews and implements consumer structs.
+Produce vectors for: valid campaign, changed recipient, changed chain, altered eligibility root, duplicate deployment rejected, wrong campaign/test-pack, preview mode rejected, stale evidence, replayed receipt and one valid signature plus invalid signature. Both TS and Solidity hashes must match where Solidity consumes the encoding. B owns Solidity structs/type hashes and contract vectors; A owns matching TypeScript encodings. B exports the initial contract boundary in docs/handoffs/PB-03-contracts.md. Any later semantic change must be coordinated before integration.
 
 ## Proposed module boundaries (names to freeze in PB-03)
 loadConfig(env) -> ValidatedConfig

@@ -21,7 +21,7 @@ Controlled regression: stale-price rejection plus valid-operation and unit/confi
 
 ## Chosen team structure
 A = user and this agent: integration coordinator, schema/config owner, API/database/jobs, inspection and verification/evidence, eventual UI.
-B = teammate and her agent: fixtures, product contracts, CRE/CCIP, sponsor execution evidence; conditional ENS.
+B = teammate and her agent: complete campaign contract stream PB-14–20 including prerequisites, Solidity half of PB-03 and Arc Studio build/test/deploy evidence. A additionally owns verifier fixtures, CRE and conditional ENS. B defines exact Solidity receipt/domain vectors; A implements matching TypeScript and the real receipt producer. Contract unit tests may precede backend integration; full integration remains gated on real evidence and matching vectors.
 During frontend work B reviews chain-state interpretation and tests financial failure paths. A integrates shared interfaces and reviews B's backend APIs; B reviews A's evidence meaning and coverage.
 Both people inspect financial and trust decisions. A human must remain able to explain the demo.
 

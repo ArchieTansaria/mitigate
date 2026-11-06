@@ -25,13 +25,13 @@ git switch -c feat/pb-07-fixtures
 Angle-bracket text is a placeholder, not an executable real URL. Each person's agent works in that person's clone. Worktrees are optional only when a person runs simultaneous writers on their own machine.
 
 ## Assignments
-A leads API, worker, schema, config and integration coordination; B leads fixtures, contracts, CRE/CCIP and conditional ENS. UI starts after backend gate: A implements UI; B tests integration/security and deployment evidence.
+A leads API, worker, TypeScript schemas, config, verifier fixtures, CRE, conditional ENS and integration coordination; B leads campaign/acceptance/messaging contracts PB-14–20, their policy prerequisites and Solidity PB-03 vectors in Arc Studio. UI starts after backend gate: A implements UI; B tests integration/security and deployment evidence.
 A owns the root lockfile and dependency updates. B describes needed dependencies; A lands them, B pulls the merged commit.
-B owns fixture ABIs and compiled contract artifacts; A consumes generated exports.
+A owns verifier fixture ABIs under fixtures/. B owns campaign contract ABIs and generated exports under contracts/; A consumes those exports.
 Migrations have one author A and are append-only after merge; never let both agents generate competing migration numbers.
 
 ## Before the two agents work in parallel
-Land PB-03 schema/domain hashes and PB-07 fixture ABI. Both agents run the same golden vectors. Shared encoding is a merge prerequisite, not something to reconcile at demo time.
+B begins with Solidity PB-03 types/vectors and campaign prerequisites; A works on the toolchain/verifier and matching TypeScript schemas. Contract unit tests do not wait for the complete backend. Before integration, both agents run identical golden vectors and agree on the fixture ABI. Shared encoding parity is an integration prerequisite, not something to reconcile at demo time.
 Parallel streams then proceed against those stable contracts. If a dependency is not ready, implement an explicitly labelled local test double matching the shared interface; do not wire it into testnet behavior.
 If an agent needs an interface change, first open a small schema/ABI change, state impact, obtain other-owner review and land its tests. Consumers then update from that commit.
 
