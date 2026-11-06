@@ -17,3 +17,4 @@ Feature 01 is the completed local bootstrap. Feature 02 records a product direct
 
 | 11 | 11-deployment-inspection.md | See Git log PB-08 | Confirmed path, code, configuration and authority observations |
 | 12 | 12-isolated-repair-execution.md | See Git log PB-09 | Actual isolated EVM assertions; no financial acceptance |
+| 13 | 13-complete-diagnostic-evidence.md | See Git log PB-10 | Complete scoped signed diagnostics, never campaign acceptance |

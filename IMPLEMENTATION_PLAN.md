@@ -190,12 +190,14 @@ Implementation ruling: offline state reconstruction for the exact recognized fin
 **Create/modify:** services/verifier/src/evidence/; services/verifier/test/evidence.test.ts
 **Interface/deliverable:** evaluateCoverage, buildEvidence and signEvidence
 
-- [ ] Test omitted/duplicated deployment or assertion, mixed block hashes, wrong manifest/test digest, tampered signature and all required-pass case.
-- [ ] Generate complete ordered report, immutable artifact references and agreed evaluator attestation; isolate signing from test subprocess.
-- [ ] Test diagnostic/preview cannot qualify, unknown results fail closed, signing-key rotation cannot silently alter an existing policy and stale report rejection follows policy.
-- [ ] Validate: `pnpm exec vitest run services/verifier/test/evidence.test.ts`. Record exact output, environment and any skipped stage in docs/handoffs/PB-10.md.
-- [ ] Review owned-file diff and interface/security impact; commit as `feat(evidence): bind complete verification to approved scope [PB-10]` (or the relevant explicit deferral).
+- [x] Test omitted/duplicated deployment or assertion, mixed block hashes, wrong manifest/test digest, tampered signature and all required-pass case.
+- [x] Generate complete ordered report, immutable artifact references and agreed evaluator attestation; isolate signing from test subprocess.
+- [x] Test diagnostic/preview cannot qualify, unknown results fail closed, signing-key rotation cannot silently alter an existing policy and stale report rejection follows policy.
+- [x] Validate: `pnpm exec vitest run services/verifier/test/evidence.test.ts`. Record exact output, environment and any skipped stage in docs/handoffs/PB-10.md.
+- [x] Review owned-file diff and interface/security impact; commit as `feat(evidence): bind complete verification to approved scope [PB-10]` (or the relevant explicit deferral).
 - [ ] Other owner reviews; merge; coordinator records commit/status and releases dependent task.
+
+Financial acceptance receipts are deliberately still gated on authoritative campaign terms/eligibility and PB-16 integration. This implementation signs diagnostic results only.
 
 ## PB-11 — Replay and diagnostic backend flow
 **Owner:** A
