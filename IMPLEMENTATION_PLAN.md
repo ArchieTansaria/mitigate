@@ -7,6 +7,9 @@
 **Tech stack:** Proposed stack in DECISIONS.md; exact version pins are PB-00 output.
 **Spec:** DECISIONS.md, INTERFACES.md, and relevant HANDBOOK.md sections.
 
+## Current execution checkpoint (2026-11-06)
+PB-01 Studio CLI build/test/pull is verified; CRE needs account login and real CCIP delivery is pending PB-20. PB-02 has implemented/tested historical RPC and isolated container probes, with successful Arc/Sepolia reads. PB-03 campaign/receipt types, validation, vectors and Solidity/TS parity are implemented by A at the user’s explicit request. B can start PB-14 using docs/handoffs/PB-03-contracts.md. Do not redo the shared interfaces. This does not mark the full financial campaign or live CRE/CCIP path complete.
+
 ## Global constraints
 Backend first. Implementation is authorized. One supported proxy/application family, configurable inventory, one source chain per initial run. No arbitrary uploaded execution, global security claim, owner keys in worker, fake runtime outputs or silent mock fallback.
 A owns API/verifier/schema/config, verifier fixtures, CRE, conditional ENS and eventual UI. B owns campaign/acceptance/messaging contracts PB-14–20 and their prerequisites. B authors Solidity encoding vectors; A implements matching TypeScript. Joint review of schema and financial invariants.
@@ -22,7 +25,7 @@ Protocol constants/test fixtures are named; addresses, endpoints and policy valu
 5. Backend disappearance, endpoint abuse or cross-tenant requests undermines evidence/exits: PB-06/23/24.
 
 ## How to use each task card
-All tasks below start unchecked; no tests have run. File paths are relative to the future repo. Braced paths are shorthand for individual files, not literal filenames.
+Historical task checklists remain detailed acceptance criteria; current completion and remaining integration gates are recorded in TASKS.md and per-task handoffs. File paths are relative to the future repo. Braced paths are shorthand for individual files, not literal filenames.
 For behavior tasks: write the stated failing checks, implement the bounded change, run the command and inspect output, then review and commit explicit owned paths. Probe/documentation tasks record reproducible observations instead of unnecessary unit tests.
 Commands are target interfaces established at PB-00, not scripts available in this planning directory. Use actual generated CLI syntax/version from the probe when no stable command is pinned. Success is the stated behavioral observation, not merely exit code zero.
 Commit examples include task IDs; split a large task into multiple passing focused commits if useful. Never mark the task done until relevant evidence, review and merge exist.

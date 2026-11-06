@@ -1,3 +1,6 @@
+# Current execution update — 2026-11-06
+A completed the initial PB-03 Solidity/TypeScript foundation through Arc Studio and local verification at the user’s explicit request. B now starts PB-14 using docs/handoffs/PB-03-contracts.md. Earlier future-tense assignment/bootstrap text below is historical; STATUS.md and TASKS.md give current execution state. CRE authentication remains pending.
+
 # Current decisions and build gates
 Status: implementation baseline proposed from the agreed handbook; no coding performed.
 

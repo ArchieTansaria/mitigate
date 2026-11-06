@@ -1,5 +1,5 @@
 # Arc Studio and Codex
-Status: Arc Studio CLI 1.2.2 is pinned and installed. Owner reports `whoami` succeeds in their normal terminal. The Codex command sandbox still reports unauthenticated because it cannot see that terminal's credential. No Studio project has been verified yet.
+Status: Codex-driven CLI authentication and hosted PB-03 build/test/pull verified on 2026-11-06. See docs/handoffs/PB-01.md for current evidence and remaining CRE/CCIP gates. Older authentication troubleshooting below describes the sandbox failure path, not the approved normal-credential execution path.
 
 ## What Arc requires
 Every Arc prize at ETHGlobal Mumbai requires using Arc Studio as the starting point. The event asks for a shareable Studio project URL, working frontend and backend, architecture diagram, demo/docs and source repository. See https://ethglobal.com/events/mumbai/prizes/arc . A locally developed vault merely deployed to Arc is weak evidence.
@@ -14,7 +14,7 @@ Important: Studio runs in its own server-side sandbox; it cannot directly edit t
 3. Run `pnpm exec arc-studio whoami` to confirm authentication, then `pnpm exec arc-studio agent-guide` for the current workflow. Do not run the Claude-only skill registration command inside Codex.
 4. Start an Arc-focused run with only the needed contract source and task docs using --file. Do not send the whole repository or secrets.
 5. Run pnpm exec arc-studio pull --dry-run --diff, inspect conflict/manifest behavior, then pull only the intended outputs. Review git diff and checks before committing.
-6. Build and test the Arc maintenance vault workflow in Studio; keep the verification worker/API as explicitly connected services. Do not assume Studio hosts arbitrary long-running workers.
+6. Build and test the Arc supplier-funded remediation campaign workflow in Studio; keep the verification worker/API as explicitly connected services. Do not assume Studio hosts arbitrary long-running workers.
 7. Keep the Studio project URL in deployment evidence and show Studio plus actual contract state/transactions in the demo.
 
 ## Codex route

@@ -1,6 +1,6 @@
 # Arc Studio runtime decision
 
-Status: **Studio project verified in browser; CLI artifact provenance and sponsor-grade live evidence still unverified.**
+Status: **Studio CLI build/test/pull now verified; see docs/handoffs/PB-01.md. CRE authentication and live CCIP delivery remain open. The historical troubleshooting below predates the successful approved CLI credential path.**
 
 The pinned `@circle-fin/arc-studio-cli` 1.2.2 includes an `agent-guide` for driving Arc Studio as a hosted agent from a local shell. The guide explicitly says the Studio sandbox is separate from this checkout; use `arc-studio run --output json`, pass only reviewed files via `--file`, and use `arc-studio pull` to retrieve output. A CLI session is not itself proof of qualification: preserve the hosted app/project URL, file changes, build/test/deploy results and demo it.
 

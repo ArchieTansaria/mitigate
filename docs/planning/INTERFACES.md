@@ -1,5 +1,5 @@
 # Shared interface contract
-Status: planning specification. Current campaign model adopted 2026-11-06. PB-03 contract structures/vectors are owned by B; matching TypeScript schemas/vectors are owned by A. Each module can be unit-tested against this boundary; matching vectors are mandatory before integration. This document is not a generated OpenAPI schema or compiled ABI. Older handbook agreement/bond structures are superseded for this MVP; read docs/planning/DECISIONS.md.
+Status: executable campaign/receipt boundary implemented in PB-03. Exact fields/order/domains: docs/interfaces/pb03-studio-spec.md, contracts/pb03/PatchBondTypes.sol and docs/interfaces/pb03-vectors.json. These supersede the earlier illustrative field lists below. API/job interfaces below remain future work. Current campaign model adopted 2026-11-06. PB-03 contract structures/vectors are owned by B; matching TypeScript schemas/vectors are owned by A. Each module can be unit-tested against this boundary; matching vectors are mandatory before integration. This document is not a generated OpenAPI schema or compiled ABI. Older handbook agreement/bond structures are superseded for this MVP; read docs/planning/DECISIONS.md.
 
 ## Common vocabulary
 Address: normalized EVM address; validate before accepting. Hash32: 32-byte hex value. Amount: base-unit unsigned integer encoded as a decimal string in HTTP/JSON; bigint internally; uint256 onchain. Never JavaScript floating point for balances.
@@ -81,3 +81,6 @@ Private env: RPC credentials, DB URL, artifact credentials, evaluator signing se
 State-change wallet keys belong to the human wallet. No general owner key in the API/worker.
 Source and destination observations store block/hash. Indexer can replay from deployment block with deduplication and reorg handling; lag is visible.
 Test commands proposed for bootstrap: pnpm lint; pnpm typecheck; pnpm test; pnpm test:integration; pnpm test:e2e; forge test --root contracts. PB-00 must implement and document actual script names; these are not available yet.
+
+## PB-03 implemented handoff
+A completed the Solidity and TypeScript boundary at the user’s request. B starts PB-14 and consumes these types; do not independently regenerate them. Fixture getter/operation ABIs are in packages/schema/src/fixture-abi.ts for the artificial PB-07 test app. CRE runtime validation remains blocked on account authentication; the locally tested EIP-712 scheme is not yet proven inside CRE.

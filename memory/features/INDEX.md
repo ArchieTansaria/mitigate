@@ -6,3 +6,6 @@ Feature 01 is the completed local bootstrap. Feature 02 records a product direct
 | 01 | 01-repository-bootstrap.md | c94eca7 (+ cleanup a5b0346) | No |
 | 02 | 02-supplier-funded-remediation-campaign.md | 9e5abe6 | No (decision only) |
 | 03 | 03-arc-studio-ccip-prototype.md | 9e5abe6 (notes only) | No (Studio-only prototype) |
+
+| 04 | 04-shared-studio-foundation.md | See Git log PB-03 | Shared boundary/tooling; no live settlement |
+| 05 | 05-bounded-runtime-probes.md | See Git log PB-02 | RPC/container feasibility; no repair acceptance |

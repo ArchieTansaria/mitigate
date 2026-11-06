@@ -1,0 +1,10 @@
+{
+  "checkedAt": "2026-11-06T17:33:13.082Z",
+  "sourceChainId": "11155111",
+  "destinationChainId": "5042002",
+  "destinationSelector": "3034092155422581607",
+  "router": "0x0BF3dE8c5D3e8A2B34D2BEeB17ABfCeBaf363A59",
+  "sourceBlock": "12078060",
+  "supported": true,
+  "meaning": "Read-only router support probe. No CCIP message was sent."
+}

@@ -16,10 +16,10 @@ Use your own authorized Studio account/access. Never copy the owner's CLI creden
 
 Build and test the Arc campaign contracts in this hosted Studio project, deploy the intended testnet contracts through its workflow when configured, preserve build/test/deploy evidence and pull reviewed source into your Git branch. Exclude credentials and .env files from pulls/commits. The existing generated CCIP receiver is context, not a completed campaign or proof of live delivery. Inspect it when integrating messaging; it does not block writing the campaign.
 
-Studio project existence is confirmed; campaign implementation/deployment is not. Exact bounty interpretation remains subject to sponsor rules/mentor guidance. CLI use alone is not proof that the application was built in Studio.
+Studio project access and CLI-driven PB-03 contract build/test/pull are verified. Campaign implementation/deployment is not. Exact bounty interpretation remains subject to sponsor rules/mentor guidance. CLI use alone is not proof that the application was built in Studio.
 
 ## Start sequence and handoff boundary
-1. As the contract portion of PB-03, turn the campaign/receipt specification in INTERFACES.md into exact Solidity structs, type hashes, domain rules and machine-readable signing/hash vectors. Save them under contracts/ and docs/handoffs/PB-03-contracts.md. Send that commit to A; A implements matching TypeScript encoding. Do not silently change the agreed semantics.
+1. PB-03 contract types and matching TypeScript are now implemented by A at the user’s request. Read docs/handoffs/PB-03-contracts.md and the frozen vectors, run the checks and start PB-14. Do not rebuild PB-03. Coordinate any interface changes before changing a field/type/domain.
 2. PB-14: specify campaign terms, eligibility, grant amount, deadlines and supplier/verifier/reviewer roles. You own docs/policies/demo-policy.md and docs/evidence/trust-model.md; A owns matching packages/schema tests. Test wallets and amounts must be explicitly labelled fixtures; live roles remain configured inputs.
 3. PB-15: implement immutable campaign identity/eligibility and recipient binding. Implement the registry/term interfaces required by the campaign; source-chain messaging integration can follow.
 4. PB-16: implement onchain verification of scoped signed receipts, expiry and replay defenses. Use real signatures produced with test-only keys in contract tests. PB-10 is required for end-to-end real evidence, not for writing/testing signature validation.

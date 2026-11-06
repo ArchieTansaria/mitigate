@@ -18,3 +18,6 @@ Node.js 24 LTS, pnpm workspace, TypeScript strict mode, Fastify API, PostgreSQL,
 ## Boundaries
 One documented adapter/proxy family; configurable deployment inventory; one source chain per verification run. Missing, stale or unsupported evidence never becomes a pass. The worker has no upgrade keys. Humans authorize state changes from their own wallets. ENS is conditional on demonstrated user value.
 No maintainer bond, customer repair fee, penalty or slashing is in the MVP. No secrets, private keys, access tokens, authenticated URLs or private customer artifacts belong in Git, logs, screenshots or agent prompts.
+
+## Executable foundations
+Start with docs/toolchain.md, docs/handoffs/PB-01.md, PB-02.md and PB-03-contracts.md. Campaign/receipt interfaces and verifier runtime probes are implemented; B starts PB-14. CRE requires account setup; no live financial campaign is deployed yet.
