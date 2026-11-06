@@ -6,8 +6,7 @@ After choosing the project root, create ONE repository there. Copy the planning 
 
 Suggested future local commands (paths are examples and must match the chosen root):
 ```sh
-mkdir -p /Users/aryapathak/Documents/Codex/patchbond
-cd /Users/aryapathak/Documents/Codex/patchbond
+cd /Users/aryapathak/Documents/patchbond
 git init -b main
 ```
 Copy only the reviewed planning documents and instructions, inspect the diff, then create the first commit:

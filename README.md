@@ -7,7 +7,7 @@ PatchBond checks whether an agreed repair reached the customer's registered smar
 1. Read AGENTS.md.
 2. Read docs/planning/DECISIONS.md. Explicit current decisions override contradictory historical details in the handbook.
 3. Read docs/planning/INTERFACES.md before implementing cross-component work.
-4. Read TASKS.md and the full task acceptance detail in docs/planning/IMPLEMENTATION_PLAN.md.
+4. Read TASKS.md and the full task acceptance detail in IMPLEMENTATION_PLAN.md.
 5. Read docs/integrations/ARC_STUDIO.md before Arc work.
 6. Read memory/README.md and completed feature notes before starting a task.
 7. Update feature memory only after a meaningful feature has been implemented, checked, reviewed and committed.

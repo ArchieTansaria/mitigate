@@ -20,4 +20,4 @@ Environment: macOS, Node 24.1.0, pnpm 11.22.0, repo CLI dependency `@circle-fin/
 
 After the owner authenticates Arc Studio, create one minimal Arc app in Studio and record its share URL. Test whether the app can call a small independently hosted health endpoint. Separately determine the supported CRE CLI and deployment path, then deploy a minimal receiver and verify a destination state change on Arc testnet. Record the exact commands, source revision, chain ID, contract address, transaction/message IDs, and observed state. Keep dry-run/simulation results explicitly distinct from live transactions.
 
-Do not mark PB-01 complete until the tests in `docs/planning/IMPLEMENTATION_PLAN.md` have actual reproducible evidence. Never store credentials or private chat with mentors here.
+Do not mark PB-01 complete until the tests in `IMPLEMENTATION_PLAN.md` have actual reproducible evidence. Never store credentials or private chat with mentors here.

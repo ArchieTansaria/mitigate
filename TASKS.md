@@ -1,5 +1,5 @@
 # Task board
-One task per active writer. Full acceptance cases, dependencies, files and commands: docs/planning/IMPLEMENTATION_PLAN.md. Coordinator updates this board and STATUS.md.
+One task per active writer. Full acceptance cases, dependencies, files and commands: IMPLEMENTATION_PLAN.md. Coordinator updates this board and STATUS.md.
 
 | Task | Owner | Scope | State |
 |---|---|---|---|

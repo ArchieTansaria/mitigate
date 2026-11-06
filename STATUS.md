@@ -1,7 +1,7 @@
 # Status
 Last updated: 2026-11-06
 Coordinator: project owner
-Local root: /Users/aryapathak/Documents/Codex/patchbond
+Local root: /Users/aryapathak/Documents/patchbond
 Remote target: https://github.com/ArchieTansaria/mitigate
 
 ## Exists
