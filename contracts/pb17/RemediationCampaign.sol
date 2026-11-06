@@ -5,16 +5,24 @@ import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import {IERC20Metadata} from "@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol";
 import {SafeERC20} from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import {ReentrancyGuard} from "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
+import {SafeCast} from "@openzeppelin/contracts/utils/math/SafeCast.sol";
 import {PatchBondTypes} from "../pb03/PatchBondTypes.sol";
 import {ICampaignRegistry} from "../pb15/ICampaignRegistry.sol";
 import {IAcceptanceVerifier} from "../pb16/IAcceptanceVerifier.sol";
 import {IRemediationCampaign} from "./IRemediationCampaign.sol";
 
 /// @title RemediationCampaign
-/// @notice PB-17: supplier-funded USDC escrow and full-funding activation for one registered campaign policy.
-/// @dev Scope is deliberately narrow. There are no claims, challenges, refunds, receipt consumption or cross-chain
-/// transport here (PB-18 and later extend this contract). It is not upgradeable, has no owner, and has no sweep or
-/// rescue function: tokens sent directly to this address are not counted and cannot be withdrawn.
+/// @notice PB-17 escrow and PB-18 per-deployment claim lifecycle for one registered campaign policy.
+/// @dev PB-17: the supplier funds the exact budget and activates. PB-18: once active, anyone can relay a signed
+/// receipt for an eligible deployment; the PB-16 verifier consumes it and one grant is reserved for the receipt's
+/// committed recipient. After the challenge cutoff anyone can finalize the claim, and only the recipient can pull
+/// the grant. There are no challenges, reviews, refunds or cross-chain transport yet (later tasks). The contract is
+/// not upgradeable, has no owner, and has no sweep or rescue function: tokens sent directly to this address are not
+/// counted and cannot be withdrawn.
+///
+/// Each deployment key has its own claim, so claims progress independently of one another. A claim in Pending,
+/// Disputed, Awarded or Withdrawn blocks a second claim for that deployment; only None or Rejected may be claimed
+/// (Rejected is entered by the later challenge/review task, after it releases the reservation).
 ///
 /// The campaign address must be known before the policy is registered (the policy commits `campaign`), so deploy
 /// with CREATE2 or a computed CREATE address. The constructor takes only the registry, verifier, campaign id and
@@ -36,10 +44,21 @@ contract RemediationCampaign is IRemediationCampaign, ReentrancyGuard {
     uint256 private immutable _requiredFunding;
     address private immutable _supplier;
     uint64 private immutable _claimDeadline;
+    uint64 private immutable _challengeWindow;
+    uint256 private immutable _grantAmount;
 
     PatchBondTypes.Policy private _policy;
     Accounting private _accounting;
     bool private _active;
+
+    struct Claim {
+        ClaimStatus status;
+        address recipient;
+        bytes32 receiptId;
+        uint64 challengeCutoff;
+    }
+
+    mapping(bytes32 deploymentKey => Claim) private _claims;
 
     constructor(ICampaignRegistry registry_, IAcceptanceVerifier verifier_, bytes32 campaignId_, IERC20 token_) {
         if (address(registry_).code.length == 0) revert InvalidRegistry();
@@ -80,6 +99,8 @@ contract RemediationCampaign is IRemediationCampaign, ReentrancyGuard {
         _requiredFunding = required;
         _supplier = p.supplier;
         _claimDeadline = p.claimDeadline;
+        _challengeWindow = p.challengeWindow;
+        _grantAmount = p.grantAmount;
         _policy = p;
     }
 
@@ -122,6 +143,112 @@ contract RemediationCampaign is IRemediationCampaign, ReentrancyGuard {
 
         _active = true;
         emit Activated(_campaignId, deposited);
+    }
+
+    // ------------------------------------------------------------------ claim lifecycle (PB-18)
+
+    /// @inheritdoc IRemediationCampaign
+    function submitClaim(
+        PatchBondTypes.AcceptanceReceipt calldata receipt,
+        bytes calldata signature,
+        bytes32[] calldata eligibilityProof
+    ) external nonReentrant {
+        // Campaign-level preconditions come first, so nothing is consumed on a closed or inactive campaign.
+        if (!_active) revert CampaignNotActive();
+        if (block.timestamp >= _claimDeadline) revert ClaimDeadlinePassed(_claimDeadline, block.timestamp);
+
+        bytes32 key = receipt.deploymentKey;
+        ClaimStatus current = _claims[key].status;
+        // Only an unclaimed or rejected deployment may take a (new) reservation.
+        if (current != ClaimStatus.None && current != ClaimStatus.Rejected) revert DeploymentAlreadyClaimed(key);
+
+        uint256 grant = _grantAmount;
+        uint256 available = _accounting.unallocated;
+        if (available < grant) revert InsufficientUnallocated(available, grant);
+
+        // Effects: reserve exactly one grant and record the claim. The recipient is the receipt's recipient; the
+        // verifier below only returns if that recipient is the one committed for this deployment in the
+        // eligibility root, so a relayer cannot redirect the grant. Any revert below undoes these writes.
+        uint64 cutoff = SafeCast.toUint64(block.timestamp + _challengeWindow);
+        _accounting.unallocated = available - grant;
+        _accounting.reserved += grant;
+        _claims[key] = Claim({
+            status: ClaimStatus.Pending,
+            recipient: receipt.recipient,
+            receiptId: receipt.receiptId,
+            challengeCutoff: cutoff
+        });
+
+        // Interaction: the verifier validates every PB-03/PB-16 rule against the registry and burns the receipt for
+        // this campaign. It only accepts calls from `policy.campaign`, which is this contract.
+        _verifier.consumeReceipt(receipt, signature, eligibilityProof);
+
+        emit ClaimSubmitted(key, receipt.recipient, receipt.receiptId, msg.sender, cutoff);
+    }
+
+    /// @inheritdoc IRemediationCampaign
+    function finalizeClaim(bytes32 deploymentKey) external nonReentrant {
+        Claim storage claim = _claims[deploymentKey];
+        if (claim.status != ClaimStatus.Pending) revert ClaimNotPending(deploymentKey, claim.status);
+        // The cutoff was fixed when the claim was submitted and never moves.
+        if (block.timestamp < claim.challengeCutoff) revert ChallengeWindowOpen(claim.challengeCutoff, block.timestamp);
+
+        uint256 grant = _grantAmount;
+        claim.status = ClaimStatus.Awarded;
+        _accounting.reserved -= grant;
+        _accounting.awardedUnwithdrawn += grant;
+
+        emit ClaimFinalized(deploymentKey, claim.recipient, grant);
+    }
+
+    /// @inheritdoc IRemediationCampaign
+    function withdrawGrant(bytes32 deploymentKey) external nonReentrant {
+        Claim storage claim = _claims[deploymentKey];
+        if (claim.status != ClaimStatus.Awarded) revert ClaimNotAwarded(deploymentKey, claim.status);
+        address recipient = claim.recipient;
+        if (msg.sender != recipient) revert NotRecipient(msg.sender, recipient);
+
+        uint256 grant = _grantAmount;
+
+        // Effects before the token call. A failed or short transfer reverts the whole call, undoing these.
+        claim.status = ClaimStatus.Withdrawn;
+        _accounting.awardedUnwithdrawn -= grant;
+        _accounting.paid += grant;
+
+        // Interaction: pay the committed recipient (never msg.sender by default) and verify the exact amounts that
+        // moved, so a nonstandard token cannot record a full grant after a short or excessive transfer.
+        uint256 recipientBefore = _token.balanceOf(recipient);
+        uint256 campaignBefore = _token.balanceOf(address(this));
+        _token.safeTransfer(recipient, grant);
+        uint256 recipientAfter = _token.balanceOf(recipient);
+        uint256 campaignAfter = _token.balanceOf(address(this));
+
+        uint256 received = recipientAfter > recipientBefore ? recipientAfter - recipientBefore : 0;
+        if (received != grant) revert PayoutAmountMismatch(grant, received);
+        uint256 sent = campaignBefore > campaignAfter ? campaignBefore - campaignAfter : 0;
+        if (sent != grant) revert PayoutAmountMismatch(grant, sent);
+
+        emit GrantWithdrawn(deploymentKey, recipient, grant);
+    }
+
+    /// @inheritdoc IRemediationCampaign
+    function claimOf(bytes32 deploymentKey)
+        external
+        view
+        returns (
+            ClaimStatus status,
+            address recipient,
+            bytes32 receiptId,
+            uint64 challengeCutoff,
+            uint256 withdrawable
+        )
+    {
+        Claim storage claim = _claims[deploymentKey];
+        status = claim.status;
+        recipient = claim.recipient;
+        receiptId = claim.receiptId;
+        challengeCutoff = claim.challengeCutoff;
+        withdrawable = status == ClaimStatus.Awarded ? _grantAmount : 0;
     }
 
     // ------------------------------------------------------------------ reads

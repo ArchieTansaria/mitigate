@@ -13,7 +13,7 @@ Updated: 2026-11-07 (Asia/Kolkata). Repository: /Users/aryapathak/Documents/patc
 - CRE capability gate: actual WASM CLI simulation verifies shared EIP-712 fixtures, HTTP and finalized Sepolia reads. This is not the PB-21 product workflow or DON deployment.
 
 ## Parallel owners and next work
-A: PB-12 local repair flow implemented; next PB-21 product CRE workflow; integrate authoritative financial receipt scope when B's contracts are ready. B: PB-14–20 campaign/acceptance/CCIP contracts through the existing hosted Arc Studio app, per TEAMMATE-START.md. This verifier batch did not modify B's contracts, financial schema/vectors or hosted Studio workspace.
+A: PB-12 local repair flow implemented; next PB-21 product CRE workflow; integrate authoritative financial receipt scope when B's contracts are ready. B: PB-14–17 contracts are merged; PB-18 per-deployment claims are implemented in the existing hosted Arc Studio app, pulled and locally tested (38 focused tests pass). PB-19 challenge/review and PB-20 message transport remain in progress. No live campaign deployment, payout or CCIP delivery is claimed.
 
 ## Honest limits
 The diagnostic pipeline is functional locally for one exact artificial oracle/proxy family. Offline replay recreates recognized view dependencies; it is not a general fork or proof of RPC honesty. Reports bind an observed state and named verifier, not universal security. No participant upgrade key is loaded; diagnostic evidence cannot pay a grant.
