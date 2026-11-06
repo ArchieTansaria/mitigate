@@ -25,3 +25,9 @@ broadcast/
 *.log
 .superpowers/
 .tmp-artifacts/
+
+# Arc CLI local synchronization metadata
+.arc-studio/
+**/.arc-studio/
+# Disposable runtime probes
+.tooling/

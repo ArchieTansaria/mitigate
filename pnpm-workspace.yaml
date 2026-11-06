@@ -5,3 +5,5 @@ packages:
   - "workflows/*"
 allowBuilds:
   '@circle-fin/arc-studio-cli': true
+  '@foundry-rs/forge': true
+  '@foundry-rs/anvil': true

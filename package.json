@@ -8,7 +8,17 @@
     "pnpm": ">=11.22.0 <12"
   },
   "devDependencies": {
-    "@circle-fin/arc-studio-cli": "1.2.2"
+    "@biomejs/biome": "^2.6.5",
+    "@circle-fin/arc-studio-cli": "1.2.2",
+    "@foundry-rs/anvil": "1.7.1",
+    "@foundry-rs/forge": "1.7.1",
+    "@types/node": "^24.19.2",
+    "canonicalize": "2.1.0",
+    "solc": "0.8.28",
+    "typescript": "5.9.3",
+    "viem": "2.57.16",
+    "vitest": "5.1.0",
+    "zod": "4.6.7"
   },
   "engineStrict": true,
   "workspaces": [
@@ -16,5 +26,18 @@
     "packages/*",
     "services/*",
     "workflows/*"
-  ]
+  ],
+  "type": "module",
+  "scripts": {
+    "lint": "biome check packages services scripts vitest.config.ts tsconfig.json",
+    "format": "biome check --write packages services scripts vitest.config.ts tsconfig.json",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:contracts": "node scripts/forge.mjs test",
+    "test:integration": "vitest run --config vitest.integration.config.ts",
+    "check": "pnpm lint && pnpm typecheck && pnpm test && pnpm test:contracts",
+    "probe:rpc": "node services/verifier/src/probe-cli.ts",
+    "vectors": "node scripts/generate-vectors.ts",
+    "vectors:check": "node scripts/generate-vectors.ts --check"
+  }
 }

@@ -1,0 +1,11 @@
+[profile.default]
+src = "pb03"
+test = "test"
+libs = ["lib"]
+solc = "0.8.28" # pnpm test:contracts selects the identical lockfile-pinned solc-js build
+evm_version = "cancun"
+optimizer = true
+optimizer_runs = 200
+via_ir = true
+remappings = ["forge-std/=lib/forge-std/src/", "@openzeppelin/contracts/=lib/openzeppelin-contracts/contracts/"]
+fs_permissions = [{ access = "read", path = "../docs/interfaces" }]

@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-11-06",
+  "appId": "9dee5ecd-ab62-459b-a54f-5ae7b2f06a52",
+  "threadId": "42d1cc43-c5ef-4e5a-9d85-e154f1b25310",
+  "webUrl": "https://studio.arc.io/app/9dee5ecd-ab62-459b-a54f-5ae7b2f06a52",
+  "status": "completed",
+  "cliVersion": "1.2.2",
+  "command": "pnpm exec arc-studio run --app <appId> --prompt-file <reviewed-task> --file docs/interfaces/pb03-studio-spec.md --output json",
+  "studioReportedTests": {
+    "pb03Passed": 25,
+    "wholeProjectPassed": 64,
+    "liveDeployment": false
+  },
+  "files": [
+    {
+      "path": "contracts/pb03/PatchBondTypes.sol",
+      "sha256": "0fdffd05d6f0cd50c3bf8da00fc338240dd5f3599fc841b5b555f17898300a4e"
+    },
+    {
+      "path": "contracts/pb03/EncodingHarness.sol",
+      "sha256": "1ffba3ae36a9d3a23cb1145e4ad9ab4c6540cddd10d448c8b8b4850b06f7e94a"
+    },
+    {
+      "path": "contracts/test/pb03/EncodingHarness.t.sol",
+      "sha256": "5338e3e4b7aad02780eb5a1dc7bfdf05524536ae4bc87c7bf7e44c86cafabae8"
+    }
+  ],
+  "verification": "Pulled exact source after --dry-run; local Foundry reproduction and TS/Solidity parity tests recorded separately. No credentials or raw agent logs included."
+}
