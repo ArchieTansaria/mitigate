@@ -13,6 +13,7 @@ Updated: 2026-11-06. Repository: /Users/aryapathak/Documents/patchbond.
 Read docs/handoffs/PB-03-contracts.md and docs/handoffs/TEAMMATE-START.md. A completed the shared prerequisites at the user's request; B implements campaign rules/registry/acceptance/funding/claims/challenges PB-14–19, then messaging PB-20. Do not rebuild PB-03 or introduce a competing receipt shape.
 
 ## Still outstanding
+- GitHub Actions could not start because GitHub reports an account billing lock (run 42266212890); remote CI success is not claimed.
 - The user needs a Chainlink CRE account. Studio has a temporary CRE CLI, but simulation requires login. No CRE workflow or report delivery is claimed.
 - CCIP router support was read successfully; no cross-chain message or testnet campaign deployment/payment has occurred.
 - Verifier/API/database/repair test-pack execution and the product frontend are not yet implemented. Current evidence checks validate structure/signatures, not independent proof of security or honest test execution.
