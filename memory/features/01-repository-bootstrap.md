@@ -12,3 +12,5 @@ Commit: `c94eca7` (`chore(repo): bootstrap PatchBond workspace and team context 
 Validation: `pnpm install` passes with the Arc CLI lifecycle script explicitly approved; `pnpm exec arc-studio --version` reports 1.2.2; `pnpm exec arc-studio --help` runs; `git diff --cached --check` passes before commit. Product behavior remains none.
 
 Follow-up commit `a5b0346` removes accidental trailing escape suffixes from the bootstrap files. `package.json` parses as JSON, `pnpm install` passes, and the Arc CLI remains runnable after the correction.
+
+Scope note: Feature 01 means the repository/context setup only. The broader PB-00 implementation-plan task remains partial because CI, lint/typecheck/test scripts, Foundry pinning and fresh-clone verification are not complete.

@@ -10,6 +10,7 @@ Remote target: https://github.com/ArchieTansaria/mitigate
 - Root agent rules, Arc Studio guide, task board, feature memory and initial workspace metadata.
 - Workspace install and Arc Studio CLI 1.2.2 smoke check pass (`pnpm install`, `pnpm exec arc-studio --help`).
 - No product code, API, tests, contracts, sponsor integrations, Studio URL or deployment addresses yet.
+- The Feature 01 repository/context milestone is done. The broader PB-00 checklist is not: lint/typecheck/test scripts, CI, Foundry pin and fresh-clone check remain.
 
 ## Environment facts
 - Installed: Node v24.1.0 and pnpm v11.22.0.
@@ -20,10 +21,10 @@ Remote target: https://github.com/ArchieTansaria/mitigate
 - Local `gh` credential for `runningpoem30` is invalid; the owner has pushed the bootstrap commit manually.
 
 ## Next
-1. Push local commits `a5b0346` and the PB-01 preflight documentation once ready.
+1. Push local commits after review; the owner's earlier push of `c94eca7` is reported but cannot be verified from this network.
 2. Confirm teammate's GitHub account and add it as collaborator if needed.
 3. Owner authenticates Studio, then complete PB-01 live app/CRE/CCIP tests.
-4. PB-02 worker/RPC probe, then jointly freeze schemas (PB-03).
-5. Only then split implementation tasks from TASKS.md.
+4. Finish PB-00 reproducible checks before starting PB-02 worker/RPC implementation.
+5. Jointly freeze schemas (PB-03), then split implementation tasks from TASKS.md.
 
 PB-13 ENS is conditional. Testnet deployment/funding must be an explicit human-approved action.
