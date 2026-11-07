@@ -343,8 +343,8 @@ Implemented behavior and actual validation: `docs/handoffs/PB-12.md`, `docs/evid
 **Create/modify:** workflows/cre/src/main.ts; workflows/cre/test/workflow.test.ts; docs/evidence/cre.md
 **Interface/deliverable:** Report retrieval + policy/fact checks + authenticated report generation/delivery
 
-- [ ] Fetch bounded immutable report; verify evaluator signature, exact scope/purpose/mode/hashes, freshness and mandatory outcomes; read registry and supported chain facts.
-- [ ] Test mismatched policy, omitted deployment, poisoned/stale API response and snapshot incompatibility; do not claim API consensus proves test execution.
+- [x] Fetch bounded immutable report; verify evaluator signature, exact scope/purpose/mode/hashes, freshness and mandatory outcomes; read registry and supported chain facts. Report remains non-settlement eligible pending the campaign-claim producer/receipt boundary.
+- [x] Test mismatched policy, omitted deployment, poisoned/stale API response and snapshot incompatibility; do not claim API consensus proves test execution.
 - [ ] Run successful CLI simulation; if live access exists verify forwarder and receiver execution/state. Label mock-forwarder limitation and never silently swap manual delivery.
 - [ ] Validate: `pnpm exec vitest run workflows/cre/test/workflow.test.ts; exact CLI simulation/deploy commands recorded in evidence`. Record exact output, environment and any skipped stage in docs/handoffs/PB-21.md.
 - [ ] Review owned-file diff and interface/security impact; commit as `feat(cre): evaluate repair evidence against campaign policy [PB-21]` (or the relevant explicit deferral).

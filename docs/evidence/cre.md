@@ -33,3 +33,7 @@ No valid PB-21 simulation was run. The example config has no real campaign polic
 The current PB-10 producer explicitly creates `purpose: diagnostic` evidence and refuses to build campaign-claim evidence. PB-21 rejects that diagnostic purpose. PB-16 supplies the frozen receipt validator interface, but this checkout has no A-owned receipt producer that turns campaign-claim evidence into a signed receipt. PB-20 sender/receiver contracts and local simulation tests are present, but do not consume this evaluation report or prove live delivery. Accordingly this workflow cannot issue a receipt or claim delivery to a receiver. CRE deploy access remains disabled; no access request, deployment, forwarder execution, receiver transaction or broadcast was attempted.
 
 The evaluator's positive unit case is synthetic and never represented as live evidence. A successful signature check attests to the configured evaluator's signed bytes; it does not prove honest execution. Simulation, deployed DON consensus, authenticated forwarder delivery and receiver state remain separate gates.
+
+## Isolated checkout recheck — 2026-11-07
+
+On Node 24.1.0 / pnpm 11.22.0, `pnpm exec vitest run workflows/cre/test/workflow.test.ts` passed (1 file, 6 tests), `pnpm exec tsc --noEmit -p workflows/cre/tsconfig.json` passed, and `pnpm vectors:check` reported `PB-03 vectors match`. The CRE CLI is not installed in this checkout and the PB-21 workflow/project manifests are absent; no PB-21 CLI simulation was run during this recheck.
