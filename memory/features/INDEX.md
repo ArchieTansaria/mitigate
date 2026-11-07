@@ -26,3 +26,4 @@ Feature 01 is the completed local bootstrap. Feature 02 records a product direct
 | PB-19 | 10-campaign-disputes-and-recovery.md | c66bbcb, a6c0ce3 | Bounded challenge/review, timeout rejection and supplier recovery of unallocated funds only |
 | PB-20 | PB-20 handoff | caaacb6, 0f9dc22, f0b4b81 | Authenticated CCIP sender/receiver and bounded predeployment queue; local simulation only |
 | PB-21 | 19-product-cre-evidence-evaluation.md | e721370 | Fail-closed scoped evidence evaluator; no receipt issuance, live DON or delivery |
+| PB-29 | 20-orryn-public-landing.md | f1dece3 | Public read-only Next.js/Tailwind website; no wallet or live campaign actions |

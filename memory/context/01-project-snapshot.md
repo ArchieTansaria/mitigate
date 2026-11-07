@@ -1,5 +1,5 @@
-# PatchBond: current implementation context
-Updated 2026-11-07 (Asia/Kolkata). Implementation baseline: PB-12 feature commit on `main` (see Git log); context correction previously pushed as `74e904c`.
+# Orynn / PatchBond: current implementation context
+Updated 2026-11-07 (Asia/Kolkata). Repository remains `ArchieTansaria/mitigate`; Orynn is the selected product name for the public website. Implementation baseline includes PB-21 evaluator work and PB-29 public landing page (see Git log and task handoffs).
 
 ## Product and ownership
 PatchBond verifies repairs to registered customer-owned smart-contract deployments. The financial direction is a supplier-funded remediation campaign with a fixed USDC allowance per eligible repaired deployment. No mandatory maintainer bond, customer repair fee, slashing or insurance. A diagnostic report cannot authorize a grant.
@@ -19,6 +19,7 @@ A owns the TypeScript API, PostgreSQL queue/storage, verifier, fixtures, CRE int
 | PB-11 | Separate API and leased worker, crash recovery/cancellation, actual evidence publication and independent offline replay | `2dbf24e` |
 | PB-12 | Private unsigned upgrade/configuration proposals, exact-family compatibility checks, revalidation and owner-executed local repair with fresh evidence | Feature 15; `docs/handoffs/PB-12.md` |
 | PB-13 local slice | ENSv2 candidate/approved manifest pointers, canonical content verification, resolver/chain preflight and proposer/approver separation | `integrations/ens/`; `docs/handoffs/PB-13.md`; live role flow/mentor fit still pending |
+| PB-29 | Public, server-rendered Orynn landing page in `apps/web`; no wallet prompt, API dependency, or live product telemetry | `f1dece3`; see `docs/handoffs/PB-29.md` |
 
 Completed feature descriptions are in `memory/features/INDEX.md`; feature-note numbers are not PB task numbers. The API now has a working diagnostic worker. Job completion is separate from whether a repair passed.
 
@@ -32,7 +33,7 @@ No fixture-address shortcuts or canned pass results: deployment state is read fr
 2. B PB-14–20: authoritative campaign eligibility/policy, acceptance, funding/claims/challenges/accounting and actual CCIP delivery; do not claim these are implemented here.
 3. A: authoritative per-deployment financial receipt producer and PB-21 product CRE workflow, consuming B's interfaces. CRE deploy access is currently disabled; CLI simulation is not a DON deployment.
 4. PB-22–24: connected backend campaign flow and failure tests. Demonstrate actual state and balance changes before the backend handoff. Frontend PB-25–26 follows that gate.
-5. Physical second-machine run, hosted worker/API, testnet deployments and sponsor demo evidence remain pending. ENS client code is implemented locally; live ENS proof and prize eligibility remain conditional.
+5. The public Orynn marketing site is separate from the wallet-enabled campaign console. Physical second-machine run, hosted worker/API, testnet deployments and sponsor demo evidence remain pending. ENS client code is implemented locally; live ENS proof and prize eligibility remain conditional.
 
 ## Agent rules and source of truth
 Work directly on `main` at the user's explicit request, with meaningful tested commits and pushes. Fetch before pushing; never force-push or overwrite teammate work. Keep one writer per task in separate clones. A branch remaining on GitHub does not mean its work is unmerged.
