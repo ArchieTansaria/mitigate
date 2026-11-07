@@ -31,4 +31,4 @@ B owns the missing prerequisites for PB-17/18. Full backend completion is not a 
 | PB-22–24 | Joint | Campaign indexer/API, outage/security tests and backend handoff | planned |
 | PB-25–26 | A | Studio-compatible UI for verification and grant claims | gated on PB-24 |
 | PB-27–28 | Joint | Deployment audit, demo and submission evidence | gated |
-| PB-29 | A | Orynn public landing page, independent of campaign console | implemented locally; read-only Next.js/Tailwind page; no wallet or live campaign functionality; see docs/handoffs/PB-29.md |
+| PB-29 | A | Orynn public landing page, independent of campaign console | implemented, committed and pushed (`f1dece3`); read-only Next.js/Tailwind page; no wallet or live campaign functionality; see docs/handoffs/PB-29.md |

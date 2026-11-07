@@ -80,5 +80,5 @@
 - [x] Document Vercel root directory `apps/web`, build command `pnpm build`, and that no wallet or chain environment variables are needed for `/`.
 - [x] Record verification commands and limitations in the PB-29 handoff/status/memory entries.
 - [x] Run production build, `pnpm lint`, `pnpm typecheck`, page test, and inspect `git diff --check`; all pass.
-- [ ] Commit explicit paths as `feat(web): add Orynn public landing page [PB-29]`.
-- [ ] Fetch/reconcile remote `main` and push the commit without force-pushing.
+- [x] Commit explicit paths as `feat(web): add Orynn public landing page [PB-29]` (`f1dece3`).
+- [x] Fetch/reconcile remote `main` and push the commit without force-pushing.

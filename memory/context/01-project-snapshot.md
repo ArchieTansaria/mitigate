@@ -19,7 +19,7 @@ A owns the TypeScript API, PostgreSQL queue/storage, verifier, fixtures, CRE int
 | PB-11 | Separate API and leased worker, crash recovery/cancellation, actual evidence publication and independent offline replay | `2dbf24e` |
 | PB-12 | Private unsigned upgrade/configuration proposals, exact-family compatibility checks, revalidation and owner-executed local repair with fresh evidence | Feature 15; `docs/handoffs/PB-12.md` |
 | PB-13 local slice | ENSv2 candidate/approved manifest pointers, canonical content verification, resolver/chain preflight and proposer/approver separation | `integrations/ens/`; `docs/handoffs/PB-13.md`; live role flow/mentor fit still pending |
-| PB-29 local slice | Public, server-rendered Orynn landing page in `apps/web`; no wallet prompt, API dependency, or live product telemetry | Pending commit; see `docs/handoffs/PB-29.md` |
+| PB-29 | Public, server-rendered Orynn landing page in `apps/web`; no wallet prompt, API dependency, or live product telemetry | `f1dece3`; see `docs/handoffs/PB-29.md` |
 
 Completed feature descriptions are in `memory/features/INDEX.md`; feature-note numbers are not PB task numbers. The API now has a working diagnostic worker. Job completion is separate from whether a repair passed.
 
