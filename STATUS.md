@@ -29,3 +29,6 @@ Startup: docs/runbooks/backend-start.md. Repair walkthrough: docs/runbooks/repai
 
 ## Recording demo (PB-30)
 A standalone `/demo` now illustrates repair detection, owner action, fresh recheck and grant accounting with explicit simulated data. It is usable without wallet/API/Docker and does not change the real dashboard. Script: `docs/demo/RECORDING-SCRIPT.md`. This is recording material, not new live integration proof.
+
+## PB-31 — Editable sample workspace
+`/demo/workspace` implements the backend-free JSON-driven recording flow; sample state persists locally. 137 frontend tests, typecheck, scoped lint, Webpack build and full browser sample walkthrough pass. Connected backend/Chainlink/payment integrations remain separately gated. See `docs/handoffs/PB-31.md`.

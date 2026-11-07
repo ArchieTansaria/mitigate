@@ -451,3 +451,12 @@ Implemented behavior and actual validation: `docs/handoffs/PB-12.md`, `docs/evid
 - [x] Test transition gating, replay rejection and budget conservation; click through in-browser.
 - [x] Write timed narration and exact recording steps in `docs/demo/RECORDING-SCRIPT.md`.
 - [ ] Live integrations remain separate PB-20–26 gates; this walkthrough does not satisfy them.
+
+## PB-31 — Editable sample workspace
+**Owner:** A. User requested backend-free JSON onboarding for recording.
+- [x] Isolated dashboard-style sample route with policy/inventory validation and example JSON.
+- [x] Derived checks, configuration repair, fresh recheck, persisted history and unsigned sample export.
+- [x] Separate grant states, frozen scope, failed/duplicate claim rejection and conserved budget.
+- [x] Frontend tests, typecheck, scoped lint, production build and browser walkthrough.
+- [x] Short narration and click guide in `docs/demo/WORKSPACE-WALKTHROUGH.md`.
+- [ ] Hosted frontend release verification; real sponsor integration gates remain unchanged.

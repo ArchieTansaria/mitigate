@@ -95,3 +95,6 @@ Browser sessions use a same-origin Next.js bridge and HttpOnly cookies. Offchain
 
 ## Recording simulation — 2026-11-07
 The user explicitly requested a quick hardcoded/simulated video walkthrough. Add a standalone `/demo` route with persistent simulation disclosure and a matching script. Fictional customer names, checks and money states are presentation fixtures only. They do not flow through production APIs, generate signatures, create explorer links or alter acceptance/claim rules. This is an exception for a visibly labelled demo, not authorization to silently fake real integration evidence.
+
+## Editable sample workspace — 2026-11-07
+The user requested JSON input and a complete backend-free recording workflow. Extend the labelled presentation exception with `/demo/workspace`, keeping state in browser storage and separate from production adapters. No fabricated receipts, signatures, transaction hashes or live sponsor assertions. Results depend on sample input fields; settlement and time advancement are explicit simulations.

@@ -30,3 +30,5 @@ Feature 01 is the completed local bootstrap. Feature 02 records a product direct
 | PB-25 / PB-26 repair | 21-orryn-verification-workspace.md | 66307b1 | Wallet/session, API-driven diagnostics, evidence integrity and owner repair UI; live integration pending |
 | PB-26 campaign | 22-orryn-campaign-console.md | fa8e188 | Actual contract read/write adapter and campaign console; no live settlement demonstrated |
 | PB-30 | 23-recording-demo.md | See Git log PB-30 | Explicitly simulated recording route and 3–4 minute script; no live integration evidence |
+
+| PB-31 | 24-editable-sample-workspace.md | See Git log PB-31 | JSON-driven, browser-only recording workspace; no live sponsor evidence |

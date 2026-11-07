@@ -48,6 +48,15 @@ export default function Overview() {
           <Icon name="plus" /> New verification
         </Link>
       </div>
+      <div className="surface flex flex-wrap items-center justify-between gap-4 p-4">
+        <p className="text-xs text-muted">
+          Explore the full workflow with editable example JSON. No backend
+          required.
+        </p>
+        <Link href="/demo/workspace" className="btn-secondary">
+          Open sample workspace ↗
+        </Link>
+      </div>
       <section
         aria-label="Repair workflow"
         className="relative overflow-hidden rounded-xl border border-line bg-panel"

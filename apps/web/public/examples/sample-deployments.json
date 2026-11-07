@@ -1,0 +1,29 @@
+{
+  "scenario": "orryn-sample-v1",
+  "deployments": [
+    {
+      "id": "harbor",
+      "name": "Harbor Lending",
+      "owner": "Harbor multisig",
+      "implementationVersion": 2,
+      "maxPriceAgeSeconds": 90,
+      "acceptsFreshPrices": true
+    },
+    {
+      "id": "bazaar",
+      "name": "Bazaar Credit",
+      "owner": "Bazaar multisig",
+      "implementationVersion": 2,
+      "maxPriceAgeSeconds": 86400,
+      "acceptsFreshPrices": true
+    },
+    {
+      "id": "atlas",
+      "name": "Atlas Vault",
+      "owner": "Atlas governance",
+      "implementationVersion": 1,
+      "maxPriceAgeSeconds": 90,
+      "acceptsFreshPrices": true
+    }
+  ]
+}

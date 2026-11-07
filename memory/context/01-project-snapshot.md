@@ -47,3 +47,6 @@ GitHub Actions last reported an account billing lock; local test success is not 
 
 ## Recording route
 Feature 23 / PB-30 adds `/demo`, a user-requested, visibly labelled simulation for recording. It has no wallet/API dependency and does not modify real acceptance. Use `docs/demo/RECORDING-SCRIPT.md` for the 3–4 minute click-by-click script. Do not mistake this route's green results or money states for real testnet evidence.
+
+## Editable recording workspace
+PB-31 / feature 24 adds `/demo/workspace` with JSON registration, derived sample checks, repair/recheck, grant ledger, local persistence and reset. Read `docs/demo/WORKSPACE-WALKTHROUGH.md`. 137 frontend tests, web typecheck, scoped lint and Webpack production build pass; full sample flow clicked in-browser. This does not complete backend, CRE, CCIP or settlement gates.

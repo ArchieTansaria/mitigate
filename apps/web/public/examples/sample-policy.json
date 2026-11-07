@@ -1,0 +1,7 @@
+{
+  "schemaVersion": 1,
+  "releaseId": "oracle-freshness-v2",
+  "approvedVersion": 2,
+  "maxPriceAgeSeconds": 90,
+  "grantUSDC": 20
+}

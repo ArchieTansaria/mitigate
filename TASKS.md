@@ -36,3 +36,5 @@ B owns the missing prerequisites for PB-17/18. Full backend completion is not a 
 | PB-29 | A | Orynn public landing page, independent of campaign console | implemented, committed and pushed (`f1dece3`); read-only Next.js/Tailwind page; no wallet or live campaign functionality; see docs/handoffs/PB-29.md |
 
 PB-30: isolated `/demo` recording walkthrough and timed script implemented. Simulated checks and ledger, no live transactions. See `docs/handoffs/PB-30.md`.
+
+PB-31: editable `/demo/workspace`, downloadable JSON and short recording guide implemented and tested; local sample only. See `docs/handoffs/PB-31.md`.
