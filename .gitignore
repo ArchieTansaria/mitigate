@@ -32,3 +32,6 @@ broadcast/
 **/.arc-studio/
 # Disposable runtime probes
 .tooling/
+
+# TypeScript incremental build cache
+*.tsbuildinfo

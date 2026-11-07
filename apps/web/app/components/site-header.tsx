@@ -16,7 +16,7 @@ export function SiteHeader() {
       </a>
       <div className="mx-auto flex h-16 max-w-[1280px] items-center justify-between gap-4 px-4 md:px-8">
         <a
-          aria-label="Orynn home"
+          aria-label="Orryn home"
           className="flex shrink-0 items-center gap-3"
           href="#overview"
         >
@@ -35,10 +35,7 @@ export function SiteHeader() {
             <span className="bg-orynn" />
           </span>
           <span className="text-[17px] font-medium tracking-tight text-white">
-            Orynn
-          </span>
-          <span className="hidden rounded border border-line bg-panel px-2 py-1 font-mono text-[9px] uppercase tracking-wider text-dim sm:inline-flex">
-            Prototype
+            Orryn
           </span>
         </a>
 
@@ -79,9 +76,9 @@ export function SiteHeader() {
           </details>
           <a
             className="inline-flex items-center gap-2 rounded bg-orynn px-4 py-2 font-mono text-[11px] font-semibold text-black shadow-[0_0_18px_rgba(255,87,26,0.2)] transition-colors hover:bg-white sm:text-xs"
-            href="#workflow"
+            href="/dashboard"
           >
-            Explore workflow <span aria-hidden="true">↘</span>
+            Open workspace <span aria-hidden="true">↘</span>
           </a>
         </div>
       </div>

@@ -34,7 +34,7 @@ const steps = [
   {
     number: "02",
     title: "Inspect the customer’s deployment",
-    body: "Orynn reads the supported onchain dependency path and records the chain state it observed.",
+    body: "Orryn reads the supported onchain dependency path and records the chain state it observed.",
     tag: "Read only",
   },
   {
@@ -46,7 +46,7 @@ const steps = [
   {
     number: "04",
     title: "Customer authorizes its own repair",
-    body: "Orynn can prepare and simulate a proposed transaction. The customer’s authorized wallet decides whether to execute it.",
+    body: "Orryn can prepare and simulate a proposed transaction. The customer’s authorized wallet decides whether to execute it.",
     tag: "Customer controlled",
   },
   {
@@ -68,7 +68,7 @@ const principles = [
   },
   {
     title: "The owner stays in control",
-    body: "Orynn does not hold customer upgrade keys or silently change a customer’s contract.",
+    body: "Orryn does not hold customer upgrade keys or silently change a customer’s contract.",
   },
   {
     title: "Evidence has a boundary",
@@ -131,7 +131,7 @@ export default function LandingPage() {
               </span>
             </h1>
             <p className="max-w-2xl text-base font-light leading-7 text-muted md:text-lg md:leading-8">
-              Orynn helps infrastructure suppliers and protocol teams coordinate
+              Orryn helps infrastructure suppliers and protocol teams coordinate
               known dependency repairs across customer-owned smart-contract
               deployments—with clear checks, owner-controlled changes, and
               evidence tied to the state that was observed.
@@ -254,7 +254,7 @@ export default function LandingPage() {
               </h2>
             </div>
             <p className="max-w-md text-sm font-light leading-6 text-muted">
-              Orynn coordinates and explains the work. The customer remains in
+              Orryn coordinates and explains the work. The customer remains in
               control of its deployment and its keys.
             </p>
           </div>
@@ -326,7 +326,7 @@ export default function LandingPage() {
               </div>
               <div className="rounded-lg border border-orynn/30 bg-orynn/[0.04] p-5 md:p-6">
                 <span className="font-mono text-[9px] uppercase tracking-wider text-orynn">
-                  Orynn verifier
+                  Orryn verifier
                 </span>
                 <h3 className="mt-3 text-lg text-white">Checks and evidence</h3>
                 <p className="mt-2 text-sm leading-6 text-muted">
@@ -399,7 +399,7 @@ export default function LandingPage() {
           </div>
 
           <p className="mx-auto mt-8 max-w-3xl text-center text-xs leading-6 text-dim">
-            Orynn is not a universal scanner or an automatic upgrader. The
+            Orryn is not a universal scanner or an automatic upgrader. The
             current prototype covers one documented oracle-adapter/proxy
             pattern; other patterns need explicit support or manual review.
           </p>
@@ -443,11 +443,11 @@ export default function LandingPage() {
       <footer className="border-t border-line bg-panel">
         <div className="mx-auto flex max-w-[1280px] flex-col gap-5 px-4 py-7 text-xs text-dim sm:flex-row sm:items-center sm:justify-between md:px-8">
           <a
-            aria-label="Orynn home"
+            aria-label="Orryn home"
             className="text-sm font-medium text-white"
             href="#overview"
           >
-            Orynn
+            Orryn
           </a>
           <p>
             Repair coordination for customer-owned smart-contract deployments.

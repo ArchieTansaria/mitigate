@@ -14,10 +14,10 @@ const silkscreen = Silkscreen({
 });
 
 export const metadata: Metadata = {
-  title: "Orynn — Verified dependency repairs",
+  title: "Orryn — Verified dependency repairs",
   description:
-    "Orynn helps protocol teams coordinate dependency repairs across customer-owned smart-contract deployments, with checks tied to the state that was actually observed.",
-  applicationName: "Orynn",
+    "Orryn helps protocol teams coordinate dependency repairs across customer-owned smart-contract deployments, with checks tied to the state that was actually observed.",
+  applicationName: "Orryn",
 };
 
 export default function RootLayout({
