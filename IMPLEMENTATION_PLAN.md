@@ -443,3 +443,11 @@ Implemented behavior and actual validation: `docs/handoffs/PB-12.md`, `docs/evid
 - [ ] Validate: `Full declared local checks once at final revision; one fresh testnet demo with new IDs`. Record exact output, environment and any skipped stage in docs/handoffs/PB-28.md.
 - [ ] Review owned-file diff and interface/security impact; commit as `docs(submission): map working features to sponsor evidence [PB-28]` (or the relevant explicit deferral).
 - [ ] Other owner reviews; merge; coordinator records commit/status and releases dependent task.
+
+## PB-30 — Isolated recording walkthrough
+**Owner:** A. Explicit user request for a quick simulated demo and 3–4 minute script.
+- [x] Add `/demo` with clearly labelled fictional deployments, owner repair/recheck and grant lifecycle.
+- [x] Keep fixtures separate from real APIs, wallet actions and campaign evidence.
+- [x] Test transition gating, replay rejection and budget conservation; click through in-browser.
+- [x] Write timed narration and exact recording steps in `docs/demo/RECORDING-SCRIPT.md`.
+- [ ] Live integrations remain separate PB-20–26 gates; this walkthrough does not satisfy them.

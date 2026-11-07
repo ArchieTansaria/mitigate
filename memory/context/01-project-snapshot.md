@@ -44,3 +44,6 @@ Work directly on `main` at the user's explicit request, with meaningful tested c
 Before new work read `AGENTS.md`, `STATUS.md`, `TASKS.md`, the assigned section of root `IMPLEMENTATION_PLAN.md`, relevant handoffs and feature notes. Update this context snapshot as well as those files at each meaningful feature completion. Do not leave a bootstrap-era snapshot describing the entire project as unbuilt.
 
 GitHub Actions last reported an account billing lock; local test success is not remote CI success. Startup: `docs/runbooks/backend-start.md`; replay: `docs/runbooks/replay.md`. Never commit credentials, participant wallet keys, private evidence or generated runtime artifacts.
+
+## Recording route
+Feature 23 / PB-30 adds `/demo`, a user-requested, visibly labelled simulation for recording. It has no wallet/API dependency and does not modify real acceptance. Use `docs/demo/RECORDING-SCRIPT.md` for the 3–4 minute click-by-click script. Do not mistake this route's green results or money states for real testnet evidence.

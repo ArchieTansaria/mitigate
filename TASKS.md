@@ -34,3 +34,5 @@ B owns the missing prerequisites for PB-17/18. Full backend completion is not a 
 | PB-25–26 | A | Orryn verification, owner repair and campaign console | local frontend implemented at user request; real API/RPC adapters and tests; live PB-24/Studio/settlement gates open; see PB-25/PB-26 handoffs |
 | PB-27–28 | Joint | Deployment audit, demo and submission evidence | gated |
 | PB-29 | A | Orynn public landing page, independent of campaign console | implemented, committed and pushed (`f1dece3`); read-only Next.js/Tailwind page; no wallet or live campaign functionality; see docs/handoffs/PB-29.md |
+
+PB-30: isolated `/demo` recording walkthrough and timed script implemented. Simulated checks and ledger, no live transactions. See `docs/handoffs/PB-30.md`.

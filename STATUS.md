@@ -26,3 +26,6 @@ The diagnostic pipeline is functional locally for one exact artificial oracle/pr
 Physical second-machine/Linux verification, hosted API/worker/S3/Studio callback, testnet fixtures, live campaign payouts, delivered CCIP acceptance, deployed DON workflow and live frontend-to-settlement integration remain unproven or unfinished. The frontend implementation exists; acceptance gates remain open. A fresh repair integration attempt encountered Docker execution stalls, including simple shell probes; no current end-to-end success is claimed. CRE deploy access is disabled. ENS is out of active scope. GitHub CI last reported an account billing lock; remote CI success is not claimed.
 
 Startup: docs/runbooks/backend-start.md. Repair walkthrough: docs/runbooks/repair.md (`pnpm test:repair`). Replay: docs/runbooks/replay.md. Validation: docs/evidence/pipeline-validation.md. Do not put secrets or generated private artifacts in Git.
+
+## Recording demo (PB-30)
+A standalone `/demo` now illustrates repair detection, owner action, fresh recheck and grant accounting with explicit simulated data. It is usable without wallet/API/Docker and does not change the real dashboard. Script: `docs/demo/RECORDING-SCRIPT.md`. This is recording material, not new live integration proof.
