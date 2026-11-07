@@ -1,0 +1,1183 @@
+// Generated with pinned solc 0.8.28 from current PB-15/16/17–19 sources.
+// Existing contracts/out campaign artifact is stale (PB-17 only). No contracts modified.
+export const campaignAbi = [
+  { inputs: [], name: "AlreadyActive", type: "error" },
+  {
+    inputs: [
+      { internalType: "address", name: "policyCampaign", type: "address" },
+      { internalType: "address", name: "thisCampaign", type: "address" },
+    ],
+    name: "CampaignAddressMismatch",
+    type: "error",
+  },
+  { inputs: [], name: "CampaignNotActive", type: "error" },
+  {
+    inputs: [{ internalType: "bytes32", name: "campaignId", type: "bytes32" }],
+    name: "CampaignNotFound",
+    type: "error",
+  },
+  {
+    inputs: [
+      { internalType: "uint64", name: "challengeCutoff", type: "uint64" },
+      { internalType: "uint256", name: "nowTs", type: "uint256" },
+    ],
+    name: "ChallengeWindowClosed",
+    type: "error",
+  },
+  {
+    inputs: [
+      { internalType: "uint64", name: "challengeCutoff", type: "uint64" },
+      { internalType: "uint256", name: "nowTs", type: "uint256" },
+    ],
+    name: "ChallengeWindowOpen",
+    type: "error",
+  },
+  {
+    inputs: [
+      { internalType: "uint64", name: "claimDeadline", type: "uint64" },
+      { internalType: "uint256", name: "nowTs", type: "uint256" },
+    ],
+    name: "ClaimDeadlinePassed",
+    type: "error",
+  },
+  {
+    inputs: [
+      { internalType: "bytes32", name: "deploymentKey", type: "bytes32" },
+      {
+        internalType: "enum IRemediationCampaign.ClaimStatus",
+        name: "status",
+        type: "uint8",
+      },
+    ],
+    name: "ClaimNotAwarded",
+    type: "error",
+  },
+  {
+    inputs: [
+      { internalType: "bytes32", name: "deploymentKey", type: "bytes32" },
+      {
+        internalType: "enum IRemediationCampaign.ClaimStatus",
+        name: "status",
+        type: "uint8",
+      },
+    ],
+    name: "ClaimNotDisputed",
+    type: "error",
+  },
+  {
+    inputs: [
+      { internalType: "bytes32", name: "deploymentKey", type: "bytes32" },
+      {
+        internalType: "enum IRemediationCampaign.ClaimStatus",
+        name: "status",
+        type: "uint8",
+      },
+    ],
+    name: "ClaimNotPending",
+    type: "error",
+  },
+  {
+    inputs: [
+      { internalType: "uint64", name: "claimDeadline", type: "uint64" },
+      { internalType: "uint256", name: "nowTs", type: "uint256" },
+    ],
+    name: "DeadlinePassed",
+    type: "error",
+  },
+  {
+    inputs: [
+      { internalType: "bytes32", name: "deploymentKey", type: "bytes32" },
+    ],
+    name: "DeploymentAlreadyClaimed",
+    type: "error",
+  },
+  {
+    inputs: [
+      { internalType: "uint256", name: "expected", type: "uint256" },
+      { internalType: "uint256", name: "received", type: "uint256" },
+    ],
+    name: "FeeOnTransferDetected",
+    type: "error",
+  },
+  {
+    inputs: [
+      { internalType: "uint256", name: "available", type: "uint256" },
+      { internalType: "uint256", name: "required", type: "uint256" },
+    ],
+    name: "InsufficientUnallocated",
+    type: "error",
+  },
+  { inputs: [], name: "InvalidRegistry", type: "error" },
+  { inputs: [], name: "InvalidVerifier", type: "error" },
+  {
+    inputs: [{ internalType: "address", name: "token", type: "address" }],
+    name: "NoTokenCode",
+    type: "error",
+  },
+  {
+    inputs: [{ internalType: "address", name: "caller", type: "address" }],
+    name: "NotChallenger",
+    type: "error",
+  },
+  {
+    inputs: [
+      { internalType: "uint256", name: "funded", type: "uint256" },
+      { internalType: "uint256", name: "required", type: "uint256" },
+    ],
+    name: "NotFullyFunded",
+    type: "error",
+  },
+  {
+    inputs: [
+      { internalType: "address", name: "caller", type: "address" },
+      { internalType: "address", name: "recipient", type: "address" },
+    ],
+    name: "NotRecipient",
+    type: "error",
+  },
+  {
+    inputs: [
+      { internalType: "address", name: "caller", type: "address" },
+      { internalType: "address", name: "reviewer", type: "address" },
+    ],
+    name: "NotReviewer",
+    type: "error",
+  },
+  {
+    inputs: [
+      { internalType: "address", name: "caller", type: "address" },
+      { internalType: "address", name: "supplier", type: "address" },
+    ],
+    name: "NotSupplier",
+    type: "error",
+  },
+  { inputs: [], name: "NothingToRecover", type: "error" },
+  {
+    inputs: [
+      { internalType: "uint256", name: "amount", type: "uint256" },
+      { internalType: "uint256", name: "remaining", type: "uint256" },
+    ],
+    name: "Overfunding",
+    type: "error",
+  },
+  {
+    inputs: [
+      { internalType: "uint256", name: "expected", type: "uint256" },
+      { internalType: "uint256", name: "actual", type: "uint256" },
+    ],
+    name: "PayoutAmountMismatch",
+    type: "error",
+  },
+  {
+    inputs: [
+      { internalType: "bytes32", name: "computed", type: "bytes32" },
+      { internalType: "bytes32", name: "registryHash", type: "bytes32" },
+    ],
+    name: "PolicyHashMismatch",
+    type: "error",
+  },
+  {
+    inputs: [
+      { internalType: "uint64", name: "claimDeadline", type: "uint64" },
+      { internalType: "uint256", name: "nowTs", type: "uint256" },
+    ],
+    name: "RecoveryNotOpen",
+    type: "error",
+  },
+  { inputs: [], name: "ReentrancyGuardReentrantCall", type: "error" },
+  {
+    inputs: [
+      { internalType: "uint256", name: "registryValue", type: "uint256" },
+      { internalType: "uint256", name: "computed", type: "uint256" },
+    ],
+    name: "RequiredFundingMismatch",
+    type: "error",
+  },
+  {
+    inputs: [
+      { internalType: "uint64", name: "reviewDeadline", type: "uint64" },
+      { internalType: "uint256", name: "nowTs", type: "uint256" },
+    ],
+    name: "ReviewWindowClosed",
+    type: "error",
+  },
+  {
+    inputs: [
+      { internalType: "uint64", name: "reviewDeadline", type: "uint64" },
+      { internalType: "uint256", name: "nowTs", type: "uint256" },
+    ],
+    name: "ReviewWindowOpen",
+    type: "error",
+  },
+  {
+    inputs: [
+      { internalType: "uint8", name: "bits", type: "uint8" },
+      { internalType: "uint256", name: "value", type: "uint256" },
+    ],
+    name: "SafeCastOverflowedUintDowncast",
+    type: "error",
+  },
+  {
+    inputs: [{ internalType: "address", name: "token", type: "address" }],
+    name: "SafeERC20FailedOperation",
+    type: "error",
+  },
+  {
+    inputs: [{ internalType: "address", name: "token", type: "address" }],
+    name: "TokenDecimalsUnavailable",
+    type: "error",
+  },
+  {
+    inputs: [
+      { internalType: "address", name: "configured", type: "address" },
+      { internalType: "address", name: "policyToken", type: "address" },
+    ],
+    name: "TokenMismatch",
+    type: "error",
+  },
+  {
+    inputs: [{ internalType: "uint8", name: "given", type: "uint8" }],
+    name: "UnsupportedTokenDecimals",
+    type: "error",
+  },
+  {
+    inputs: [
+      { internalType: "address", name: "verifierRegistry", type: "address" },
+      { internalType: "address", name: "registry", type: "address" },
+    ],
+    name: "VerifierRegistryMismatch",
+    type: "error",
+  },
+  {
+    inputs: [
+      { internalType: "uint256", name: "given", type: "uint256" },
+      { internalType: "uint256", name: "expected", type: "uint256" },
+    ],
+    name: "WrongDestinationChain",
+    type: "error",
+  },
+  { inputs: [], name: "ZeroAmount", type: "error" },
+  { inputs: [], name: "ZeroReasonHash", type: "error" },
+  {
+    inputs: [],
+    name: "accounting",
+    outputs: [
+      {
+        components: [
+          { internalType: "uint256", name: "deposited", type: "uint256" },
+          { internalType: "uint256", name: "unallocated", type: "uint256" },
+          { internalType: "uint256", name: "reserved", type: "uint256" },
+          {
+            internalType: "uint256",
+            name: "awardedUnwithdrawn",
+            type: "uint256",
+          },
+          { internalType: "uint256", name: "paid", type: "uint256" },
+          { internalType: "uint256", name: "refunded", type: "uint256" },
+        ],
+        internalType: "struct IRemediationCampaign.Accounting",
+        name: "",
+        type: "tuple",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "activate",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "active",
+    outputs: [{ internalType: "bool", name: "", type: "bool" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "campaignId",
+    outputs: [{ internalType: "bytes32", name: "", type: "bytes32" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "bytes32", name: "deploymentKey", type: "bytes32" },
+      { internalType: "bytes32", name: "reasonHash", type: "bytes32" },
+    ],
+    name: "challengeClaim",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "bytes32", name: "deploymentKey", type: "bytes32" },
+    ],
+    name: "challengeOf",
+    outputs: [
+      { internalType: "address", name: "challenger", type: "address" },
+      { internalType: "bytes32", name: "reasonHash", type: "bytes32" },
+      { internalType: "uint64", name: "reviewDeadline", type: "uint64" },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "bytes32", name: "deploymentKey", type: "bytes32" },
+    ],
+    name: "claimOf",
+    outputs: [
+      {
+        internalType: "enum IRemediationCampaign.ClaimStatus",
+        name: "status",
+        type: "uint8",
+      },
+      { internalType: "address", name: "recipient", type: "address" },
+      { internalType: "bytes32", name: "receiptId", type: "bytes32" },
+      { internalType: "uint64", name: "challengeCutoff", type: "uint64" },
+      { internalType: "uint256", name: "withdrawable", type: "uint256" },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "bytes32", name: "deploymentKey", type: "bytes32" },
+    ],
+    name: "expireChallenge",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "bytes32", name: "deploymentKey", type: "bytes32" },
+    ],
+    name: "finalizeClaim",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "uint256", name: "amount", type: "uint256" }],
+    name: "fund",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "funded",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "policy",
+    outputs: [
+      {
+        components: [
+          { internalType: "bytes32", name: "campaignId", type: "bytes32" },
+          { internalType: "address", name: "supplier", type: "address" },
+          { internalType: "uint256", name: "sourceChainId", type: "uint256" },
+          {
+            internalType: "uint256",
+            name: "destinationChainId",
+            type: "uint256",
+          },
+          { internalType: "address", name: "sourceRegistry", type: "address" },
+          { internalType: "address", name: "campaign", type: "address" },
+          { internalType: "bytes32", name: "eligibilityRoot", type: "bytes32" },
+          { internalType: "uint256", name: "eligibleCount", type: "uint256" },
+          { internalType: "uint256", name: "grantAmount", type: "uint256" },
+          { internalType: "address", name: "token", type: "address" },
+          { internalType: "uint8", name: "tokenDecimals", type: "uint8" },
+          {
+            internalType: "bytes32",
+            name: "repairPolicyHash",
+            type: "bytes32",
+          },
+          { internalType: "bytes32", name: "testPackHash", type: "bytes32" },
+          { internalType: "address", name: "verifier", type: "address" },
+          { internalType: "address", name: "challenger", type: "address" },
+          { internalType: "address", name: "reviewer", type: "address" },
+          { internalType: "uint64", name: "claimDeadline", type: "uint64" },
+          { internalType: "uint64", name: "challengeWindow", type: "uint64" },
+          { internalType: "uint64", name: "reviewTimeout", type: "uint64" },
+          { internalType: "uint64", name: "maxReceiptAge", type: "uint64" },
+          { internalType: "uint32", name: "confirmations", type: "uint32" },
+          { internalType: "uint64", name: "evidenceRetention", type: "uint64" },
+        ],
+        internalType: "struct PatchBondTypes.Policy",
+        name: "",
+        type: "tuple",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "policyHash",
+    outputs: [{ internalType: "bytes32", name: "", type: "bytes32" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "recoverUnallocated",
+    outputs: [{ internalType: "uint256", name: "amount", type: "uint256" }],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "registry",
+    outputs: [{ internalType: "address", name: "", type: "address" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "remainingFunding",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "requiredFunding",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "bytes32", name: "deploymentKey", type: "bytes32" },
+      { internalType: "bool", name: "award", type: "bool" },
+    ],
+    name: "resolveChallenge",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "bytes32", name: "deploymentKey", type: "bytes32" },
+    ],
+    name: "reviewDeadlineOf",
+    outputs: [{ internalType: "uint64", name: "", type: "uint64" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        components: [
+          { internalType: "bytes32", name: "campaignId", type: "bytes32" },
+          {
+            internalType: "bytes32",
+            name: "campaignPolicyHash",
+            type: "bytes32",
+          },
+          { internalType: "uint256", name: "sourceChainId", type: "uint256" },
+          { internalType: "bytes32", name: "deploymentKey", type: "bytes32" },
+          { internalType: "address", name: "recipient", type: "address" },
+          { internalType: "bytes32", name: "snapshotHash", type: "bytes32" },
+          {
+            internalType: "uint256",
+            name: "observedBlockNumber",
+            type: "uint256",
+          },
+          {
+            internalType: "bytes32",
+            name: "observedBlockHash",
+            type: "bytes32",
+          },
+          {
+            internalType: "uint64",
+            name: "observedBlockTimestamp",
+            type: "uint64",
+          },
+          { internalType: "bytes32", name: "testPackHash", type: "bytes32" },
+          { internalType: "bytes32", name: "evidenceDigest", type: "bytes32" },
+          { internalType: "uint8", name: "purpose", type: "uint8" },
+          { internalType: "uint8", name: "mode", type: "uint8" },
+          { internalType: "uint8", name: "result", type: "uint8" },
+          { internalType: "uint64", name: "issuedAt", type: "uint64" },
+          { internalType: "uint64", name: "expiresAt", type: "uint64" },
+          { internalType: "bytes32", name: "receiptId", type: "bytes32" },
+        ],
+        internalType: "struct PatchBondTypes.AcceptanceReceipt",
+        name: "receipt",
+        type: "tuple",
+      },
+      { internalType: "bytes", name: "signature", type: "bytes" },
+      {
+        internalType: "bytes32[]",
+        name: "eligibilityProof",
+        type: "bytes32[]",
+      },
+    ],
+    name: "submitClaim",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "supplier",
+    outputs: [{ internalType: "address", name: "", type: "address" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "token",
+    outputs: [{ internalType: "address", name: "", type: "address" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "untrackedTokenBalance",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "verifier",
+    outputs: [{ internalType: "address", name: "", type: "address" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "bytes32", name: "deploymentKey", type: "bytes32" },
+    ],
+    name: "withdrawGrant",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+] as const;
+export const campaignVerifierAbi = [
+  {
+    inputs: [
+      { internalType: "address", name: "caller", type: "address" },
+      { internalType: "address", name: "campaign", type: "address" },
+    ],
+    name: "CallerNotCampaign",
+    type: "error",
+  },
+  {
+    inputs: [{ internalType: "bytes32", name: "s", type: "bytes32" }],
+    name: "HighSSignature",
+    type: "error",
+  },
+  {
+    inputs: [{ internalType: "uint8", name: "given", type: "uint8" }],
+    name: "InvalidMode",
+    type: "error",
+  },
+  {
+    inputs: [{ internalType: "uint8", name: "given", type: "uint8" }],
+    name: "InvalidPurpose",
+    type: "error",
+  },
+  { inputs: [], name: "InvalidRegistry", type: "error" },
+  {
+    inputs: [{ internalType: "uint8", name: "given", type: "uint8" }],
+    name: "InvalidResult",
+    type: "error",
+  },
+  { inputs: [], name: "InvalidSignature", type: "error" },
+  {
+    inputs: [{ internalType: "uint256", name: "length", type: "uint256" }],
+    name: "InvalidSignatureLength",
+    type: "error",
+  },
+  {
+    inputs: [{ internalType: "uint8", name: "v", type: "uint8" }],
+    name: "InvalidSignatureV",
+    type: "error",
+  },
+  {
+    inputs: [
+      { internalType: "address", name: "recovered", type: "address" },
+      { internalType: "address", name: "expected", type: "address" },
+    ],
+    name: "InvalidSigner",
+    type: "error",
+  },
+  {
+    inputs: [
+      { internalType: "uint64", name: "issuedAt", type: "uint64" },
+      { internalType: "uint64", name: "expiresAt", type: "uint64" },
+    ],
+    name: "InvalidTimeWindow",
+    type: "error",
+  },
+  { inputs: [], name: "NotEligible", type: "error" },
+  {
+    inputs: [
+      { internalType: "bytes32", name: "given", type: "bytes32" },
+      { internalType: "bytes32", name: "expected", type: "bytes32" },
+    ],
+    name: "PolicyHashMismatch",
+    type: "error",
+  },
+  {
+    inputs: [
+      { internalType: "bytes32", name: "campaignId", type: "bytes32" },
+      { internalType: "bytes32", name: "receiptId", type: "bytes32" },
+    ],
+    name: "ReceiptAlreadyConsumed",
+    type: "error",
+  },
+  {
+    inputs: [
+      { internalType: "uint64", name: "expiresAt", type: "uint64" },
+      { internalType: "uint256", name: "nowTs", type: "uint256" },
+    ],
+    name: "ReceiptExpired",
+    type: "error",
+  },
+  {
+    inputs: [
+      { internalType: "uint64", name: "issuedAt", type: "uint64" },
+      { internalType: "uint256", name: "nowTs", type: "uint256" },
+    ],
+    name: "ReceiptNotYetValid",
+    type: "error",
+  },
+  {
+    inputs: [
+      { internalType: "uint64", name: "issuedAt", type: "uint64" },
+      { internalType: "uint64", name: "maxReceiptAge", type: "uint64" },
+      { internalType: "uint256", name: "nowTs", type: "uint256" },
+    ],
+    name: "ReceiptTooOld",
+    type: "error",
+  },
+  {
+    inputs: [
+      { internalType: "address", name: "given", type: "address" },
+      { internalType: "address", name: "registered", type: "address" },
+    ],
+    name: "RecipientMismatch",
+    type: "error",
+  },
+  {
+    inputs: [{ internalType: "bytes32", name: "campaignId", type: "bytes32" }],
+    name: "RegistryPolicyHashMismatch",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint64",
+        name: "observedBlockTimestamp",
+        type: "uint64",
+      },
+      { internalType: "uint64", name: "issuedAt", type: "uint64" },
+    ],
+    name: "SnapshotAfterIssuance",
+    type: "error",
+  },
+  {
+    inputs: [
+      { internalType: "bytes32", name: "given", type: "bytes32" },
+      { internalType: "bytes32", name: "expected", type: "bytes32" },
+    ],
+    name: "SnapshotHashMismatch",
+    type: "error",
+  },
+  {
+    inputs: [
+      { internalType: "uint256", name: "given", type: "uint256" },
+      { internalType: "uint256", name: "expected", type: "uint256" },
+    ],
+    name: "SourceChainMismatch",
+    type: "error",
+  },
+  {
+    inputs: [
+      { internalType: "bytes32", name: "given", type: "bytes32" },
+      { internalType: "bytes32", name: "expected", type: "bytes32" },
+    ],
+    name: "TestPackMismatch",
+    type: "error",
+  },
+  {
+    inputs: [{ internalType: "bytes32", name: "campaignId", type: "bytes32" }],
+    name: "UnknownCampaign",
+    type: "error",
+  },
+  {
+    inputs: [
+      { internalType: "uint256", name: "given", type: "uint256" },
+      { internalType: "uint256", name: "expected", type: "uint256" },
+    ],
+    name: "WrongDestinationChain",
+    type: "error",
+  },
+  {
+    inputs: [{ internalType: "bytes32", name: "field", type: "bytes32" }],
+    name: "ZeroField",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        components: [
+          { internalType: "bytes32", name: "campaignId", type: "bytes32" },
+          {
+            internalType: "bytes32",
+            name: "campaignPolicyHash",
+            type: "bytes32",
+          },
+          { internalType: "uint256", name: "sourceChainId", type: "uint256" },
+          { internalType: "bytes32", name: "deploymentKey", type: "bytes32" },
+          { internalType: "address", name: "recipient", type: "address" },
+          { internalType: "bytes32", name: "snapshotHash", type: "bytes32" },
+          {
+            internalType: "uint256",
+            name: "observedBlockNumber",
+            type: "uint256",
+          },
+          {
+            internalType: "bytes32",
+            name: "observedBlockHash",
+            type: "bytes32",
+          },
+          {
+            internalType: "uint64",
+            name: "observedBlockTimestamp",
+            type: "uint64",
+          },
+          { internalType: "bytes32", name: "testPackHash", type: "bytes32" },
+          { internalType: "bytes32", name: "evidenceDigest", type: "bytes32" },
+          { internalType: "uint8", name: "purpose", type: "uint8" },
+          { internalType: "uint8", name: "mode", type: "uint8" },
+          { internalType: "uint8", name: "result", type: "uint8" },
+          { internalType: "uint64", name: "issuedAt", type: "uint64" },
+          { internalType: "uint64", name: "expiresAt", type: "uint64" },
+          { internalType: "bytes32", name: "receiptId", type: "bytes32" },
+        ],
+        internalType: "struct PatchBondTypes.AcceptanceReceipt",
+        name: "receipt",
+        type: "tuple",
+      },
+      { internalType: "bytes", name: "signature", type: "bytes" },
+      { internalType: "bytes32[]", name: "proof", type: "bytes32[]" },
+    ],
+    name: "consumeReceipt",
+    outputs: [{ internalType: "bytes32", name: "digest", type: "bytes32" }],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "bytes32", name: "campaignId", type: "bytes32" },
+      { internalType: "bytes32", name: "receiptId", type: "bytes32" },
+    ],
+    name: "isConsumed",
+    outputs: [{ internalType: "bool", name: "", type: "bool" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        components: [
+          { internalType: "bytes32", name: "campaignId", type: "bytes32" },
+          {
+            internalType: "bytes32",
+            name: "campaignPolicyHash",
+            type: "bytes32",
+          },
+          { internalType: "uint256", name: "sourceChainId", type: "uint256" },
+          { internalType: "bytes32", name: "deploymentKey", type: "bytes32" },
+          { internalType: "address", name: "recipient", type: "address" },
+          { internalType: "bytes32", name: "snapshotHash", type: "bytes32" },
+          {
+            internalType: "uint256",
+            name: "observedBlockNumber",
+            type: "uint256",
+          },
+          {
+            internalType: "bytes32",
+            name: "observedBlockHash",
+            type: "bytes32",
+          },
+          {
+            internalType: "uint64",
+            name: "observedBlockTimestamp",
+            type: "uint64",
+          },
+          { internalType: "bytes32", name: "testPackHash", type: "bytes32" },
+          { internalType: "bytes32", name: "evidenceDigest", type: "bytes32" },
+          { internalType: "uint8", name: "purpose", type: "uint8" },
+          { internalType: "uint8", name: "mode", type: "uint8" },
+          { internalType: "uint8", name: "result", type: "uint8" },
+          { internalType: "uint64", name: "issuedAt", type: "uint64" },
+          { internalType: "uint64", name: "expiresAt", type: "uint64" },
+          { internalType: "bytes32", name: "receiptId", type: "bytes32" },
+        ],
+        internalType: "struct PatchBondTypes.AcceptanceReceipt",
+        name: "receipt",
+        type: "tuple",
+      },
+    ],
+    name: "receiptDigestOf",
+    outputs: [{ internalType: "bytes32", name: "", type: "bytes32" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "registry",
+    outputs: [{ internalType: "address", name: "", type: "address" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        components: [
+          { internalType: "bytes32", name: "campaignId", type: "bytes32" },
+          {
+            internalType: "bytes32",
+            name: "campaignPolicyHash",
+            type: "bytes32",
+          },
+          { internalType: "uint256", name: "sourceChainId", type: "uint256" },
+          { internalType: "bytes32", name: "deploymentKey", type: "bytes32" },
+          { internalType: "address", name: "recipient", type: "address" },
+          { internalType: "bytes32", name: "snapshotHash", type: "bytes32" },
+          {
+            internalType: "uint256",
+            name: "observedBlockNumber",
+            type: "uint256",
+          },
+          {
+            internalType: "bytes32",
+            name: "observedBlockHash",
+            type: "bytes32",
+          },
+          {
+            internalType: "uint64",
+            name: "observedBlockTimestamp",
+            type: "uint64",
+          },
+          { internalType: "bytes32", name: "testPackHash", type: "bytes32" },
+          { internalType: "bytes32", name: "evidenceDigest", type: "bytes32" },
+          { internalType: "uint8", name: "purpose", type: "uint8" },
+          { internalType: "uint8", name: "mode", type: "uint8" },
+          { internalType: "uint8", name: "result", type: "uint8" },
+          { internalType: "uint64", name: "issuedAt", type: "uint64" },
+          { internalType: "uint64", name: "expiresAt", type: "uint64" },
+          { internalType: "bytes32", name: "receiptId", type: "bytes32" },
+        ],
+        internalType: "struct PatchBondTypes.AcceptanceReceipt",
+        name: "receipt",
+        type: "tuple",
+      },
+      { internalType: "bytes", name: "signature", type: "bytes" },
+      { internalType: "bytes32[]", name: "proof", type: "bytes32[]" },
+    ],
+    name: "validateReceipt",
+    outputs: [{ internalType: "bytes32", name: "digest", type: "bytes32" }],
+    stateMutability: "view",
+    type: "function",
+  },
+] as const;
+export const campaignRegistryAbi = [
+  {
+    inputs: [{ internalType: "bytes32", name: "campaignId", type: "bytes32" }],
+    name: "CampaignAlreadyExists",
+    type: "error",
+  },
+  {
+    inputs: [{ internalType: "bytes32", name: "campaignId", type: "bytes32" }],
+    name: "CampaignNotFound",
+    type: "error",
+  },
+  {
+    inputs: [
+      { internalType: "uint64", name: "claimDeadline", type: "uint64" },
+      { internalType: "uint256", name: "nowTs", type: "uint256" },
+    ],
+    name: "DeadlineNotInFuture",
+    type: "error",
+  },
+  {
+    inputs: [
+      { internalType: "bytes32", name: "campaignId", type: "bytes32" },
+      { internalType: "bytes32", name: "deploymentKey", type: "bytes32" },
+      { internalType: "address", name: "recipient", type: "address" },
+    ],
+    name: "DeploymentAlreadyRegistered",
+    type: "error",
+  },
+  {
+    inputs: [
+      { internalType: "bytes32", name: "campaignId", type: "bytes32" },
+      { internalType: "uint256", name: "eligibleCount", type: "uint256" },
+    ],
+    name: "EligibleCountReached",
+    type: "error",
+  },
+  { inputs: [], name: "InvalidEligibilityProof", type: "error" },
+  {
+    inputs: [
+      { internalType: "uint256", name: "eligibleCount", type: "uint256" },
+      { internalType: "uint256", name: "grantAmount", type: "uint256" },
+    ],
+    name: "RequiredFundingOverflow",
+    type: "error",
+  },
+  {
+    inputs: [{ internalType: "address", name: "reviewer", type: "address" }],
+    name: "ReviewerIsVerifier",
+    type: "error",
+  },
+  {
+    inputs: [
+      { internalType: "address", name: "supplier", type: "address" },
+      { internalType: "address", name: "reviewer", type: "address" },
+    ],
+    name: "RoleSeparationViolated",
+    type: "error",
+  },
+  {
+    inputs: [
+      { internalType: "uint256", name: "given", type: "uint256" },
+      { internalType: "uint256", name: "expected", type: "uint256" },
+    ],
+    name: "SourceChainMismatch",
+    type: "error",
+  },
+  {
+    inputs: [
+      { internalType: "address", name: "caller", type: "address" },
+      { internalType: "address", name: "supplier", type: "address" },
+    ],
+    name: "Unauthorized",
+    type: "error",
+  },
+  {
+    inputs: [{ internalType: "uint8", name: "given", type: "uint8" }],
+    name: "UnsupportedTokenDecimals",
+    type: "error",
+  },
+  {
+    inputs: [
+      { internalType: "uint256", name: "given", type: "uint256" },
+      { internalType: "uint256", name: "expected", type: "uint256" },
+    ],
+    name: "WrongDestinationChain",
+    type: "error",
+  },
+  {
+    inputs: [{ internalType: "bytes32", name: "field", type: "bytes32" }],
+    name: "ZeroAddress",
+    type: "error",
+  },
+  { inputs: [], name: "ZeroConfirmations", type: "error" },
+  { inputs: [], name: "ZeroDeploymentKey", type: "error" },
+  {
+    inputs: [{ internalType: "bytes32", name: "field", type: "bytes32" }],
+    name: "ZeroDuration",
+    type: "error",
+  },
+  { inputs: [], name: "ZeroEligibleCount", type: "error" },
+  { inputs: [], name: "ZeroGrantAmount", type: "error" },
+  {
+    inputs: [{ internalType: "bytes32", name: "field", type: "bytes32" }],
+    name: "ZeroHash",
+    type: "error",
+  },
+  { inputs: [], name: "ZeroRecipient", type: "error" },
+  { inputs: [], name: "ZeroSourceChainId", type: "error" },
+  {
+    inputs: [],
+    name: "SUPPORTED_USDC_DECIMALS",
+    outputs: [{ internalType: "uint8", name: "", type: "uint8" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "bytes32", name: "campaignId", type: "bytes32" }],
+    name: "campaignExists",
+    outputs: [{ internalType: "bool", name: "", type: "bool" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        components: [
+          { internalType: "bytes32", name: "campaignId", type: "bytes32" },
+          { internalType: "address", name: "supplier", type: "address" },
+          { internalType: "uint256", name: "sourceChainId", type: "uint256" },
+          {
+            internalType: "uint256",
+            name: "destinationChainId",
+            type: "uint256",
+          },
+          { internalType: "address", name: "sourceRegistry", type: "address" },
+          { internalType: "address", name: "campaign", type: "address" },
+          { internalType: "bytes32", name: "eligibilityRoot", type: "bytes32" },
+          { internalType: "uint256", name: "eligibleCount", type: "uint256" },
+          { internalType: "uint256", name: "grantAmount", type: "uint256" },
+          { internalType: "address", name: "token", type: "address" },
+          { internalType: "uint8", name: "tokenDecimals", type: "uint8" },
+          {
+            internalType: "bytes32",
+            name: "repairPolicyHash",
+            type: "bytes32",
+          },
+          { internalType: "bytes32", name: "testPackHash", type: "bytes32" },
+          { internalType: "address", name: "verifier", type: "address" },
+          { internalType: "address", name: "challenger", type: "address" },
+          { internalType: "address", name: "reviewer", type: "address" },
+          { internalType: "uint64", name: "claimDeadline", type: "uint64" },
+          { internalType: "uint64", name: "challengeWindow", type: "uint64" },
+          { internalType: "uint64", name: "reviewTimeout", type: "uint64" },
+          { internalType: "uint64", name: "maxReceiptAge", type: "uint64" },
+          { internalType: "uint32", name: "confirmations", type: "uint32" },
+          { internalType: "uint64", name: "evidenceRetention", type: "uint64" },
+        ],
+        internalType: "struct PatchBondTypes.Policy",
+        name: "policy",
+        type: "tuple",
+      },
+    ],
+    name: "createCampaign",
+    outputs: [{ internalType: "bytes32", name: "policyHash", type: "bytes32" }],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "bytes32", name: "campaignId", type: "bytes32" },
+      { internalType: "bytes32", name: "deploymentKey", type: "bytes32" },
+    ],
+    name: "isDeploymentRegistered",
+    outputs: [{ internalType: "bool", name: "", type: "bool" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "bytes32", name: "campaignId", type: "bytes32" },
+      { internalType: "uint256", name: "sourceChainId", type: "uint256" },
+      { internalType: "bytes32", name: "deploymentKey", type: "bytes32" },
+      { internalType: "address", name: "recipient", type: "address" },
+      { internalType: "bytes32[]", name: "proof", type: "bytes32[]" },
+    ],
+    name: "isEligible",
+    outputs: [{ internalType: "bool", name: "", type: "bool" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "bytes32", name: "campaignId", type: "bytes32" }],
+    name: "policyHashOf",
+    outputs: [{ internalType: "bytes32", name: "", type: "bytes32" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "bytes32", name: "campaignId", type: "bytes32" }],
+    name: "policyOf",
+    outputs: [
+      {
+        components: [
+          { internalType: "bytes32", name: "campaignId", type: "bytes32" },
+          { internalType: "address", name: "supplier", type: "address" },
+          { internalType: "uint256", name: "sourceChainId", type: "uint256" },
+          {
+            internalType: "uint256",
+            name: "destinationChainId",
+            type: "uint256",
+          },
+          { internalType: "address", name: "sourceRegistry", type: "address" },
+          { internalType: "address", name: "campaign", type: "address" },
+          { internalType: "bytes32", name: "eligibilityRoot", type: "bytes32" },
+          { internalType: "uint256", name: "eligibleCount", type: "uint256" },
+          { internalType: "uint256", name: "grantAmount", type: "uint256" },
+          { internalType: "address", name: "token", type: "address" },
+          { internalType: "uint8", name: "tokenDecimals", type: "uint8" },
+          {
+            internalType: "bytes32",
+            name: "repairPolicyHash",
+            type: "bytes32",
+          },
+          { internalType: "bytes32", name: "testPackHash", type: "bytes32" },
+          { internalType: "address", name: "verifier", type: "address" },
+          { internalType: "address", name: "challenger", type: "address" },
+          { internalType: "address", name: "reviewer", type: "address" },
+          { internalType: "uint64", name: "claimDeadline", type: "uint64" },
+          { internalType: "uint64", name: "challengeWindow", type: "uint64" },
+          { internalType: "uint64", name: "reviewTimeout", type: "uint64" },
+          { internalType: "uint64", name: "maxReceiptAge", type: "uint64" },
+          { internalType: "uint32", name: "confirmations", type: "uint32" },
+          { internalType: "uint64", name: "evidenceRetention", type: "uint64" },
+        ],
+        internalType: "struct PatchBondTypes.Policy",
+        name: "",
+        type: "tuple",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "bytes32", name: "campaignId", type: "bytes32" },
+      { internalType: "bytes32", name: "deploymentKey", type: "bytes32" },
+    ],
+    name: "recipientOf",
+    outputs: [{ internalType: "address", name: "", type: "address" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "bytes32", name: "campaignId", type: "bytes32" },
+      { internalType: "uint256", name: "sourceChainId", type: "uint256" },
+      { internalType: "bytes32", name: "deploymentKey", type: "bytes32" },
+      { internalType: "address", name: "recipient", type: "address" },
+      { internalType: "bytes32[]", name: "proof", type: "bytes32[]" },
+    ],
+    name: "registerEligibleDeployment",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "bytes32", name: "campaignId", type: "bytes32" }],
+    name: "registeredCountOf",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "bytes32", name: "campaignId", type: "bytes32" }],
+    name: "requiredFundingOf",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+] as const;
