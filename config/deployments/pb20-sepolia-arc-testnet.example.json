@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 1,
+  "executionKind": "testnet-deployment-template",
+  "source": {
+    "name": "ethereum-testnet-sepolia",
+    "chainId": "11155111",
+    "ccipSelector": "16015286601757825753",
+    "ccipRouter": "0x0BF3dE8c5D3e8A2B34D2BEeB17ABfCeBaf363A59",
+    "rpcUrl": null
+  },
+  "destination": {
+    "name": "arc-testnet",
+    "chainId": "5042002",
+    "ccipSelector": "3034092155422581607",
+    "ccipRouter": "0xdE4E7FED43FAC37EB21aA0643d9852f75332eab8",
+    "usdcErc20": "0x3600000000000000000000000000000000000000",
+    "usdcDecimals": 6,
+    "rpcUrl": null
+  },
+  "roles": {
+    "supplier": null,
+    "customer": null,
+    "verifier": null,
+    "challenger": null,
+    "reviewer": null,
+    "reporter": null
+  },
+  "contracts": {
+    "registry": null,
+    "acceptanceVerifier": null,
+    "campaign": null,
+    "sourceSender": null,
+    "destinationReceiver": null
+  },
+  "campaignPolicy": {
+    "campaignId": null,
+    "supplier": null,
+    "sourceChainId": "11155111",
+    "destinationChainId": "5042002",
+    "sourceRegistry": null,
+    "campaign": null,
+    "eligibilityRoot": null,
+    "eligibleCount": null,
+    "grantAmount": null,
+    "token": "0x3600000000000000000000000000000000000000",
+    "tokenDecimals": 6,
+    "repairPolicyHash": null,
+    "testPackHash": null,
+    "verifier": null,
+    "challenger": null,
+    "reviewer": null,
+    "claimDeadline": null,
+    "challengeWindow": null,
+    "reviewTimeout": null,
+    "maxReceiptAge": null,
+    "confirmations": null,
+    "evidenceRetention": null
+  },
+  "eligibleDeployment": {
+    "deploymentKey": null,
+    "recipient": null,
+    "merkleProof": null
+  },
+  "liveReceipt": {
+    "status": "not-issued",
+    "receipt": null,
+    "signature": null,
+    "evidenceDigest": null,
+    "sourceSnapshot": null
+  },
+  "deploymentState": "NOT_CONFIGURED_DO_NOT_BROADCAST"
+}
