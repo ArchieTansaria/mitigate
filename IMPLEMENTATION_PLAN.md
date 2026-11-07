@@ -353,6 +353,7 @@ Implemented behavior and actual validation: `docs/handoffs/PB-12.md`, `docs/evid
 ## PB-22 — Chain indexer and campaign API views
 **Owner:** A
 **Prerequisites:** PB-06, PB-15, PB-20; B exports ABI
+**Status:** Blocked pending generated PB-15–20 ABIs and a deployment manifest with verified contract addresses and starting blocks; see `docs/handoffs/PB-22.md`.
 **Create/modify:** services/api/src/indexer/; services/api/src/routes/campaigns.ts; services/api/test/indexer.integration.test.ts; docs/runbooks/backend-start.md; service launch configuration
 **Interface/deliverable:** Campaign eligibility, evidence, claim and payment views with explicit sync provenance
 

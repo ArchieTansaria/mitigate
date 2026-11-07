@@ -30,9 +30,9 @@ No fixture-address shortcuts or canned pass results: deployment state is read fr
 
 ## Remaining work and integration gates
 1. PB-12 is implemented locally; B upgrade-route boundary review remains pending. `pnpm test:repair` demonstrates actual owner execution and fresh evidence; see `docs/runbooks/repair.md` for generated inspectable artifacts.
-2. B PB-14–20: PB-14–19 and PB-20 sender/receiver code pass local and Studio contract suites. PB-20 still needs a deployment script, real immutable policy/eligibility inputs, deployment, and authenticated live CCIP state evidence.
-3. A: PB-21 fail-closed CRE workflow compiles locally and in Studio; its evaluator tests pass. The authoritative per-deployment campaign evidence/receipt producer is absent, so no valid end-to-end simulation, receipt issuance or delivery exists. CRE deployment access and DON deployment are not verified.
-4. PB-22–24: connected backend campaign flow and failure tests. Demonstrate actual state and balance changes before the backend handoff. Frontend PB-25–26 follows that gate.
+2. B PB-14–20: PB-14–19 and PB-20 sender/receiver code pass local and Studio contract suites; PB-20 still needs deployment script, real campaign terms, actual deployment and authenticated live CCIP state evidence.
+3. A: PB-21 fail-closed CRE workflow compiles locally/in Studio; campaign-claim evidence/receipt producer remains absent, so no valid end-to-end simulation, receipt issuance or delivery exists. CRE deploy access and DON deployment are not verified.
+4. PB-22–24: PB-22 is blocked pending reviewed PB-15–20 ABI exports and a deployment manifest with start blocks; outage testing and backend handoff follow. Demonstrate actual state and balance changes before the handoff. Frontend PB-25–26 follows that gate.
 5. The public Orynn marketing site is separate from the wallet-enabled campaign console. Physical second-machine run, hosted worker/API, testnet deployments and sponsor demo evidence remain pending. ENS is out of active scope.
 
 ## Agent rules and source of truth
