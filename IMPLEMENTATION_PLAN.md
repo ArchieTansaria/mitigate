@@ -395,11 +395,11 @@ Implemented behavior and actual validation: `docs/handoffs/PB-12.md`, `docs/evid
 ## PB-25 — Frontend campaign and evidence workflow
 **Owner:** A
 **Prerequisites:** PB-24; Studio app workflow PB-01
-**Create/modify:** apps/web/src/features/{campaigns,evidence}/; apps/web/tests/verification.spec.ts
+**Current implementation:** apps/web/app/dashboard/, app/reports/, app/api/backend/, lib/ and test/. User requested frontend before PB-24; local UI implemented, live/Studio acceptance remains open. See PB-25 handoff.
 **Interface/deliverable:** Real API-driven inventory/run/evidence screens
 
 - [ ] Extend the existing Arc Studio project scaffold; authenticate wallets and load configurable campaign addresses; no demo-only response data.
-- [ ] Display job versus assertion state, expected/observed conditions, coverage, snapshot, unknown/unsupported and retry states.
+- [x] Display job versus assertion state, expected/observed conditions, coverage, snapshot, unknown/unsupported and retry states.
 - [ ] Browser test new inventory -> run -> exact failures and evidence; test another tenant, malformed input and backend outage.
 - [ ] Validate: `pnpm test:e2e -- verification.spec.ts`. Record exact output, environment and any skipped stage in docs/handoffs/PB-25.md.
 - [ ] Review owned-file diff and interface/security impact; commit as `feat(web): explain deployment verification with real evidence [PB-25]` (or the relevant explicit deferral).
@@ -408,10 +408,10 @@ Implemented behavior and actual validation: `docs/handoffs/PB-12.md`, `docs/evid
 ## PB-26 — Frontend repair and campaign claim actions
 **Owner:** A; B reviews signing and money views
 **Prerequisites:** PB-25
-**Create/modify:** apps/web/src/features/{actions,campaigns}/; apps/web/tests/campaign.spec.ts
+**Current implementation:** apps/web/app/dashboard/runs/[id]/ and campaigns/, lib/campaign*.ts, test/. Local UI implemented; actual wallet settlement and Studio gate pending. See PB-26 handoff.
 **Interface/deliverable:** Owner-specific repair proposals and accurate supplier-campaign claim/withdrawal UI
 
-- [ ] Display chain/target/calldata/value/authority and proposed effects; sign through user wallet only; handle rejection and wrong chain.
+- [x] Implement chain/target/calldata/value/authority and proposed effects; sign through user wallet only; handle rejection and wrong chain. Provider tests pass; live wallet validation remains open.
 - [ ] Render verification pass/fail/unknown, pending CCIP, campaign funding, reserved/disputed/awarded/withdrawable, paid and supplier-recoverable balances as distinct states; no success badge before actual destination state.
 - [ ] Browser test permissions, stale receipt, eligibility proof, USDC decimals, challenge/finalize/withdraw, replay and reviewer timeout; rerun verification after repair.
 - [ ] Validate: `pnpm test:e2e -- campaign.spec.ts`. Record exact output, environment and any skipped stage in docs/handoffs/PB-26.md.

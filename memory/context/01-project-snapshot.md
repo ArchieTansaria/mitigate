@@ -1,5 +1,5 @@
-# Orynn / PatchBond: current implementation context
-Updated 2026-11-07 (Asia/Kolkata). Repository remains `ArchieTansaria/mitigate`; Orynn is the selected product name for the public website. Implementation baseline includes PB-21 evaluator work and PB-29 public landing page (see Git log and task handoffs).
+# Orryn / PatchBond: current implementation context
+Updated 2026-11-07 (Asia/Kolkata). Repository remains `ArchieTansaria/mitigate`; Orryn is the selected product name for the public website. Implementation baseline includes PB-21 evaluator work and PB-29 public landing page (see Git log and task handoffs).
 
 ## Product and ownership
 PatchBond verifies repairs to registered customer-owned smart-contract deployments. The financial direction is a supplier-funded remediation campaign with a fixed USDC allowance per eligible repaired deployment. No mandatory maintainer bond, customer repair fee, slashing or insurance. A diagnostic report cannot authorize a grant.
@@ -19,9 +19,12 @@ A owns the TypeScript API, PostgreSQL queue/storage, verifier, fixtures, CRE int
 | PB-11 | Separate API and leased worker, crash recovery/cancellation, actual evidence publication and independent offline replay | `2dbf24e` |
 | PB-12 | Private unsigned upgrade/configuration proposals, exact-family compatibility checks, revalidation and owner-executed local repair with fresh evidence | Feature 15; `docs/handoffs/PB-12.md` |
 | PB-13 historical slice | ENSv2 candidate/approved manifest pointers and content checks | Retired from active scope by owner decision 2026-11-07; no integration or live setup planned |
-| PB-29 | Public, server-rendered Orynn landing page in `apps/web`; no wallet prompt, API dependency, or live product telemetry | `f1dece3`; see `docs/handoffs/PB-29.md` |
+| PB-29 | Public, server-rendered Orryn landing page in `apps/web`; no wallet prompt, API dependency, or live product telemetry | `f1dece3`; see `docs/handoffs/PB-29.md` |
 
 Completed feature descriptions are in `memory/features/INDEX.md`; feature-note numbers are not PB task numbers. The API now has a working diagnostic worker. Job completion is separate from whether a repair passed.
+
+## Frontend update — 2026-11-07
+Features 21/22 document the implemented Orryn workspace and campaign console. Read PB-25/PB-26 handoffs and apps/web/README.md. Do not duplicate these screens. The UI has not been deployed or integrated into Arc Studio. A new backend repair integration attempt failed because isolated Docker execution stalled; investigate the host/runtime before asserting current end-to-end success.
 
 ## What has actually been tested
 Current PB-12 validation: `pnpm check` passed (62 TypeScript + 25 shared Solidity tests); `pnpm test:integration` passed (38 tests with PostgreSQL, Anvil, Docker, HTTP and separate API/worker processes); `pnpm vectors:check` passed; `pnpm test:fixtures` passed (20 Solidity tests including fuzzing). See `docs/evidence/repair-validation.md` for scope, two reproduced/fixed review findings and generated local before/after evidence. These are recorded results, not a claim that every future checkout has been tested.
@@ -32,8 +35,8 @@ No fixture-address shortcuts or canned pass results: deployment state is read fr
 1. PB-12 is implemented locally; B upgrade-route boundary review remains pending. `pnpm test:repair` demonstrates actual owner execution and fresh evidence; see `docs/runbooks/repair.md` for generated inspectable artifacts.
 2. B PB-14–20: PB-14–19 and PB-20 sender/receiver code pass local and Studio contract suites; PB-20 still needs deployment script, real campaign terms, actual deployment and authenticated live CCIP state evidence.
 3. A: PB-21 fail-closed CRE workflow compiles locally/in Studio; campaign-claim evidence/receipt producer remains absent, so no valid end-to-end simulation, receipt issuance or delivery exists. CRE deploy access and DON deployment are not verified.
-4. PB-22–24: PB-22 is blocked pending reviewed PB-15–20 ABI exports and a deployment manifest with start blocks; API/worker/storage/RPC outage coverage passes, but CRE/CCIP/reorg and two-machine checks remain blocked. PB-24 campaign-to-claim handoff has not passed. Demonstrate actual state and balance changes before the handoff. Frontend PB-25–26 follows that gate.
-5. The public Orynn marketing site is separate from the wallet-enabled campaign console. Physical second-machine run, hosted worker/API, testnet deployments and sponsor demo evidence remain pending. ENS is out of active scope.
+4. PB-22–24: PB-22 is blocked pending reviewed PB-15–20 ABI exports and a deployment manifest with start blocks; API/worker/storage/RPC outage coverage passes, but CRE/CCIP/reorg and two-machine checks remain blocked. PB-24 campaign-to-claim handoff has not passed. Demonstrate actual state and balance changes before the handoff. User authorized PB-25/26 frontend now: local wallet/session, diagnostics/evidence/repair and campaign contract screens are implemented; live acceptance still depends on that gate.
+5. The public Orryn marketing site is separate from the wallet-enabled campaign console. Physical second-machine run, hosted worker/API, testnet deployments and sponsor demo evidence remain pending. ENS is out of active scope.
 
 ## Agent rules and source of truth
 Work directly on `main` at the user's explicit request, with meaningful tested commits and pushes. Fetch before pushing; never force-push or overwrite teammate work. Keep one writer per task in separate clones. A branch remaining on GitHub does not mean its work is unmerged.

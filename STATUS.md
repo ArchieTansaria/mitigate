@@ -1,4 +1,4 @@
-# PatchBond status
+# Orryn / PatchBond status
 Updated: 2026-11-07 (Asia/Kolkata). Repository: /Users/aryapathak/Documents/patchbond.
 
 ## Implemented
@@ -15,12 +15,14 @@ Updated: 2026-11-07 (Asia/Kolkata). Repository: /Users/aryapathak/Documents/patc
 - PB-21 local workflow slice: fail-closed campaign evidence evaluator, CRE project manifests, CLI WASM compilation, deterministic JSON validation and six unit cases. Studio compilation and scoped tests also pass. Campaign-claim evidence production, a valid real config, end-to-end simulation, receipt issuance and delivery remain blocked; see `docs/handoffs/PB-21.md`.
 - PB-29 (`f1dece3`): standalone Orynn public landing page in `apps/web`, converted from the provided Stitch export with Next.js App Router and Tailwind CSS 4. It is read-only, has no wallet prompt, and labels the CRE-to-Arc acceptance integration as not live. It is deployable to Vercel from `apps/web`; not deployed yet. See `docs/handoffs/PB-29.md`.
 
+- PB-25/26 local frontend: Orryn workspace, authenticated diagnostic onboarding/evidence/public reports, owner repair controls and configured campaign contract console implemented. See PB-25/PB-26 handoffs; live wallet/worker/settlement validation and Studio frontend integration remain open.
+
 ## Parallel owners and next work
 A: PB-12 local repair flow and PB-21 fail-closed CRE workflow compile in Studio; receipt integration remains gated on campaign-claim evidence production. PB-22 is blocked pending reviewed PB-15–20 ABI exports and a deployment manifest with start blocks. PB-23 API/worker/storage/RPC outage tests pass; chain reorg/CRE/CCIP coverage remains gated by PB-21/22. PB-24 campaign handoff and two-machine replay remain blocked. B: PB-14–19 contracts and PB-20 sender/receiver pass local and Studio contract suites. PB-20 deployment templates exist, but executable deployment, actual campaign terms and live Arc testnet CCIP route remain outstanding. No live campaign deployment, payout/refund or CCIP delivery is claimed.
 
 ## Honest limits
 The diagnostic pipeline is functional locally for one exact artificial oracle/proxy family. Offline replay recreates recognized view dependencies; it is not a general fork or proof of RPC honesty. Reports bind an observed state and named verifier, not universal security. No participant upgrade key is loaded; diagnostic evidence cannot pay a grant.
 
-Physical second-machine/Linux verification, hosted API/worker/S3/Studio callback, testnet fixtures, live campaign payouts, delivered CCIP acceptance, deployed DON workflow and frontend remain unproven or unfinished. CRE deploy access is disabled. ENS is out of active scope. GitHub CI last reported an account billing lock; remote CI success is not claimed.
+Physical second-machine/Linux verification, hosted API/worker/S3/Studio callback, testnet fixtures, live campaign payouts, delivered CCIP acceptance, deployed DON workflow and live frontend-to-settlement integration remain unproven or unfinished. The frontend implementation exists; acceptance gates remain open. A fresh repair integration attempt encountered Docker execution stalls, including simple shell probes; no current end-to-end success is claimed. CRE deploy access is disabled. ENS is out of active scope. GitHub CI last reported an account billing lock; remote CI success is not claimed.
 
 Startup: docs/runbooks/backend-start.md. Repair walkthrough: docs/runbooks/repair.md (`pnpm test:repair`). Replay: docs/runbooks/replay.md. Validation: docs/evidence/pipeline-validation.md. Do not put secrets or generated private artifacts in Git.

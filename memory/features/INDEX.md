@@ -27,3 +27,5 @@ Feature 01 is the completed local bootstrap. Feature 02 records a product direct
 | PB-20 | PB-20 handoff | caaacb6, 0f9dc22, f0b4b81 | Authenticated CCIP sender/receiver; local and Studio tests pass; deployment template/runbook only, no live route |
 | PB-21 | 19-product-cre-evidence-evaluation.md | e721370 + current worktree | Fail-closed CRE evaluator compiles locally/in Studio; deterministic shared JSON validation; no campaign receipt producer, simulation, DON or delivery |
 | PB-29 | 20-orryn-public-landing.md | f1dece3 | Public read-only Next.js/Tailwind website; no wallet or live campaign actions |
+| PB-25 / PB-26 repair | 21-orryn-verification-workspace.md | 66307b1 | Wallet/session, API-driven diagnostics, evidence integrity and owner repair UI; live integration pending |
+| PB-26 campaign | 22-orryn-campaign-console.md | fa8e188 | Actual contract read/write adapter and campaign console; no live settlement demonstrated |
