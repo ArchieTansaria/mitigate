@@ -16,7 +16,7 @@ PatchBond helps a supplier fund remediation across customer-owned smart-contract
 Node.js 24 LTS, pnpm workspace, TypeScript strict mode, Fastify API, PostgreSQL, viem, Solidity/Foundry, Chainlink CRE and CCIP. Arc-targeted work must use the Arc Studio hosted workflow, driven through its CLI where appropriate; local-only deployment is not our Arc prize path. Exact compatible versions and setup are tracked as PB-00/PB-01.
 
 ## Boundaries
-One documented adapter/proxy family; configurable deployment inventory; one source chain per verification run. Missing, stale or unsupported evidence never becomes a pass. The worker has no upgrade keys. Humans authorize state changes from their own wallets. ENS is conditional on demonstrated user value.
+One documented adapter/proxy family; configurable deployment inventory; one source chain per verification run. Missing, stale or unsupported evidence never becomes a pass. The worker has no upgrade keys. Humans authorize state changes from their own wallets. ENS was removed from active scope on 2026-11-07; Arc and Chainlink CRE/CCIP are the active integration targets.
 No maintainer bond, customer repair fee, penalty or slashing is in the MVP. No secrets, private keys, access tokens, authenticated URLs or private customer artifacts belong in Git, logs, screenshots or agent prompts.
 
 ## Executable foundations

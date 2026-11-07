@@ -21,7 +21,7 @@ Feature 01 is the completed local bootstrap. Feature 02 records a product direct
 | PB-15 | 06-campaign-registry.md | 7963dd1 | Immutable campaign terms and recipient-bound eligibility; no funding |
 | PB-16 | 07-signed-campaign-receipts.md | PB-16 commit | Scoped verifier signatures and receipt replay protection; no settlement |
 | PB-17 | 08-funded-campaign-activation.md | PB-17 commit | Supplier escrow activates only at full tracked funding; no claim settlement |
-| PB-13 | 18-ens-release-publication.md | See Git log PB-13 | ENSv2 publication client/content checks; live role proof and sponsor eligibility pending |
+| PB-13 | 18-ens-release-publication.md | See Git log PB-13 | Historical ENSv2 client; retired from active scope on 2026-11-07; no live integration planned |
 | PB-18 | 09-campaign-claim-lifecycle.md | 3711d97 | Independent receipt-bound claims, reserved grants and recipient-only pull withdrawals |
 | PB-19 | 10-campaign-disputes-and-recovery.md | c66bbcb, a6c0ce3 | Bounded challenge/review, timeout rejection and supplier recovery of unallocated funds only |
 | PB-20 | PB-20 handoff | caaacb6, 0f9dc22, f0b4b81 | Authenticated CCIP sender/receiver; local and Studio tests pass; deployment template/runbook only, no live route |

@@ -3,7 +3,7 @@
 > For agentic workers: the user has authorized implementation. Follow the current module ownership below; use the available task-by-task execution workflow (superpowers:executing-plans or superpowers:subagent-driven-development when available). A teammate without those skills follows the same task tests/review/commit cycle. No skill installation is required to understand this plan.
 
 **Goal:** Help a supplier run a funded USDC remediation campaign for customer-owned deployments, paying a capped grant only after each deployment independently passes the agreed repair checks.
-**Architecture:** Offchain verifier inspects a bounded, eligible deployment inventory and issues fresh, scoped evidence; the customer executes repairs under its own authority. A supplier-funded Arc campaign reserves one fixed grant per eligible deployment and releases it after a valid receipt and bounded challenge path. CRE coordinates external evidence and supported chain reads; CCIP delivers authenticated acceptance facts where the live route is feasible. ENS remains conditional.
+**Architecture:** Offchain verifier inspects a bounded, eligible deployment inventory and issues fresh, scoped evidence; the customer executes repairs under its own authority. A supplier-funded Arc campaign reserves one fixed grant per eligible deployment and releases it after a valid receipt and bounded challenge path. Chainlink CRE evaluates scoped evidence and CCIP delivers authenticated acceptance facts where the live route is feasible. ENS integration was removed from active scope on 2026-11-07.
 **Tech stack:** Proposed stack in DECISIONS.md; exact version pins are PB-00 output.
 **Spec:** DECISIONS.md, INTERFACES.md, and relevant HANDBOOK.md sections.
 
@@ -12,7 +12,7 @@ PB-01 Studio build/test/pull and CRE capability simulation are verified; actual 
 
 ## Global constraints
 Backend first. Implementation is authorized. One supported proxy/application family, configurable inventory, one source chain per initial run. No arbitrary uploaded execution, global security claim, owner keys in worker, fake runtime outputs or silent mock fallback.
-A owns API/verifier/schema/config, verifier fixtures, CRE, conditional ENS and eventual UI. B owns campaign/acceptance/messaging contracts PB-14–20 and their prerequisites. B authors Solidity encoding vectors; A implements matching TypeScript. Joint review of schema and financial invariants.
+A owns API/verifier/schema/config, verifier fixtures, CRE and eventual UI. B owns campaign/acceptance/messaging contracts PB-14–20 and their prerequisites. B authors Solidity encoding vectors; A implements matching TypeScript. Joint review of schema and financial invariants.
 Arc Studio provenance starts before Arc-targeted development. Live and simulated execution are distinct.
 Each deployment is evaluated and paid independently; one customer’s incomplete repair never blocks another customer. Campaign terms, eligibility snapshot, repair-policy hash, test-pack hash, recipient, grant cap and deadlines are fixed before funding. No customer repair fee, maintainer bond, or financial penalty is part of this MVP. A valid receipt is an authorized attestation to evidence, not cryptographic proof that a test was honestly run. Direct Arc claim/challenge/withdrawal paths and bounded timeout exits must work without the verifier/API.
 Protocol constants/test fixtures are named; addresses, endpoints and policy values are inputs/configuration. No runtime branches keyed to demo addresses.
@@ -33,7 +33,7 @@ Shared files mentioned by a later non-owner require an owner-authored prerequisi
 
 ## Dependency order and current two-agent split
 This split supersedes earlier numeric-range and audit-first assignments. See docs/handoffs/TEAMMATE-START.md.
-- A: PB-00/PB-02 and TypeScript half of PB-03, PB-04–12 (including PB-07 fixtures), PB-21 CRE, conditional PB-13 ENS, PB-22–28 backend integration/UI.
+- A: PB-00/PB-02 and TypeScript half of PB-03, PB-04–12 (including PB-07 fixtures), PB-21 CRE, PB-22–28 backend integration/UI. PB-13 ENS work is retired.
 - B: establish access to the existing Studio app as setup within PB-01; implement Solidity structs/signing vectors as the contract half of PB-03, then PB-14 -> PB-15 -> PB-16 contract validation -> PB-17 -> PB-18 -> PB-19 -> PB-20 contracts. B owns these missing prerequisites; PB-17/18 are not standalone start-ready tasks.
 - B owns campaign policy/trust docs; A owns corresponding TypeScript schema validation. B publishes contract types/vectors in docs/handoffs/PB-03-contracts.md; A consumes them. Exact encoding parity is required before integration, not completion of the entire backend before contract unit tests.
 - PB-01 is split by capability: B owns Studio setup and contract/runtime facts; A owns CRE feasibility; B tests the CCIP contract route with A. Unrelated CRE/CCIP probes do not block writing campaign contracts.
@@ -46,7 +46,7 @@ This split supersedes earlier numeric-range and audit-first assignments. See doc
 Core: complete diagnostics, actual per-deployment repair recheck, truthful evidence, and safe supplier-funded grant lifecycle.
 Arc is a remediation-funding and distribution layer, not a repair executor or security oracle. The supplier funds grants; deployment owners perform repairs and authorize transactions. The contract enforces budget and claim rules, while the verifier/reviewer remain explicit trust assumptions.
 Target integrations: Arc Studio, CRE and CCIP with accurate live/simulated evidence.
-Conditional: ENS. Optional UI polish and additional patterns wait.
+ENS integration is out of active scope. Optional UI polish and additional patterns wait.
 If time becomes tight, cut optional features or category claims explicitly. Do not cut authorization, coverage, accounting, provenance or timeout safeguards to preserve a sponsor count.
 
 ## PB-00 — Repository and reproducible toolchain
@@ -229,8 +229,9 @@ Implemented offline replay and changed-artifact rejection in a fresh CLI/contain
 
 Implemented behavior and actual validation: `docs/handoffs/PB-12.md`, `docs/evidence/repair-validation.md`, `docs/runbooks/repair.md`. Known-family layout/source validation is deliberately narrower than a universal upgrade validator. B upgrade-route review and full sponsor integration remain separate gates.
 
-## PB-13 — Conditional ENS release publication gate
+## PB-13 — Retired: ENS release publication
 **Owner:** A
+**Status:** Retired by product decision on 2026-11-07. Existing local code and evidence are historical; no ENS integration, live role setup, or sponsor claim is planned.
 **Prerequisites:** PB-01, PB-03; mentor/product fit decision
 **Create/modify:** docs/decisions/ens-fit.md; integrations/ens/src/publication.ts; integrations/ens/test/publication.test.ts
 **Interface/deliverable:** ENS-approved manifest resolver OR documented deferral
@@ -238,10 +239,7 @@ Implemented behavior and actual validation: `docs/handoffs/PB-12.md`, `docs/evid
 - [x] Record the release-discovery and separated-authority user value, tradeoffs, and missing mentor confirmation in docs/decisions/ens-fit.md. ENS prize eligibility remains unclaimed.
 - [x] Implement configurable ENSv2 candidate/approved record keys, dedicated-resolver preflight, independent proposer/approver guard, and manifest content/schema verification in integrations/ens/src/publication.ts.
 - [x] Test canonical pointer creation, digest mismatch, malformed manifest/URI, signer separation and allowed chain IDs. Include integrations in root test/typecheck/lint scopes.
-- [ ] Configure a real ENSv2 Sepolia name and dedicated resolver; separate candidate-key and approved-key permissions with root/admin trust documented.
-- [ ] Test live unauthorized approval rejection, revocation and resolution of actual manifests; verify a funded campaign policy remains pinned after later ENS record changes.
-- [ ] Validate: `pnpm exec vitest run integrations/ens/test/publication.test.ts`; document live permission transactions and any skipped stage in docs/handoffs/PB-13.md.
-- [ ] Review owned-file diff and interface/security impact; commit as `feat(ens): publish permissioned repair manifests OR docs(scope): defer unsupported ENS integration [PB-13]` (or the relevant explicit deferral).
+- [x] Stop active ENS work; retain the prior PB-13 implementation and evidence as historical repository material.
 - [ ] Other owner reviews; merge; coordinator records commit/status and releases dependent task.
 
 ## PB-14 — Freeze supplier campaign policy and trust boundaries
@@ -380,7 +378,7 @@ Implemented behavior and actual validation: `docs/handoffs/PB-12.md`, `docs/evid
 
 ## PB-24 — Backend handoff gate before feature UI
 **Owner:** A coordinates; B reproduces
-**Prerequisites:** PB-12, PB-20, PB-21, PB-22, PB-23; PB-13 only if retained
+**Prerequisites:** PB-12, PB-20, PB-21, PB-22, PB-23
 **Create/modify:** tests/integration/backend-flow.test.ts; docs/evidence/backend-handoff.md; generated openapi.json and ABI exports
 **Interface/deliverable:** Real backend workflow runnable without frontend; frozen consumer contract
 
@@ -437,7 +435,7 @@ Implemented behavior and actual validation: `docs/handoffs/PB-12.md`, `docs/evid
 **Interface/deliverable:** Honest reproducible demo and category-specific qualification evidence
 
 - [ ] Repeat fresh 2-3 minute workflow: supplier fully funds a campaign -> show three eligible deployments -> one fails due to unsafe configuration and one remains old -> customer repairs under its own authority -> fresh receipt reserves and awards only that deployment’s grant -> replay is rejected -> unused funds remain supplier-recoverable after deadlines.
-- [ ] Check shareable Studio URL, CLI session/app evidence, public repo, working app/backend, architecture diagram/video, CRE source/logs/receiver state, CCIP message and destination-state evidence, campaign accounting invariants, and conditional ENS permission transactions.
+- [ ] Check shareable Studio URL, CLI session/app evidence, public repo, working app/backend, architecture diagram/video, CRE source/logs/receiver state, CCIP message and destination-state evidence, and campaign accounting invariants.
 - [ ] Record reused libraries and AI assistance; no guarantee of awards/stacking or incident prevention. Any failed gate removes its dependent claim.
 - [ ] Validate: `Full declared local checks once at final revision; one fresh testnet demo with new IDs`. Record exact output, environment and any skipped stage in docs/handoffs/PB-28.md.
 - [ ] Review owned-file diff and interface/security impact; commit as `docs(submission): map working features to sponsor evidence [PB-28]` (or the relevant explicit deferral).

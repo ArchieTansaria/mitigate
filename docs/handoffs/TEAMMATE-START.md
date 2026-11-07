@@ -3,7 +3,7 @@
 ## Assignment
 You and your agent own the complete campaign contract stream: PB-14 -> PB-15 -> PB-16 -> PB-17 -> PB-18 -> PB-19, then PB-20 contracts. Start with the prerequisites in this stream, not PB-17 alone. This is implementation work; no separate audit-only assignment.
 
-A (project owner + Codex) owns toolchain, verifier fixtures, API/worker, offchain evidence and receipt production, TypeScript schemas, CRE, conditional ENS and later frontend integration. A does not concurrently edit your campaign contracts.
+A (project owner + Codex) owns toolchain, verifier fixtures, API/worker, offchain evidence and receipt production, TypeScript schemas, CRE and later frontend integration. ENS is out of active scope. A does not concurrently edit your campaign contracts.
 
 ## Read first, then implement
 Read AGENTS.md, docs/planning/DECISIONS.md, docs/planning/INTERFACES.md, STATUS.md, memory/features/INDEX.md and the PB-03/PB-14–20 task cards in IMPLEMENTATION_PLAN.md. Read handbook sections as needed; older bond/fee wording is superseded. Do not spend a separate phase auditing the whole repository.

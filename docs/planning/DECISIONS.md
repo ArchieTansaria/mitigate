@@ -4,6 +4,9 @@ A completed the initial PB-03 Solidity/TypeScript foundation through Arc Studio 
 # Current decisions and build gates
 Status: design baseline plus recorded implementation decisions. Current implemented behavior and remaining gates are in root STATUS.md, TASKS.md and memory/context/01-project-snapshot.md.
 
+## Product decision — 2026-11-07: remove ENS integration from active scope
+The owner has removed ENS from the active PatchBond plan. Do not build, configure, deploy, or claim ENS integration or sponsor eligibility. Existing PB-13 code, tests, and notes remain historical repository material only. The active integration targets are Arc Studio/Arc campaign settlement and Chainlink CRE plus CCIP, with simulation and live evidence kept distinct.
+
 ## Product scope
 PatchBond helps a supplier run a funded remediation campaign for customer-owned smart-contract deployments. The supplier publishes a fixed eligible-deployment set and repair policy, deposits a capped USDC grant per eligible deployment, and customers perform their own authorized repairs. PatchBond independently checks each deployed result; a valid, scoped receipt can reserve and release only that deployment's grant. One customer's incomplete repair does not block another customer's payout.
 
@@ -14,7 +17,7 @@ First supported family: a documented oracle adapter and one pinned OpenZeppelin 
 Controlled regression: stale-price rejection plus valid-operation and unit/configuration checks. This is not a recreation or claim of prevention of the Bonzo incident. No arbitrary vulnerability discovery, universal proxy analysis, automatic upgrades, continuous warranty, AI-written security verdicts or multi-source-chain fleet in this version. Grants are fixed allowances, not exact gas reimbursement; retroactive grants do not solve a customer's inability to fund the initial repair transaction.
 
 ## Revisions to the handbook
-- ENS remains a conditional sponsor target. PB-13 now implements the release-publication client and records a plausible discovery/delegated-approval value, but live ENSv2 Sepolia permissions and mentor fit are pending; do not claim eligibility. It supports supplier release publication, not repair truth. See `docs/decisions/ens-fit.md` and `docs/handoffs/PB-13.md`.
+- PB-13 is retired; its prior local release-publication client is historical and not part of active product scope.
 - Per-deployment diagnostics and fresh verification are the core. The supplier-funded Arc campaign is the intended Arc demonstration and must be genuinely funded and functional on testnet; do not make the financial path mandatory for ordinary verifier use.
 - No maintainer bond, customer repair fee, penalty or slashing in this MVP. No maintainer-liability adjudication system.
 - Campaign eligibility is fixed before funding, e.g. a commitment/Merkle root over historical affected deployments and recipients. Fully fund N × G before activation. Each accepted claim reserves one fixed G; the contract never pays twice for the same campaign/deployment.
@@ -24,7 +27,7 @@ Controlled regression: stale-price rejection plus valid-operation and unit/confi
 
 ## Chosen team structure
 A = user and this agent: integration coordinator, schema/config owner, API/database/jobs, inspection and verification/evidence, eventual UI.
-B = teammate and her agent: complete campaign contract stream PB-14–20 including prerequisites, Solidity half of PB-03 and Arc Studio build/test/deploy evidence. A additionally owns verifier fixtures, CRE and conditional ENS. B defines exact Solidity receipt/domain vectors; A implements matching TypeScript and the real receipt producer. Contract unit tests may precede backend integration; full integration remains gated on real evidence and matching vectors.
+B = teammate and her agent: complete campaign contract stream PB-14–20 including prerequisites, Solidity half of PB-03 and Arc Studio build/test/deploy evidence. A additionally owns verifier fixtures and CRE. B defines exact Solidity receipt/domain vectors; A implements matching TypeScript and the real receipt producer. Contract unit tests may precede backend integration; full integration remains gated on real evidence and matching vectors.
 During frontend work B reviews chain-state interpretation and tests financial failure paths. A integrates shared interfaces and reviews B's backend APIs; B reviews A's evidence meaning and coverage.
 Both people inspect financial and trust decisions. A human must remain able to explain the demo.
 
@@ -75,7 +78,7 @@ G4: backend handoff passes; frontend work opens.
 G5: two-machine fresh run and sponsor-evidence audit pass.
 
 Freeze before deposits: receipt signer scheme, supplier/challenger/reviewer/recipient identities, eligible deployment snapshot, USDC address/decimals, N × G cap, claim/challenge/review deadlines, finality and evidence freshness, dispute reasons and retention. Input from wallet owners/mentors may be required; never invent consent. Use a fixed allowance rather than claiming exact gas reimbursement.
-ENS gate: live ENSv2 Sepolia use, demonstrated separate key-level roles, unauthorized-write rejection/revocation, actual approved-manifest resolution, campaign-policy immutability after a record edit, and mentor feedback. If the user value or mentor fit is rejected, use a validated manifest selected and approved by the parties; do not claim ENS eligibility.
+ENS is removed from the active MVP by the 2026-11-07 product decision above. It is not a release gate.
 Live CRE blocked: retain correctly labelled CLI simulation and receiver integration tests. Do not use a hidden manual report adapter to claim a live end-to-end Chainlink settlement.
 All gates describe future checks, not checks already passed.
 
