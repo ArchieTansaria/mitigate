@@ -9,6 +9,7 @@ import {
   ManifestSchema,
   NonzeroAddress,
   RunRequestSchema,
+  RunStatusSchema,
   UInt,
   VerificationSpecSchema,
 } from "../../../packages/schema/src/types.ts";
@@ -30,13 +31,13 @@ const owner = (request: FastifyRequest) => {
   return request.owner;
 };
 const publicJob = (j: Job) => ({
+  schemaVersion: 1 as const,
   id: j.id,
   state: j.state,
   attempts: j.attempts,
   errorCode: j.errorCode,
-  evidenceAvailable: j.artifact !== null,
-  repairResult:
-    j.state === "succeeded" ? "available-in-evidence" : "not-evaluated",
+  evidenceReferenceStored: j.artifact !== null,
+  repairOutcome: "not-evaluated" as const,
 });
 const idParam = z.strictObject({ id: z.uuid() });
 const challengeBody = z.strictObject({
@@ -65,6 +66,7 @@ const errors: Record<string, number> = {
   FORBIDDEN: 403,
   NOT_FOUND: 404,
   CONFLICT: 409,
+  RPC_UNAVAILABLE: 503,
   PROPOSAL_MISMATCH: 409,
   STATE_CHANGED: 409,
   STALE_PROPOSAL: 409,
@@ -97,8 +99,13 @@ export async function createApp(
     config,
     walletVerifier ??
       (async (a, m, s) => {
-        if (String(await rpc.getChainId()) !== config.network.source.chainId)
-          return false;
+        let chainId: number;
+        try {
+          chainId = await rpc.getChainId();
+        } catch {
+          throw new Error("RPC_UNAVAILABLE");
+        }
+        if (String(chainId) !== config.network.source.chainId) return false;
         return verifyWalletSignature(rpc, a, m, s);
       }),
   );
@@ -278,6 +285,7 @@ export async function createApp(
     {
       schema: {
         body: json(RunRequestSchema),
+        response: { 202: json(RunStatusSchema) },
         headers: {
           type: "object",
           required: ["idempotency-key"],
@@ -324,7 +332,13 @@ export async function createApp(
   );
   app.get(
     "/v1/runs/:id",
-    { schema: { params: json(idParam), security: [{ session: [] }] } },
+    {
+      schema: {
+        params: json(idParam),
+        response: { 200: json(RunStatusSchema) },
+        security: [{ session: [] }],
+      },
+    },
     async (req) => {
       const j = await repo.getRun(owner(req), idParam.parse(req.params).id);
       if (!j) throw new Error("NOT_FOUND");

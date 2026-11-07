@@ -367,19 +367,21 @@ Implemented behavior and actual validation: `docs/handoffs/PB-12.md`, `docs/evid
 ## PB-23 — Backend security and outage integration tests
 **Owner:** A leads; B reviews financial failures
 **Prerequisites:** PB-11, PB-12, PB-19, PB-21, PB-22
-**Create/modify:** tests/integration/security-outages.test.ts; docs/runbooks/recovery.md
+**Status:** Partial API/worker/storage outage coverage is implemented; CRE/CCIP, reorg and two-machine checks remain blocked by PB-21/PB-22 integration prerequisites.
+**Create/modify:** tests/integration/security-outages.test.ts; vitest.integration.config.ts; docs/runbooks/recovery.md
 **Interface/deliverable:** Evidence freshness, identity and recovery behavior under dependency loss
 
 - [ ] Test API/worker/storage/RPC/CRE/CCIP unavailability independently; unavailable verification is never a supplier-attributed failure.
 - [ ] Test artifact URL abuse, nonce replay, cross-tenant reads and relevant onchain configuration change after observation; preserve historical versus current distinction.
 - [ ] Demonstrate direct challenges and timeout withdrawals without platform; reorg after C flags evidence but cannot invent a late financial clawback.
-- [ ] Validate: `pnpm exec vitest run tests/integration/security-outages.test.ts`. Record exact output, environment and any skipped stage in docs/handoffs/PB-23.md.
+- [ ] Validate: `pnpm test:integration tests/integration/security-outages.test.ts`. Record exact output, environment and any skipped stage in docs/handoffs/PB-23.md.
 - [ ] Review owned-file diff and interface/security impact; commit as `test(integration): cover evidence failures and independent grant exits [PB-23]` (or the relevant explicit deferral).
 - [ ] Other owner reviews; merge; coordinator records commit/status and releases dependent task.
 
 ## PB-24 — Backend handoff gate before feature UI
 **Owner:** A coordinates; B reproduces
 **Prerequisites:** PB-12, PB-20, PB-21, PB-22, PB-23
+**Status:** Blocked: no campaign-claim evidence/receipt producer or PB-22 chain-derived API/deployment manifest; PB-20 Studio/live route and two-machine replay are unverified. See `docs/handoffs/PB-24.md`.
 **Create/modify:** tests/integration/backend-flow.test.ts; docs/evidence/backend-handoff.md; generated openapi.json and ABI exports
 **Interface/deliverable:** Real backend workflow runnable without frontend; frozen consumer contract
 

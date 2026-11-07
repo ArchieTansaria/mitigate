@@ -53,7 +53,7 @@ TransactionProposal: chainId, target, valueBaseUnits, calldata, authority, expla
 | POST /manifests | manifest bytes or bounded approved-source reference | manifestId + digest; validate; never execute uploaded code |
 | POST /verification-scopes | manifest/inventory/spec references | scopeId; owner controls offchain scope |
 | POST /runs | RunRequestV1 + Idempotency-Key | 202 runId, or same run for identical retry |
-| GET /runs/:runId | none | job state and separate result/coverage state; authorize tenant |
+| GET /runs/:runId | none | `RunStatusV1` with job state, `evidenceReferenceStored`, and `repairOutcome: not-evaluated`; assertion outcomes live in the evidence artifact; authorize tenant |
 | GET /runs/:runId/evidence | none | immutable report refs; diagnostic privacy rules; explicit public demo evidence |
 | GET /runs/:runId/actions | none | owner-specific unsigned proposals; no automatic execution |
 | POST /campaigns | campaign policy + eligibility commitment | validated campaign draft/hash; supplier authorization required to create/fund on Arc |

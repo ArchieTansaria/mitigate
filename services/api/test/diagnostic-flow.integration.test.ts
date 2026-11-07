@@ -298,7 +298,10 @@ test("completed jobs retain real failing repair results and explanations", async
     (r) => r.state === "succeeded" || r.state === "failed",
   );
   expect(finished.state).toBe("succeeded");
-  expect(finished.repairResult).toBe("available-in-evidence");
+  expect(finished).toMatchObject({
+    evidenceReferenceStored: true,
+    repairOutcome: "not-evaluated",
+  });
   const signed = await request(`/v1/runs/${run.id}/evidence`);
   expect(
     await verifySignedEvidence(

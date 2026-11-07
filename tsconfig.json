@@ -16,6 +16,7 @@
     "packages/**/*.ts",
     "services/**/*.ts",
     "integrations/**/*.ts",
+    "tests/**/*.ts",
     "scripts/**/*.ts",
     "vitest*.ts"
   ]

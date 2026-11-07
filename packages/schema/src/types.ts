@@ -252,6 +252,16 @@ export const RunRequestSchema = z
         message: "diagnostic run has no financial scope",
       });
   });
+export const RunStatusSchema = z.strictObject({
+  schemaVersion: z.literal(1),
+  id: z.uuid(),
+  state: z.enum(["queued", "running", "succeeded", "failed", "cancelled"]),
+  attempts: z.number().int().nonnegative(),
+  errorCode: z.string().max(128).nullable(),
+  evidenceReferenceStored: z.boolean(),
+  repairOutcome: z.literal("not-evaluated"),
+});
+export type RunStatus = z.infer<typeof RunStatusSchema>;
 export const DiagnosticAttestationSchema = z.strictObject({
   schemaVersion: z.literal(1),
   verificationScopeId: NonzeroHash,

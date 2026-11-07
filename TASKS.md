@@ -29,7 +29,8 @@ B owns the missing prerequisites for PB-17/18. Full backend completion is not a 
 | PB-20 | B contracts; A receipt producer | Authenticated CCIP report delivery to Arc campaign | local and Studio contract suites pass; testnet config/runbook template prepared; deploy script, actual campaign terms and live route remain pending; see docs/handoffs/PB-20.md |
 | PB-21 | A | CRE workflow for scoped remediation receipt | fail-closed CRE workflow compiles locally/in Studio; 6 tests pass; campaign-claim evidence production, truthful simulation inputs, receipt issuance and delivery remain pending; see docs/handoffs/PB-21.md |
 | PB-22 | A | Chain indexer and campaign API views | blocked pending generated PB-15–20 ABI exports and deployment manifest with start blocks; see docs/handoffs/PB-22.md |
-| PB-23–24 | Joint | Outage/security tests and backend handoff | proceed with existing API/contract boundaries where testable; full gate depends on PB-22 and real campaign receipt/delivery flow |
+| PB-23 | Joint | Outage/security tests | API/worker/storage/RPC outage slice passes; CRE/CCIP, reorg and two-machine cases remain gated by PB-21/22; see docs/handoffs/PB-23.md |
+| PB-24 | Joint | Backend handoff | blocked until PB-21 claim receipt/delivery, PB-22 chain-derived API, PB-20 Studio/live evidence and two-machine replay are available; no live end-to-end claim is claimed; see docs/handoffs/PB-24.md |
 | PB-25–26 | A | Studio-compatible UI for verification and grant claims | gated on PB-24 |
 | PB-27–28 | Joint | Deployment audit, demo and submission evidence | gated |
 | PB-29 | A | Orynn public landing page, independent of campaign console | implemented, committed and pushed (`f1dece3`); read-only Next.js/Tailwind page; no wallet or live campaign functionality; see docs/handoffs/PB-29.md |
