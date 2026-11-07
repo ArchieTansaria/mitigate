@@ -246,12 +246,6 @@ export function RecordingDemo() {
   const paid = budget.paid > 0;
   return (
     <div className={styles.root}>
-      <div className={styles.ribbon}>
-        <span className={styles.demoDot} /> SIMULATED DEMO{" "}
-        <span className={styles.ribbonDetail}>
-          Illustrative data · no wallet signatures or onchain transactions
-        </span>
-      </div>
       <header className={styles.header}>
         <Link href="/" className={styles.brand}>
           <Mark /> Orryn<span>.</span>

@@ -2,7 +2,7 @@
 
 Open http://localhost:3000/demo. If the server is stopped, run `pnpm web:dev` from the repository. This route needs no environment variables, wallet, API, Docker, tokens or transaction signatures.
 
-Use a desktop browser, ideally 1440px or wider; at smaller widths reduce browser zoom slightly if needed. Keep the simulated-demo banner visible. Click Reset demo before recording. Avoid browser refresh mid-recording because it resets the scenario. All supplier/customer names are fictional.
+Use a desktop browser, ideally 1440px or wider; at smaller widths reduce browser zoom slightly if needed. The walkthrough retains simulation labels on actions and evidence. Click Reset demo before recording. Avoid browser refresh mid-recording because it resets the scenario. All supplier/customer names are fictional.
 
 ## 0:00–0:25 — The problem (initial screen)
 

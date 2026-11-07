@@ -9,3 +9,5 @@ Recording script and click cues: `docs/demo/RECORDING-SCRIPT.md` (~501 spoken wo
 Validation: 134 frontend tests pass, including 3 demo transition/accounting tests. Scoped Biome and web TypeScript pass. Full browser walkthrough reached final accounting and duplicate rejection. No live execution evidence is claimed.
 
 Production validation: `next build --webpack` passed, including `/demo`. Default Turbopack build failed locally when its CSS subprocess could not bind a port (OS permission error); no source workaround or default build-script change was made. The running development page and complete browser walkthrough succeeded.
+
+Presentation update: removed the top simulation ribbon at the user’s request; action/evidence simulation labels remain. Removed unused ribbon styles and corrected sidebar height.

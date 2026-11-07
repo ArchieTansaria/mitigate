@@ -4,35 +4,6 @@
   background: #080809;
   color: #e5e1e4;
 }
-.ribbon {
-  position: sticky;
-  top: 0;
-  z-index: 50;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  min-height: 32px;
-  padding: 7px 18px;
-  background: #24150c;
-  border-bottom: 1px solid #ff571a40;
-  color: #ffb18c;
-  font:
-    10px var(--font-geist-mono),
-    monospace;
-  letter-spacing: 0.1em;
-}
-.demoDot {
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: #ff763c;
-}
-.ribbonDetail {
-  color: #ba9581;
-  letter-spacing: 0;
-  margin-left: 12px;
-}
 .header {
   height: 76px;
   display: flex;
@@ -82,7 +53,7 @@
 .sidebar {
   border-right: 1px solid #202024;
   padding: 30px 25px;
-  min-height: calc(100vh - 108px);
+  min-height: calc(100vh - 76px);
 }
 .workspace {
   display: flex;
@@ -836,9 +807,6 @@
     font-size: 10px;
   }
   .headerNav > a {
-    display: none;
-  }
-  .ribbonDetail {
     display: none;
   }
   .main {
