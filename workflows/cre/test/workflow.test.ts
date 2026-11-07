@@ -7,7 +7,7 @@ import {
   hashPolicy,
 } from "../../../packages/schema/src/encoding.ts";
 import { fixturePolicy } from "../../../packages/schema/test/fixtures.ts";
-import { type ChainFacts, evaluateEvidence } from "../src/main.ts";
+import { type ChainFacts, evaluateEvidence } from "../src/evaluator.ts";
 
 vi.mock("@chainlink/cre-sdk", () => ({
   Runner: { newRunner: async () => ({ run: async () => undefined }) },

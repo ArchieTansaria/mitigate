@@ -26,8 +26,8 @@ B owns the missing prerequisites for PB-17/18. Full backend completion is not a 
 | PB-13 | A | ENS release publication | client and content checks implemented; live ENSv2 role flow and mentor fit pending; no prize claim |
 | PB-14 | B policy docs; A TS validation | Supplier campaign policy, roles, economics and trust model | READY: consume PB-03 types and vectors; select actual campaign terms |
 | PB-15–19 | B contracts; A receipt producer | Eligibility registry, signed receipt, fully funded USDC campaign, independent claims/challenges | local contracts and focused tests implemented; live deployment/payout evidence pending |
-| PB-20 | B contracts; A receipt producer | Authenticated CCIP report delivery to Arc campaign | local sender/receiver and simulation tests implemented; Studio build and live testnet route pending; see docs/handoffs/PB-20.md |
-| PB-21 | A | CRE workflow for scoped remediation receipt | local fail-closed evaluator implemented; campaign-claim evidence production, CRE project/CLI simulation, receipt issuance and delivery remain blocked; see docs/handoffs/PB-21.md |
+| PB-20 | B contracts; A receipt producer | Authenticated CCIP report delivery to Arc campaign | local and Studio contract suites pass; testnet config/runbook template prepared; deploy script, actual campaign terms and live route remain pending; see docs/handoffs/PB-20.md |
+| PB-21 | A | CRE workflow for scoped remediation receipt | fail-closed CRE workflow compiles locally/in Studio; 6 tests pass; campaign-claim evidence production, truthful simulation inputs, receipt issuance and delivery remain pending; see docs/handoffs/PB-21.md |
 | PB-22–24 | Joint | Campaign indexer/API, outage/security tests and backend handoff | planned |
 | PB-25–26 | A | Studio-compatible UI for verification and grant claims | gated on PB-24 |
 | PB-27–28 | Joint | Deployment audit, demo and submission evidence | gated |

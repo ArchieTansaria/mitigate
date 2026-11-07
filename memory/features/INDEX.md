@@ -24,6 +24,6 @@ Feature 01 is the completed local bootstrap. Feature 02 records a product direct
 | PB-13 | 18-ens-release-publication.md | See Git log PB-13 | ENSv2 publication client/content checks; live role proof and sponsor eligibility pending |
 | PB-18 | 09-campaign-claim-lifecycle.md | 3711d97 | Independent receipt-bound claims, reserved grants and recipient-only pull withdrawals |
 | PB-19 | 10-campaign-disputes-and-recovery.md | c66bbcb, a6c0ce3 | Bounded challenge/review, timeout rejection and supplier recovery of unallocated funds only |
-| PB-20 | PB-20 handoff | caaacb6, 0f9dc22, f0b4b81 | Authenticated CCIP sender/receiver and bounded predeployment queue; local simulation only |
-| PB-21 | 19-product-cre-evidence-evaluation.md | e721370 | Fail-closed scoped evidence evaluator; no receipt issuance, live DON or delivery |
+| PB-20 | PB-20 handoff | caaacb6, 0f9dc22, f0b4b81 | Authenticated CCIP sender/receiver; local and Studio tests pass; deployment template/runbook only, no live route |
+| PB-21 | 19-product-cre-evidence-evaluation.md | e721370 + current worktree | Fail-closed CRE evaluator compiles locally/in Studio; deterministic shared JSON validation; no campaign receipt producer, simulation, DON or delivery |
 | PB-29 | 20-orryn-public-landing.md | f1dece3 | Public read-only Next.js/Tailwind website; no wallet or live campaign actions |

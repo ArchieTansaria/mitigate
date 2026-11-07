@@ -1,0 +1,7 @@
+simulation:
+  user-workflow:
+    workflow-name: patchbond-campaign-evidence-evaluation
+  workflow-artifacts:
+    workflow-path: ./src/main.ts
+    config-path: ./config.example.json
+    secrets-path: ""

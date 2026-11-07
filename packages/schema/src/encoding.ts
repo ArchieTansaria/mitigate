@@ -155,7 +155,9 @@ function assertJson(value: unknown, seen: Set<object>): void {
       assertJson(value[i], seen);
     }
   } else {
-    for (const entry of Object.values(value)) assertJson(entry, seen);
+    const object = value as Record<string, unknown>;
+    const keys = Object.keys(object).sort();
+    for (const key of keys) assertJson(object[key], seen);
   }
   seen.delete(value);
 }

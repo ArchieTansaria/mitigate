@@ -1,0 +1,7 @@
+# Public RPCs only. No wallet, signer, API credential, or deployment config.
+simulation:
+  rpcs:
+    - chain-name: ethereum-testnet-sepolia
+      url: https://ethereum-sepolia-rpc.publicnode.com
+    - chain-name: arc-testnet
+      url: https://rpc.testnet.arc.io

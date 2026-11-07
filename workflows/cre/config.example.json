@@ -1,0 +1,11 @@
+{
+  "_status": "TEMPLATE_ONLY_NOT_RUNNABLE",
+  "_reason": "Requires real campaign policy, deployed addresses, immutable signed evidence artifact URL, eligible deployment and recipient proof.",
+  "evidenceUrl": null,
+  "sourceNetwork": "ethereum-testnet-sepolia",
+  "destinationNetwork": "arc-testnet",
+  "deploymentKey": null,
+  "recipient": null,
+  "eligibilityProof": null,
+  "policy": null
+}
