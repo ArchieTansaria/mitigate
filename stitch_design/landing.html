@@ -1,0 +1,735 @@
+<!DOCTYPE html><html class="dark" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<meta content="web_standard" name="shell-type">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- HydraDB Signature Typography: Silkscreen (Pixel display), Geist, and Geist Mono -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@300;400;500;600;700&amp;family=Geist:wght@300;400;500;600;700&amp;family=Pixelify+Sans:wght@400;500;600;700&amp;family=Silkscreen:wght@400;700&amp;display=swap" rel="stylesheet" class=""><link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@300;400;500;600&amp;family=Pixelify+Sans:wght@400;500;600&amp;family=VT323&amp;family=Space+Mono&amp;display=swap" rel="stylesheet" class=""><link href="https://fonts.googleapis.com/css2?family=DotGothic16&amp;display=swap" rel="stylesheet">
+<style>
+@layer base {
+  html, body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    color: #e5e1e4;
+    background-color: #000000;
+  }
+  body {
+    overscroll-behavior: none;
+  }
+  main > :first-child { margin-top: 0 !important; }
+  main > :last-child { margin-bottom: 0 !important; }
+}
+::-webkit-scrollbar { display: none; }
+.font-pixel {
+  font-family: 'Silkscreen', monospace;
+}
+.font-mono-tech {
+  font-family: 'Geist Mono', monospace;
+}
+.font-sans-clean {
+  font-family: 'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+</style>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      colors: {
+        "surface-variant": "#222226",
+        "on-background": "#e5e1e4",
+        "surface-dim": "#0a0a0c",
+        "surface-container-high": "#1a1a1f",
+        "border-strong": "#26262c",
+        "surface-base": "#0a0a0c",
+        "canvas-void": "#000000",
+        "border-subtle": "#1e1e24",
+        "surface-raised": "#121216",
+        "text-muted": "#6b6b76",
+        "text-secondary": "#94949e",
+        "text-primary": "#ffffff",
+        "primary-container": "#ff571a",
+        "status-warning": "#ffb800",
+        "tertiary": "#00e297"
+      },
+      fontFamily: {
+        "pixel": ["Silkscreen", "monospace"],
+        "body": ["Geist", "sans-serif"],
+        "mono": ["Geist Mono", "monospace"]
+      }
+    }
+  }
+};
+</script>
+</head>
+<body class="bg-canvas-void text-[#94949e] font-sans-clean antialiased selection:bg-[#ff571a] selection:text-white">
+<!-- HEADER: Minimalist dark bar like HydraDB -->
+<header class="fixed top-0 left-0 w-full z-50 bg-[#000000]/90 backdrop-blur-md border-b border-[#1e1e24]">
+<div class="h-16 max-w-[1280px] mx-auto px-4 md:px-8 flex items-center justify-between gap-4">
+<!-- Brand -->
+<div class="flex items-center gap-3">
+<img alt="PatchBond Logo" class="h-7 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBxPj5WXM0qGj13G2HfZEotbHwprfUNgbaoKQIB5Rc8-q4NPVn-5S_4U9QiMS8mKRRUZyabm1h6VIF96R5ZW0XxNFqjroVq4V3lnzVeKBJ-Qp4lRXdJB3ppmf3Nw1Zd4sBYr5nRnyV-ZOpbhfQCxvksNSkyTdW6TIC3M9YIDW-SvHjStZx-wg7GYBSJ88Vv1Gkk-kHko6Jnt-pXe9ZfzN7TRu_3GlupxLXFLye-DsGG">
+<span class="text-white text-[17px] font-medium tracking-tight">PatchBond</span>
+<span class="hidden sm:inline-flex items-center gap-1.5 font-mono-tech text-[10px] text-[#6b6b76] px-2 py-0.5 rounded border border-[#1e1e24] bg-[#0a0a0c]">
+<span class="w-1.5 h-1.5 rounded-full bg-[#00e297] animate-pulse"></span>MAINNET v1.2
+      </span>
+</div>
+<!-- Navigation (Clean understated HydraDB nav links) -->
+<nav class="hidden md:flex items-center gap-7 text-[13px] text-[#94949e]">
+<a class="hover:text-white transition-colors" href="#">Overview</a>
+<a class="hover:text-white transition-colors" href="#">Workflow</a>
+<a class="hover:text-white transition-colors" href="#">Architecture</a>
+<a class="hover:text-white transition-colors" href="#">Demo</a>
+<a class="hover:text-white transition-colors inline-flex items-center gap-0.5" href="#">Docs <span class="text-[11px]">↗</span></a>
+</nav>
+<!-- Header Actions -->
+<div class="flex items-center gap-3">
+<a class="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded border border-[#1e1e24] bg-[#0a0a0c] hover:border-[#26262c] text-[#94949e] hover:text-white transition-all font-mono-tech text-[12px]" href="https://github.com" rel="noopener" target="_blank">
+<span class="material-symbols-outlined text-[14px] text-[#ffb800]">star</span>
+<span class="font-medium text-white">2,480</span>
+</a>
+<a class="hidden lg:inline-flex items-center text-[13px] text-[#94949e] hover:text-white transition-colors px-2" href="#">Sign In</a>
+<a class="inline-flex items-center justify-center text-[12px] font-mono-tech tracking-tight px-4 py-1.5 rounded bg-[#ff571a] text-black font-semibold hover:bg-white transition-all shadow-[0_0_16px_rgba(255,87,26,0.25)]" href="#">
+        Launch App
+      </a>
+</div>
+</div>
+</header>
+<main class="w-full pt-16 bg-[#000000] min-h-screen relative">
+<div class="flex flex-col w-full text-[#e5e1e4]">
+<!-- HERO SECTION: Pixelated Display Headline + Clean Technical Graph -->
+<section class="relative w-full max-w-[1280px] mx-auto px-4 md:px-8 pt-14 md:pt-24 pb-16 md:pb-24 overflow-hidden">
+<!-- Subtle technical grid backdrop overlay -->
+<div class="absolute inset-0 pointer-events-none opacity-20 [background-size:32px_32px] [background-image:linear-gradient(to_right,rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.05)_1px,transparent_1px)]"></div>
+<div class="absolute -top-32 right-12 w-96 h-96 bg-[#ff571a]/10 rounded-full blur-[140px] pointer-events-none"></div>
+<div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+<!-- Left Column: Copy & Command Elements -->
+<div class="lg:col-span-7 flex flex-col items-start space-y-6">
+<!-- Eyebrow Pill -->
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#0a0a0c] border border-[#1e1e24] hover:border-[#26262c] transition-colors">
+<span class="w-1.5 h-1.5 rounded-full bg-[#ff571a] animate-ping"></span>
+<span class="font-mono-tech text-[11px] text-[#94949e] uppercase tracking-wider">Smart contract repair, verified</span>
+</div>
+<!-- Main Display Headline (HydraDB Pixel / Monospace Display Aesthetics) -->
+<h1 class="font-normal tracking-tight" style="font-family: &quot;HG Dot Gothic M M24-24&quot;, DotGothic16, &quot;Geist Pixel&quot;, monospace, sans-serif; font-size: clamp(38px, 4.2vw, 58px); letter-spacing: -0.5px; line-height: 1.12em; font-weight: 400; text-transform: none; color: rgb(255, 255, 255); -webkit-font-smoothing: antialiased; text-rendering: geometricprecision;">A patch isn’t complete until every deployment proves it.</h1>
+<!-- Subheading (Clean Understated Sans-Serif) -->
+<p class="font-sans-clean text-[17px] md:text-[18px] text-[#94949e] max-w-xl font-light leading-[1.6]">
+        PatchBond helps protocol teams find customer deployments that still need a dependency repair, check whether the repair actually works, and coordinate what happens next.
+      </p>
+<!-- CTA Buttons (HydraDB style: crisp filled orange & dark bordered ghost button) -->
+<div class="flex flex-wrap items-center gap-4 pt-2">
+<a class="inline-flex items-center gap-2 font-mono-tech text-[13px] px-6 py-3 rounded bg-[#ff571a] text-black font-semibold hover:bg-white transition-all shadow-[0_0_24px_rgba(255,87,26,0.35)]" href="#">
+          Explore the repair workflow
+          <span class="material-symbols-outlined text-[15px]">arrow_forward</span>
+</a>
+<a class="inline-flex items-center gap-2 font-mono-tech text-[13px] px-6 py-3 rounded bg-[#0a0a0c] border border-[#26262c] text-[#e5e1e4] hover:border-[#ff571a] hover:text-white transition-all" href="#">
+          View the architecture
+        </a>
+</div>
+<!-- Terminal Command Snippet -->
+<div class="w-full max-w-xl mt-3 pt-1">
+<div class="flex items-center justify-between px-3.5 py-2.5 rounded bg-[#0a0a0c] border border-[#1e1e24] hover:border-[#26262c] font-mono-tech text-[12px] text-[#6b6b76] transition-all">
+<div class="flex items-center gap-2.5 overflow-hidden">
+<span class="w-1.5 h-1.5 rounded-sm bg-[#ff571a] shrink-0"></span>
+<span class="text-[#e5e1e4] truncate">curl -sL verify.patchbond.network/audit | sh</span>
+</div>
+<div class="flex items-center gap-2 shrink-0">
+<button class="hover:text-white p-1 transition-colors" onclick="navigator.clipboard.writeText('curl -sL verify.patchbond.network/audit | sh')" title="Copy Command">
+<span class="material-symbols-outlined text-[15px]">content_copy</span>
+</button>
+<span class="text-[#26262c]">|</span>
+<span class="text-[10px] font-mono-tech text-[#6b6b76]">v1.2-mainnet</span>
+</div>
+</div>
+<div class="mt-2 flex items-center justify-between text-[#6b6b76] font-mono-tech text-[11px]">
+<span class="">[0x7f4b82...c9ae] 📋 Registered deployment</span>
+<span class="text-[#ff571a]/80">MVP: SafeProxy / EIP-1967</span>
+</div>
+</div>
+<p class="font-mono-tech text-[11px] text-[#6b6b76] tracking-tight">
+        * MVP focused on one supported proxy and dependency pattern.
+      </p>
+</div>
+<!-- Right Column: Interactive Knowledge Graph Visual (HydraDB Style Topology) -->
+<div class="lg:col-span-5 relative w-full h-[380px] md:h-[440px] bg-[#0a0a0c] border border-[#1e1e24] rounded-xl p-4 flex flex-col justify-between overflow-hidden shadow-2xl backdrop-blur-sm">
+<!-- Live Graph HUD Overlay -->
+<div class="flex items-center justify-between border-b border-[#1e1e24] pb-3">
+<div class="flex items-center gap-2">
+<span class="w-1.5 h-1.5 rounded-full bg-[#ffb800] animate-pulse"></span>
+<span class="font-mono-tech text-[11px] text-[#94949e] uppercase tracking-wider">TOPOLOGY RESOLVER</span>
+</div>
+<span class="font-mono-tech text-[11px] text-[#ff571a] bg-[#121216] px-2 py-0.5 rounded border border-[#1e1e24]">
+          3 registered · 1 pending repair
+        </span>
+</div>
+<!-- SVG Visual Network -->
+<div class="relative w-full h-full my-auto flex items-center justify-center">
+<svg class="w-full h-full" fill="none" viewBox="0 0 420 320" xmlns="http://www.w3.org/2000/svg">
+<!-- Background Web Connections -->
+<path d="M 60 160 L 140 100 L 210 160 L 320 80" stroke="#1e1e24" stroke-dasharray="3 3" stroke-width="1.5"></path>
+<path d="M 140 100 L 210 240 L 340 220" stroke="#1e1e24" stroke-dasharray="3 3" stroke-width="1.5"></path>
+<path d="M 60 160 L 210 160 L 340 220" stroke="#26262c" stroke-width="1"></path>
+<!-- Active Vulnerable Track (High-visibility security orange lines) -->
+<path d="M 210 160 L 280 140" stroke="#ff571a" stroke-width="1.8"></path>
+<path d="M 280 140 L 350 150" stroke="#ff571a" stroke-dasharray="4 2" stroke-width="2"></path>
+<path d="M 210 160 L 270 210" stroke="#00e297" stroke-width="1.5"></path>
+<!-- Nodes -->
+<!-- Root Entrypoint Node -->
+<circle cx="60" cy="160" fill="#52525a" r="5"></circle>
+<text fill="#94949e" font-family="'Geist Mono', monospace" font-size="9" text-anchor="middle" x="60" y="180">Entrypoint</text>
+<!-- Intermediate Registry Node -->
+<circle cx="140" cy="100" fill="#94949e" r="4"></circle>
+<text fill="#94949e" font-family="'Geist Mono', monospace" font-size="9" text-anchor="middle" x="140" y="88">Tomas Brooks</text>
+<!-- Proxy Core Hub -->
+<circle cx="210" cy="160" fill="#0a0a0c" r="7" stroke="#ffffff" stroke-width="2"></circle>
+<text fill="#ffffff" font-family="'Geist Mono', monospace" font-size="10" font-weight="600" text-anchor="middle" x="210" y="145">Proxy 0x9f..4a</text>
+<!-- Arjun Walsh Node -->
+<circle cx="210" cy="240" fill="#94949e" r="4"></circle>
+<text fill="#94949e" font-family="'Geist Mono', monospace" font-size="9" text-anchor="middle" x="210" y="258">Arjun Walsh</text>
+<!-- Vulnerable Dependency Node (Orange Alert) -->
+<circle cx="280" cy="140" fill="#ff571a" r="5"></circle>
+<text fill="#ff571a" font-family="'Geist Mono', monospace" font-size="10" font-weight="600" x="290" y="132">v1.2.0 (Vulnerable)</text>
+<!-- Repaired Target Node (Green Verified) -->
+<circle cx="270" cy="210" fill="#00e297" r="4"></circle>
+<text fill="#00e297" font-family="'Geist Mono', monospace" font-size="9" x="280" y="215">v1.2.1-patch (Verified)</text>
+<!-- Customer Leaf Deployment -->
+<circle cx="350" cy="150" fill="#121216" r="6" stroke="#ff571a" stroke-width="1.5"></circle>
+<text fill="#ff571a" font-family="'Geist Mono', monospace" font-size="9" text-anchor="middle" x="350" y="172">Vault 0x7f..9a</text>
+</svg>
+<!-- Floating Inspection Callout -->
+<div class="absolute bottom-2 right-2 bg-[#121216]/95 border border-[#26262c] rounded p-2.5 max-w-[210px] text-left">
+<div class="flex items-center gap-1.5 text-[#ffb800] font-mono-tech text-[10px] uppercase font-medium">
+<span class="material-symbols-outlined text-[12px]">warning</span>
+            MISMATCH IDENTIFIED
+          </div>
+<p class="font-mono-tech text-[11px] text-white mt-1 leading-tight">
+            Caller references slot 0x3608.. pointing to unpatched implementation.
+          </p>
+</div>
+</div>
+<!-- Telemetry bottom bar -->
+<div class="border-t border-[#1e1e24] pt-2 flex items-center justify-between text-[#6b6b76] font-mono-tech text-[10px]">
+<span class="flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-[#00e297]"></span>
+          LATENCY: 140ms
+        </span>
+<span class="">PROOF-HASH: 0x882e...7d1a</span>
+</div>
+</div>
+</div>
+<!-- Monochromatic Ecosystem / Trusted By Partners (Clean minimal HydraDB row) -->
+<div class="mt-16 md:mt-24 pt-8 border-t border-[#1e1e24] flex flex-col items-center">
+<span class="font-mono-tech text-[11px] uppercase text-[#6b6b76] tracking-widest text-center mb-6">
+      Trusted by leading smart contract security and protocol engineering teams
+    </span>
+<div class="w-full flex flex-wrap items-center justify-center gap-8 md:gap-14 opacity-50 hover:opacity-80 transition-opacity">
+<span class="text-[17px] font-semibold tracking-tight text-white font-sans-clean">OpenZeppelin</span>
+<span class="text-[17px] font-semibold tracking-wide text-white font-sans-clean">Chainlink</span>
+<span class="text-[17px] font-normal tracking-tight text-white font-sans-clean">ConsenSys <span class="text-[#6b6b76]">Diligence</span></span>
+<span class="text-[17px] font-bold tracking-widest uppercase text-white font-sans-clean">Arc</span>
+<span class="text-[17px] font-medium tracking-tight text-white font-sans-clean">EigenLayer</span>
+<span class="text-[17px] font-semibold tracking-normal text-white font-sans-clean">Trail of Bits</span>
+</div>
+</div>
+</section>
+<!-- THE PROBLEM SECTION (HydraDB 01 - 04 Border Grid) -->
+<section class="w-full bg-[#0a0a0c] border-y border-[#1e1e24] py-16 md:py-24">
+<div class="max-w-[1280px] mx-auto px-4 md:px-8">
+<!-- Section Header -->
+<div class="max-w-3xl mb-12">
+<span class="font-mono-tech text-[11px] uppercase text-[#ff571a] tracking-wider">The problem</span>
+<h2 class="font-sans-clean text-[28px] md:text-[36px] font-normal text-white mt-2 mb-4 tracking-tight leading-snug">
+        One published fix. Many customer deployments. No guarantee they all received it.
+      </h2>
+<p class="font-sans-clean text-[15px] text-[#94949e] font-light leading-relaxed">
+        A supplier can publish a repaired component, but customer-owned contracts may still use an older implementation, have unsafe configuration, or route through a different contract than expected. A release announcement tells you a fix exists. It doesn’t tell you which deployments are repaired.
+      </p>
+</div>
+<!-- 4-Column Numbered Modular Grid Exactly Like HydraDB Feature Boxes -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-0 border-t border-l border-[#1e1e24]">
+<!-- Card 01 -->
+<div class="p-6 md:p-8 border-r border-b border-[#1e1e24] bg-[#0a0a0c] flex flex-col justify-between hover:bg-[#121216] transition-colors">
+<div>
+<span class="font-mono-tech text-[13px] text-[#6b6b76] block mb-5">01</span>
+<h3 class="font-sans-clean text-[19px] text-white font-normal mb-3 tracking-tight">Version checks</h3>
+</div>
+<p class="font-sans-clean text-[14px] text-[#94949e] font-light leading-relaxed mt-4">
+          Correct code can still be connected to incorrect settings.
+        </p>
+</div>
+<!-- Card 02 -->
+<div class="p-6 md:p-8 border-r border-b border-[#1e1e24] bg-[#0a0a0c] flex flex-col justify-between hover:bg-[#121216] transition-colors">
+<div>
+<span class="font-mono-tech text-[13px] text-[#6b6b76] block mb-5">02</span>
+<h3 class="font-sans-clean text-[19px] text-white font-normal mb-3 tracking-tight">One successful test</h3>
+</div>
+<p class="font-sans-clean text-[14px] text-[#94949e] font-light leading-relaxed mt-4">
+          One deployment passing does not prove every customer deployment passes.
+        </p>
+</div>
+<!-- Card 03 -->
+<div class="p-6 md:p-8 border-r border-b border-[#1e1e24] bg-[#0a0a0c] flex flex-col justify-between hover:bg-[#121216] transition-colors">
+<div>
+<span class="font-mono-tech text-[13px] text-[#6b6b76] block mb-5">03</span>
+<h3 class="font-sans-clean text-[19px] text-white font-normal mb-3 tracking-tight">Manual coordination</h3>
+</div>
+<p class="font-sans-clean text-[14px] text-[#94949e] font-light leading-relaxed mt-4">
+          Teams have to match advisories, addresses, owners, and repair status across separate tools.
+        </p>
+</div>
+<!-- Card 04: PatchBond Highlight -->
+<div class="p-6 md:p-8 border-r border-b border-[#1e1e24] bg-[#121216] relative flex flex-col justify-between shadow-[inset_0_0_16px_rgba(255,87,26,0.06)]">
+<div class="absolute top-0 right-0 w-2 h-2 bg-[#ff571a]"></div>
+<div>
+<span class="font-mono-tech text-[13px] text-[#ff571a] block mb-5">04</span>
+<h3 class="font-sans-clean text-[19px] text-white font-normal mb-3 tracking-tight flex items-center justify-between">
+            PatchBond
+            <span class="w-1.5 h-1.5 rounded-full bg-[#ff571a]"></span>
+</h3>
+</div>
+<p class="font-sans-clean text-[14px] text-[#e5e1e4] font-light leading-relaxed mt-4">
+          Inspect the registered deployment, show which checks pass or fail, and keep evidence tied to the exact deployment and repair policy.
+        </p>
+</div>
+</div>
+</div>
+</section>
+<!-- WHAT PATCHBOND DOES (01-05 Stepper Workflow) -->
+<section class="w-full py-16 md:py-24 max-w-[1280px] mx-auto px-4 md:px-8">
+<div class="mb-12">
+<span class="font-mono-tech text-[11px] uppercase text-[#ff571a] tracking-wider">What PatchBond does</span>
+<h2 class="font-sans-clean text-[28px] md:text-[36px] font-normal text-white mt-2 tracking-tight">
+      A repair workflow with evidence at each step.
+    </h2>
+</div>
+<!-- 5 Sequential Cards Ribbon -->
+<div class="grid grid-cols-1 md:grid-cols-5 border-t border-l border-[#1e1e24]">
+<!-- Step 01 -->
+<div class="p-6 border-r border-b border-[#1e1e24] bg-[#000000] flex flex-col justify-between hover:bg-[#0a0a0c] transition-colors group">
+<div>
+<div class="flex items-center justify-between mb-4">
+<span class="font-mono-tech text-[16px] text-[#ff571a]">01</span>
+<span class="material-symbols-outlined text-[#6b6b76] text-[18px] group-hover:text-[#ff571a] transition-colors">travel_explore</span>
+</div>
+<h4 class="font-sans-clean text-[16px] text-white mb-2 font-medium">Inspect the deployed path</h4>
+</div>
+<p class="font-sans-clean text-[13px] text-[#94949e] font-light leading-relaxed mt-4">
+        Trace the registered application entrypoint to the dependency it actually uses.
+      </p>
+</div>
+<!-- Step 02 -->
+<div class="p-6 border-r border-b border-[#1e1e24] bg-[#000000] flex flex-col justify-between hover:bg-[#0a0a0c] transition-colors group">
+<div>
+<div class="flex items-center justify-between mb-4">
+<span class="font-mono-tech text-[16px] text-[#ff571a]">02</span>
+<span class="material-symbols-outlined text-[#6b6b76] text-[18px] group-hover:text-[#ff571a] transition-colors">difference</span>
+</div>
+<h4 class="font-sans-clean text-[16px] text-white mb-2 font-medium">Explain the mismatch</h4>
+</div>
+<p class="font-sans-clean text-[13px] text-[#94949e] font-light leading-relaxed mt-4">
+        Show whether the issue is an old implementation, incorrect configuration, or a failed behavior check.
+      </p>
+</div>
+<!-- Step 03 -->
+<div class="p-6 border-r border-b border-[#1e1e24] bg-[#000000] flex flex-col justify-between hover:bg-[#0a0a0c] transition-colors group">
+<div>
+<div class="flex items-center justify-between mb-4">
+<span class="font-mono-tech text-[16px] text-[#ff571a]">03</span>
+<span class="material-symbols-outlined text-[#6b6b76] text-[18px] group-hover:text-[#ff571a] transition-colors">terminal</span>
+</div>
+<h4 class="font-sans-clean text-[16px] text-white mb-2 font-medium">Prepare and simulate</h4>
+</div>
+<p class="font-sans-clean text-[13px] text-[#94949e] font-light leading-relaxed mt-4">
+        Build a proposed repair for an authorized owner to review. Simulate it before any real transaction.
+      </p>
+</div>
+<!-- Step 04 -->
+<div class="p-6 border-r border-b border-[#1e1e24] bg-[#000000] flex flex-col justify-between hover:bg-[#0a0a0c] transition-colors group">
+<div>
+<div class="flex items-center justify-between mb-4">
+<span class="font-mono-tech text-[16px] text-[#ff571a]">04</span>
+<span class="material-symbols-outlined text-[#6b6b76] text-[18px] group-hover:text-[#ff571a] transition-colors">verified</span>
+</div>
+<h4 class="font-sans-clean text-[16px] text-white mb-2 font-medium">Verify the result</h4>
+</div>
+<p class="font-sans-clean text-[13px] text-[#94949e] font-light leading-relaxed mt-4">
+        Recheck the deployment after the owner executes the repair. Report what passed, failed, or could not be established.
+      </p>
+</div>
+<!-- Step 05 -->
+<div class="p-6 border-r border-b border-[#1e1e24] bg-[#000000] flex flex-col justify-between hover:bg-[#0a0a0c] transition-colors group">
+<div>
+<div class="flex items-center justify-between mb-4">
+<span class="font-mono-tech text-[16px] text-[#ff571a]">05</span>
+<span class="material-symbols-outlined text-[#6b6b76] text-[18px] group-hover:text-[#ff571a] transition-colors">hub</span>
+</div>
+<h4 class="font-sans-clean text-[16px] text-white mb-2 font-medium">Connect evidence to a campaign</h4>
+</div>
+<p class="font-sans-clean text-[13px] text-[#94949e] font-light leading-relaxed mt-4">
+        A campaign can use verified evidence to decide whether a deployment meets its published conditions. Only an authorized wallet executes contract changes.
+      </p>
+</div>
+</div>
+</section>
+<!-- ARCHITECTURE DIAGRAM SECTION (HydraDB Style Interactive Flow) -->
+<section class="w-full bg-[#0a0a0c] border-t border-[#1e1e24] py-16 md:py-24">
+<div class="max-w-[1280px] mx-auto px-4 md:px-8">
+<div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
+<div>
+<span class="font-mono-tech text-[11px] uppercase text-[#ff571a] tracking-wider">Architecture diagram</span>
+<h2 class="font-sans-clean text-[28px] md:text-[36px] font-normal text-white mt-2 tracking-tight">
+          From repair notice to verified deployment
+        </h2>
+<p class="font-sans-clean text-[15px] text-[#94949e] font-light mt-2 max-w-2xl leading-relaxed">
+          The fast and deterministic repair pipeline. From initial security advisory publication to cryptographic verification and policy resolution.
+        </p>
+</div>
+<div class="inline-flex p-1 bg-[#000000] border border-[#1e1e24] rounded text-[11px] font-mono-tech text-[#6b6b76]">
+<span class="px-2.5 py-1 bg-[#121216] text-white rounded">DETERMINISTIC PIPELINE</span>
+</div>
+</div>
+<!-- Flow Container Card -->
+<div class="p-6 md:p-10 rounded-xl bg-[#000000] border border-[#1e1e24] relative overflow-x-auto">
+<div class="min-w-[860px] flex flex-col space-y-8">
+<!-- Horizontal Flow Nodes 1 -> 2 -> 3 -->
+<div class="grid grid-cols-12 gap-4 items-center">
+<!-- Step 1 -->
+<div class="col-span-3 p-4 rounded bg-[#121216] border border-[#1e1e24]">
+<span class="font-mono-tech text-[10px] text-[#ff571a]">STEP 01</span>
+<h5 class="font-sans-clean text-[14px] text-white mt-1 mb-1 font-medium">Supplier publishes repair requirements</h5>
+<p class="font-mono-tech text-[11px] text-[#6b6b76]">Advisory spec, verified patch hash</p>
+</div>
+<!-- Arrow -->
+<div class="col-span-1 flex justify-center text-[#6b6b76]">
+<span class="material-symbols-outlined text-[18px]">trending_flat</span>
+</div>
+<!-- Step 2 -->
+<div class="col-span-3 p-4 rounded bg-[#121216] border border-[#1e1e24]">
+<span class="font-mono-tech text-[10px] text-[#ff571a]">STEP 02</span>
+<h5 class="font-sans-clean text-[14px] text-white mt-1 mb-1 font-medium">Customer-owned deployment inspected</h5>
+<p class="font-mono-tech text-[11px] text-[#6b6b76]">Proxy mapping, storage slots</p>
+</div>
+<!-- Arrow -->
+<div class="col-span-1 flex justify-center text-[#6b6b76]">
+<span class="material-symbols-outlined text-[18px]">trending_flat</span>
+</div>
+<!-- Step 3 Core -->
+<div class="col-span-4 p-4 rounded bg-[#121216] border border-[#ff571a]/40 shadow-[0_0_16px_rgba(255,87,26,0.1)]">
+<span class="font-mono-tech text-[10px] text-[#ff571a]">STEP 03 CORE ENGINE</span>
+<h5 class="font-sans-clean text-[14px] text-white mt-1 mb-1 font-medium">PatchBond runs supported checks &amp; produces signed evidence</h5>
+<p class="font-mono-tech text-[11px] text-[#94949e]">Bytecode evaluation + signed attestation</p>
+</div>
+</div>
+<!-- Branching Logic Section -->
+<div class="grid grid-cols-12 gap-4 pt-2">
+<div class="col-span-4 col-start-9 flex flex-col space-y-3 pl-4 border-l-2 border-dashed border-[#26262c]">
+<!-- Branch A (Fail / Amber) -->
+<div class="p-3 rounded bg-[#0a0a0c] border border-[#ffb800]/40 flex items-start gap-2.5">
+<span class="w-2 h-2 rounded-full bg-[#ffb800] shrink-0 mt-1"></span>
+<div>
+<span class="font-mono-tech text-[10px] text-[#ffb800] uppercase font-semibold">Branch A: Inconclusive / Failed</span>
+<p class="font-mono-tech text-[11px] text-[#94949e] mt-0.5">
+                  Checks fail or are inconclusive → explain what remains unresolved
+                </p>
+</div>
+</div>
+<!-- Branch B (Pass / Green) -->
+<div class="p-3 rounded bg-[#0a0a0c] border border-[#00e297]/40 flex items-start gap-2.5">
+<span class="w-2 h-2 rounded-full bg-[#00e297] shrink-0 mt-1"></span>
+<div>
+<span class="font-mono-tech text-[10px] text-[#00e297] uppercase font-semibold">Branch B: Verified Clean</span>
+<p class="font-mono-tech text-[11px] text-[#94949e] mt-0.5">
+                  Checks pass → eligible for the campaign’s next step
+                </p>
+</div>
+</div>
+</div>
+</div>
+<!-- Post Branch Resolution 4 -> 5 -->
+<div class="grid grid-cols-12 gap-4 items-center pt-2 border-t border-[#1e1e24]">
+<div class="col-span-5 p-4 rounded bg-[#121216] border border-[#1e1e24] flex items-start gap-3">
+<span class="material-symbols-outlined text-[#ff571a] text-[18px] mt-0.5">link</span>
+<div>
+<span class="font-mono-tech text-[10px] text-[#6b6b76]">ORCHESTRATION</span>
+<h5 class="font-sans-clean text-[14px] text-white font-medium">Chainlink CRE combines evidence with finalized onchain facts</h5>
+<p class="font-mono-tech text-[11px] text-[#6b6b76] mt-1">Consensus-driven attestation verification</p>
+</div>
+</div>
+<div class="col-span-2 flex justify-center text-[#6b6b76]">
+<span class="material-symbols-outlined text-[18px]">trending_flat</span>
+</div>
+<div class="col-span-5 p-4 rounded bg-[#121216] border border-[#1e1e24] flex items-start gap-3">
+<span class="material-symbols-outlined text-[#00e297] text-[18px] mt-0.5">shield_with_heart</span>
+<div>
+<span class="font-mono-tech text-[10px] text-[#6b6b76]">POLICY COMPLETION</span>
+<h5 class="font-sans-clean text-[14px] text-white font-medium">Arc campaign applies its published USDC rules</h5>
+<p class="font-mono-tech text-[11px] text-[#6b6b76] mt-1">Automated bounty &amp; policy release</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Legal & Architecture Boundary Note -->
+<div class="mt-4 p-3 rounded bg-[#0a0a0c] border border-[#1e1e24] flex items-center gap-3">
+<span class="material-symbols-outlined text-[#ff571a] text-[17px]">verified_user</span>
+<p class="font-mono-tech text-[12px] text-[#6b6b76]">
+<strong class="text-white">Non-Custodial Architecture:</strong> PatchBond does not take control of customer contracts or execute repairs for them.
+      </p>
+</div>
+</div>
+</section>
+<!-- CONCRETE EXAMPLE SCENARIO (Visual Diagnostics Table) -->
+<section class="w-full py-16 md:py-24 max-w-[1280px] mx-auto px-4 md:px-8">
+<div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+<div>
+<span class="font-mono-tech text-[11px] uppercase text-[#ff571a] tracking-wider">Example</span>
+<h2 class="font-normal max-w-4xl mx-auto tracking-tight" style="font-family: &quot;Geist Pixel&quot;, &quot;Pixelify Sans&quot;, &quot;Geist Mono&quot;, monospace; font-size: clamp(34px, 4vw, 52px); letter-spacing: -0.6px; line-height: 1.08em; font-weight: 400; text-transform: none; color: rgb(255, 255, 255); -webkit-font-smoothing: antialiased; text-rendering: geometricprecision;">Know which deployments are repaired—and what still needs attention.</h2>
+</div>
+<span class="px-3 py-1 rounded bg-[#0a0a0c] border border-[#26262c] font-mono-tech text-[11px] text-[#94949e] self-start md:self-auto">
+      [ Example scenario — not live customer data ]
+    </span>
+</div>
+<!-- Diagnostic Comparison Table (Technical HydraDB Style Table) -->
+<div class="border border-[#1e1e24] rounded-xl overflow-hidden bg-[#0a0a0c] shadow-xl">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b border-[#1e1e24] bg-[#121216] font-mono-tech text-[11px] text-[#6b6b76]">
+<th class="p-4 md:px-6">TARGET DEPLOYMENT</th>
+<th class="p-4 md:px-6">STATUS EVALUATION</th>
+<th class="p-4 md:px-6">DIAGNOSIS &amp; TELEMETRY</th>
+<th class="p-4 md:px-6 text-right">EVALUATION METRIC</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-[#1e1e24] font-mono-tech text-[12px]">
+<!-- Row 1: Deployment A (Pass) -->
+<tr class="hover:bg-[#121216]/60 transition-colors">
+<td class="p-4 md:px-6">
+<span class="font-medium text-white">Deployment A</span>
+<span class="block text-[#6b6b76] text-[11px]">0x4b97...1e8d (Arbitrum)</span>
+</td>
+<td class="p-4 md:px-6">
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-[#00e297]/10 border border-[#00e297]/30 text-[#00e297] text-[10px] font-medium">
+<span class="w-1.5 h-1.5 rounded-full bg-[#00e297]"></span>
+                PASSED
+              </span>
+</td>
+<td class="p-4 md:px-6 text-[#94949e]">
+              Approved implementation and required behavior detected
+            </td>
+<td class="p-4 md:px-6 text-right text-[#00e297]">
+              100% verified (3/3 checks)
+            </td>
+</tr>
+<!-- Row 2: Deployment B (Failed Config) -->
+<tr class="hover:bg-[#121216]/60 transition-colors">
+<td class="p-4 md:px-6">
+<span class="font-medium text-white">Deployment B</span>
+<span class="block text-[#6b6b76] text-[11px]">0x8d21...3c4a (Ethereum)</span>
+</td>
+<td class="p-4 md:px-6">
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-[#ffb800]/10 border border-[#ffb800]/30 text-[#ffb800] text-[10px] font-medium">
+<span class="w-1.5 h-1.5 rounded-full bg-[#ffb800]"></span>
+                FAILED CONFIG
+              </span>
+</td>
+<td class="p-4 md:px-6 text-[#94949e]">
+              Approved implementation, but unsafe configuration
+            </td>
+<td class="p-4 md:px-6 text-right text-[#ffb800]">
+              Storage slot 0x3 misconfigured
+            </td>
+</tr>
+<!-- Row 3: Deployment C (Outdated Route) -->
+<tr class="hover:bg-[#121216]/60 transition-colors">
+<td class="p-4 md:px-6">
+<span class="font-medium text-white">Deployment C</span>
+<span class="block text-[#6b6b76] text-[11px]">0x1f73...9a2e (Optimism)</span>
+</td>
+<td class="p-4 md:px-6">
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-[#ff571a]/10 border border-[#ff571a]/30 text-[#ff571a] text-[10px] font-medium">
+<span class="w-1.5 h-1.5 rounded-full bg-[#ff571a]"></span>
+                OUTDATED ROUTE
+              </span>
+</td>
+<td class="p-4 md:px-6 text-[#94949e]">
+              Still routes to the older implementation
+            </td>
+<td class="p-4 md:px-6 text-right text-[#ff571a]">
+              Proxy points to v1.1.9 bytecode
+            </td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="p-4 bg-[#121216] border-t border-[#1e1e24] font-sans-clean text-[13px] text-[#6b6b76] flex items-center gap-2">
+<span class="material-symbols-outlined text-[#94949e] text-[16px]">info</span>
+<span class="">A code hash alone can miss a broken configuration or an unchanged route. PatchBond checks the conditions the repair actually depends on.</span>
+</div>
+</div>
+</section>
+<!-- EVIDENCE PANEL (The Cryptographic Inspector) -->
+<section class="w-full bg-[#0a0a0c] border-t border-[#1e1e24] py-16 md:py-24">
+<div class="max-w-[1280px] mx-auto px-4 md:px-8">
+<div class="max-w-2xl mb-12">
+<span class="font-mono-tech text-[11px] uppercase text-[#ff571a] tracking-wider">Evidence panel</span>
+<h2 class="font-sans-clean text-[28px] md:text-[36px] font-normal text-white mt-2 tracking-tight">
+        Every result should answer: what was checked, and against what?
+      </h2>
+</div>
+<!-- Proof Card Styled like High-End Terminal Inspector -->
+<div class="max-w-4xl mx-auto rounded-xl bg-[#000000] border border-[#26262c] shadow-[0_0_32px_rgba(0,0,0,0.8)] overflow-hidden">
+<!-- Inspector Terminal Header -->
+<div class="p-4 md:px-6 bg-[#121216] border-b border-[#1e1e24] flex flex-wrap items-center justify-between gap-4">
+<div class="flex items-center gap-3">
+<span class="w-2.5 h-2.5 rounded-full bg-[#26262c] inline-block"></span>
+<span class="font-mono-tech text-[12px] font-semibold text-white tracking-wide">
+            VERIFIED ATTESTATION #PB-88219
+          </span>
+</div>
+<div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-[#00e297]/10 border border-[#00e297]/30 text-[#00e297] font-mono-tech text-[11px]">
+<span class="w-1.5 h-1.5 rounded-full bg-[#00e297] animate-pulse"></span>
+          VALID SIGNATURE
+        </div>
+</div>
+<!-- Telemetry Data Fields (Grid System) -->
+<div class="p-6 md:p-8 space-y-6 font-mono-tech text-[12px]">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 pb-6 border-b border-[#1e1e24]">
+<div>
+<span class="font-mono-tech text-[10px] text-[#6b6b76] block mb-1 uppercase">Deployment &amp; Chain</span>
+<span class="text-white font-medium">Ethereum Mainnet · 0x8a92...328f (VaultProxy)</span>
+</div>
+<div>
+<span class="font-mono-tech text-[10px] text-[#6b6b76] block mb-1 uppercase">Observed Block</span>
+<span class="text-white">#20,918,442 (Timestamp: 2025-02-14 18:22:01 UTC)</span>
+</div>
+</div>
+<div class="pb-6 border-b border-[#1e1e24]">
+<span class="font-mono-tech text-[10px] text-[#6b6b76] block mb-1 uppercase">Repair Policy &amp; Test-Suite</span>
+<span class="text-[#d3fbff] font-medium">ERC-1967 SafeUpgradePolicy v2.4.1 (Git commit 4ef8a1)</span>
+</div>
+<!-- Conditions Evaluated Matrix -->
+<div>
+<span class="font-mono-tech text-[10px] text-[#6b6b76] block mb-3 uppercase">Conditions Evaluated</span>
+<div class="space-y-2.5">
+<div class="flex items-center justify-between p-2.5 rounded bg-[#0a0a0c] border border-[#1e1e24]">
+<span class="text-[#94949e]">Slot [0x36089...]: Pass (Matches target impl 0x12a...)</span>
+<span class="text-[#00e297] font-semibold text-[11px] font-mono-tech">PASSED</span>
+</div>
+<div class="flex items-center justify-between p-2.5 rounded bg-[#0a0a0c] border border-[#1e1e24]">
+<span class="text-[#94949e]">Behavior Test [testReentrancyGuard()]: Pass</span>
+<span class="text-[#00e297] font-semibold text-[11px] font-mono-tech">PASSED</span>
+</div>
+<div class="flex items-center justify-between p-2.5 rounded bg-[#0a0a0c] border border-[#1e1e24]">
+<span class="text-[#94949e]">Auth check [isOwner(deployer)]: Pass</span>
+<span class="text-[#00e297] font-semibold text-[11px] font-mono-tech">PASSED</span>
+</div>
+<div class="flex items-center justify-between p-2.5 rounded bg-[#0a0a0c] border border-[#1e1e24]">
+<span class="text-[#6b6b76]">Timelock state: Unknown / Excluded from scope</span>
+<span class="text-[#6b6b76] font-semibold text-[11px] font-mono-tech">EXCLUDED</span>
+</div>
+</div>
+</div>
+<!-- Verification Signature Footer -->
+<div class="pt-4 flex flex-col md:flex-row md:items-center justify-between gap-3 text-[#6b6b76] text-[11px] border-t border-[#1e1e24]">
+<div class="">
+<span class="text-[#94949e]">Verifier Identity:</span> verifier.patchbond.eth (0x9928...c01a)
+          </div>
+<div class="">
+<span class="text-[#94949e]">Timestamp:</span> 2025-02-14T18:22:04Z
+          </div>
+</div>
+</div>
+</div>
+<!-- Small Note Disclaimer -->
+<div class="max-w-4xl mx-auto mt-4 text-center">
+<p class="font-mono-tech text-[11px] text-[#6b6b76]">
+        * A passing report is evidence for the checks performed—not a universal security guarantee.
+      </p>
+</div>
+</div>
+</section>
+<!-- FINAL CTA (High Impact Minimal Brutalism) -->
+<section class="w-full py-20 md:py-32 relative overflow-hidden bg-[#000000]">
+<div class="absolute inset-0 bg-gradient-to-b from-transparent via-[#ff571a]/5 to-transparent pointer-events-none"></div>
+<div class="max-w-[1280px] mx-auto px-4 md:px-8 text-center relative z-10">
+<div class="w-10 h-0.5 bg-[#ff571a] mx-auto mb-8"></div>
+<h2 class="font-pixel-hydra font-normal max-w-4xl mx-auto" style="font-family: &quot;HG Dot Gothic M M24-24&quot;, DotGothic16, &quot;Geist Pixel&quot;, monospace, sans-serif; font-size: clamp(32px, 4vw, 52px); letter-spacing: -0.5px; line-height: 1.12em; font-weight: 400; color: rgb(255, 255, 255); -webkit-font-smoothing: antialiased; text-rendering: geometricprecision;">Know which deployments are repaired—and what still needs attention.</h2>
+<p class="font-sans-clean text-[16px] md:text-[18px] text-[#94949e] font-light max-w-2xl mx-auto mt-6 mb-10 leading-relaxed">
+      Stop guessing deployment states across spreadsheets and manual Discord pings. Verify every contract with signed cryptographic evidence.
+    </p>
+<div class="flex flex-wrap items-center justify-center gap-4">
+<a class="inline-flex items-center justify-center font-mono-tech text-[13px] px-8 py-3.5 rounded bg-[#ff571a] text-black font-semibold hover:bg-white transition-all shadow-[0_0_24px_rgba(255,87,26,0.35)]" href="#">
+        Explore the PatchBond demo
+      </a>
+<a class="inline-flex items-center justify-center font-mono-tech text-[13px] px-6 py-3.5 rounded text-[#94949e] hover:text-white transition-colors" href="#">
+        Read the security whitepaper →
+      </a>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- FOOTER -->
+<footer class="w-full bg-[#0a0a0c] border-t border-[#1e1e24] relative z-10">
+<div class="max-w-[1280px] mx-auto px-4 md:px-8 py-16">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-10 pb-16 border-b border-[#1e1e24]">
+<div class="md:col-span-5 flex flex-col gap-4">
+<div class="flex items-center gap-3">
+<img alt="PatchBond Logo" class="h-6 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBxPj5WXM0qGj13G2HfZEotbHwprfUNgbaoKQIB5Rc8-q4NPVn-5S_4U9QiMS8mKRRUZyabm1h6VIF96R5ZW0XxNFqjroVq4V3lnzVeKBJ-Qp4lRXdJB3ppmf3Nw1Zd4sBYr5nRnyV-ZOpbhfQCxvksNSkyTdW6TIC3M9YIDW-SvHjStZx-wg7GYBSJ88Vv1Gkk-kHko6Jnt-pXe9ZfzN7TRu_3GlupxLXFLye-DsGG">
+<span class="text-white text-[16px] font-medium tracking-tight">PatchBond</span>
+</div>
+<p class="font-sans-clean text-[13px] text-[#6b6b76] font-light max-w-sm leading-relaxed">
+          Autonomous cryptographic verification, bytecode assertion, and decentralized remediation architecture for verifiable smart contract pipelines.
+        </p>
+<div class="p-3 border border-[#1e1e24] bg-[#000000] rounded flex items-start gap-2 max-w-md">
+<span class="material-symbols-outlined text-[#ff571a] text-[16px] shrink-0 mt-0.5">shield</span>
+<p class="font-mono-tech text-[11px] text-[#6b6b76] leading-tight">
+            PatchBond does not take control of customer contracts or execute repairs for them.
+          </p>
+</div>
+</div>
+<div class="md:col-span-2 md:col-start-7 flex flex-col gap-2.5">
+<span class="font-mono-tech text-[11px] uppercase text-white tracking-wider">Architecture</span>
+<a class="font-sans-clean text-[13px] text-[#6b6b76] hover:text-white transition-colors" href="#">Overview</a>
+<a class="font-sans-clean text-[13px] text-[#6b6b76] hover:text-white transition-colors" href="#">Workflow</a>
+<a class="font-sans-clean text-[13px] text-[#6b6b76] hover:text-white transition-colors" href="#">Zk-Telemetry</a>
+<a class="font-sans-clean text-[13px] text-[#6b6b76] hover:text-white transition-colors" href="#">Live Sandbox</a>
+</div>
+<div class="md:col-span-2 flex flex-col gap-2.5">
+<span class="font-mono-tech text-[11px] uppercase text-white tracking-wider">Resources</span>
+<a class="font-sans-clean text-[13px] text-[#6b6b76] hover:text-white transition-colors" href="#">Documentation</a>
+<a class="font-sans-clean text-[13px] text-[#6b6b76] hover:text-white transition-colors" href="#">Bytecode Engine</a>
+<a class="font-sans-clean text-[13px] text-[#6b6b76] hover:text-white transition-colors" href="#">Audits &amp; Verifiers</a>
+<a class="font-sans-clean text-[13px] text-[#6b6b76] hover:text-white transition-colors" href="#">Security Bug Bounty</a>
+</div>
+<div class="md:col-span-2 flex flex-col gap-2.5">
+<span class="font-mono-tech text-[11px] uppercase text-white tracking-wider">Protocol</span>
+<a class="font-sans-clean text-[13px] text-[#6b6b76] hover:text-white transition-colors flex items-center justify-between" href="https://github.com" rel="noopener" target="_blank">GitHub ↗</a>
+<a class="font-sans-clean text-[13px] text-[#6b6b76] hover:text-white transition-colors" href="#">Discord Consensus</a>
+<a class="font-sans-clean text-[13px] text-[#6b6b76] hover:text-white transition-colors" href="#">Status Telemetry</a>
+<a class="font-sans-clean text-[13px] text-[#6b6b76] hover:text-white transition-colors" href="#">Governance</a>
+</div>
+</div>
+<div class="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+<div class="flex items-center gap-3 font-mono-tech text-[11px] text-[#6b6b76]">
+<span class="">© 2025 PATCHBOND PROTOCOL LABS INC.</span>
+<span class="w-1 h-1 rounded-full bg-[#26262c]"></span>
+<span class="">FORMAL VERIFICATION STANDARD</span>
+</div>
+<div class="flex items-center gap-6 font-mono-tech text-[11px] text-[#6b6b76]">
+<a class="hover:text-white transition-colors" href="#">TERMS</a>
+<a class="hover:text-white transition-colors" href="#">PRIVACY</a>
+<a class="hover:text-white transition-colors" href="#">SECURITY DISCLOSURE</a>
+</div>
+</div>
+</div>
+</footer>
+
+
+</body></html>

@@ -12,6 +12,7 @@ node_modules/
 .pnpm-store/
 dist/
 build/
+.next/
 coverage/
 .turbo/
 .cache/

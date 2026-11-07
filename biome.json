@@ -2,6 +2,8 @@
   "$schema": "https://biomejs.dev/schemas/2.6.5/schema.json",
   "files": {
     "includes": [
+      "apps/**",
+      "!apps/**/.next",
       "packages/**",
       "services/**",
       "integrations/**",
@@ -11,6 +13,7 @@
       "tsconfig.json"
     ]
   },
+  "css": { "parser": { "tailwindDirectives": true } },
   "formatter": { "indentStyle": "space", "indentWidth": 2 },
   "linter": { "enabled": true, "rules": { "preset": "recommended" } },
   "javascript": { "formatter": { "quoteStyle": "double" } }
