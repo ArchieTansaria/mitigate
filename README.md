@@ -1,5 +1,5 @@
-# PatchBond
-PatchBond helps a supplier fund remediation across customer-owned smart-contract deployments. It checks each deployment against agreed repair tests, explains what remains wrong, and can release a capped USDC grant only after fresh evidence confirms that deployment passes.
+# Orryn
+Orryn helps a supplier fund remediation across customer-owned smart-contract deployments. It checks each deployment against agreed repair tests, explains what remains wrong, and can release a capped USDC grant only after fresh evidence confirms that deployment passes.
 
 **Current state:** PB-04–11 now connect a wallet-authenticated API, durable jobs, confirmed deployment inspection, isolated behavioral tests, signed diagnostic evidence and offline replay. Separate API/worker processes and crash recovery run against real local PostgreSQL/Anvil/Docker. The shared Solidity boundary was built/tested through [Arc Studio](https://studio.arc.io/app/9dee5ecd-ab62-459b-a54f-5ae7b2f06a52). CRE capability simulation is verified; product CRE reports, campaign receipt production, live payouts and frontend remain pending. See [STATUS.md](STATUS.md), [backend startup](docs/runbooks/backend-start.md) and [replay](docs/runbooks/replay.md).
 
